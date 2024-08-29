@@ -4,6 +4,7 @@
     "references": [
         "GameFrameX.Runtime",
         "GameFrameX.Asset.Runtime",
+        "GameFrameX.Event.Runtime",
         "GameFrameX.UI.Runtime",
         "FairyGUI.Runtime",
         "UniTask.Runtime",
