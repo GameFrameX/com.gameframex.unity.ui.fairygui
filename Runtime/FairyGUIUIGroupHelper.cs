@@ -25,7 +25,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             transform.localPosition = new Vector3(0, 0, depth * 100);
         }
 
-        public override IUIGroupHelper Handler(string groupName, string uiGroupHelperTypeName, IUIGroupHelper customUIGroupHelper)
+        public override IUIGroupHelper Handler(Transform root, string groupName, string uiGroupHelperTypeName, IUIGroupHelper customUIGroupHelper)
         {
             GComponent component = new GComponent();
             GRoot.inst.AddChild(component);

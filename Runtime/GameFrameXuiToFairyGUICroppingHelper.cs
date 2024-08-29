@@ -5,7 +5,7 @@ using UnityEngine.Scripting;
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
     [Preserve]
-    public class GameFrameXFairyGUICroppingHelper : MonoBehaviour
+    public class GameFrameXuiToFairyGUICroppingHelper : MonoBehaviour
     {
         private Type[] m_Types;
 
