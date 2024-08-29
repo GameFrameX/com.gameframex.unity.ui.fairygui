@@ -14,9 +14,10 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         {
             m_Types = new Type[]
             {
-                // typeof(GObjectHelper),
+                typeof(GObjectHelper),
                 typeof(FUI),
-                // typeof(FairyGUIComponent),
+                typeof(UIManager),
+                typeof(FairyGUIUIGroupHelper),
                 typeof(FairyGUILoadAsyncResourceHelper),
                 typeof(FairyGUIPackageComponent),
                 typeof(FairyGUIPathFinderHelper),
