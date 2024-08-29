@@ -33,9 +33,9 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             component.displayObject.name = comName;
             component.gameObjectName = comName;
             component.name = comName;
-            component.MakeFullScreen();
             component.AddRelation(GRoot.inst, RelationType.Width);
             component.AddRelation(GRoot.inst, RelationType.Height);
+            component.MakeFullScreen();
             return GameFrameX.Runtime.Helper.CreateHelper(component.displayObject.gameObject, uiGroupHelperTypeName, (UIGroupHelperBase)customUIGroupHelper, 0);
         }
     }
