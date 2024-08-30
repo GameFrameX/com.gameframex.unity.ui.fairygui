@@ -7,10 +7,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using GameFrameX.Asset.Runtime;
 using GameFrameX.ObjectPool;
+using GameFrameX.Runtime;
 using GameFrameX.UI.Runtime;
 using UnityEngine;
 
@@ -30,6 +32,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         // private readonly LoadAssetCallbacks m_LoadAssetCallbacks;
         private IObjectPoolManager m_ObjectPoolManager;
         private IAssetManager m_AssetManager;
+        private FairyGUIPackageComponent FairyGuiPackage { get; set; }
         private IObjectPool<UIFormInstanceObject> m_InstancePool;
         private IUIFormHelper m_UIFormHelper;
         private int m_Serial;
@@ -41,6 +44,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         // private EventHandler<OpenUIFormUpdateEventArgs> m_OpenUIFormUpdateEventHandler;
         // private EventHandler<OpenUIFormDependencyAssetEventArgs> m_OpenUIFormDependencyAssetEventHandler;
         private EventHandler<CloseUIFormCompleteEventArgs> m_CloseUIFormCompleteEventHandler;
+
 
         /// <summary>
         /// 初始化界面管理器的新实例。
@@ -209,7 +213,10 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             GameFrameworkGuard.NotNull(assetManager, nameof(assetManager));
 
             m_AssetManager = assetManager;
+            FairyGuiPackage = GameEntry.GetComponent<FairyGUIPackageComponent>();
+            GameFrameworkGuard.NotNull(FairyGuiPackage, nameof(FairyGuiPackage));
         }
+
 
         /// <summary>
         /// 设置界面辅助器。
@@ -589,15 +596,25 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             if (uiFormInstanceObject == null)
             {
                 m_UIFormsBeingLoaded.Add(serialId, uiFormAssetName);
+                string assetPath = PathHelper.Combine(uiFormAssetPath, uiFormAssetName);
 
+                var lastIndexOfStart = uiFormAssetPath.LastIndexOf("/", StringComparison.OrdinalIgnoreCase);
+                var packageName = uiFormAssetPath.Substring(lastIndexOfStart + 1);
+                var has = FairyGuiPackage.Has(packageName);
+
+                OpenUIFormInfoData openUIFormInfo = OpenUIFormInfoData.Create(serialId, packageName, uiFormAssetName, uiGroup, pauseCoveredUIForm, userData);
                 if (uiFormAssetName.IndexOf(Utility.Asset.Path.BundlesDirectoryName, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
-                    // 从包中加载
+                    if (!has)
+                    {
+                        await FairyGuiPackage.AddPackageAsync(assetPath);
+                    }
 
+                    // 从包中加载
                     var assetHandle = await m_AssetManager.LoadAssetAsync<UnityEngine.Object>(uiFormAssetName);
                     if (assetHandle.IsSucceed)
                     {
-                        return LoadAssetSuccessCallback(uiFormAssetName, assetHandle.InstantiateAsync(), assetHandle.Progress, OpenUIFormInfo.Create(serialId, uiGroup, pauseCoveredUIForm, userData));
+                        return LoadAssetSuccessCallback(uiFormAssetName, openUIFormInfo, assetHandle.Progress, OpenUIFormInfo.Create(serialId, uiGroup, pauseCoveredUIForm, userData));
                     }
                     else
                     {
@@ -606,8 +623,13 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 }
                 else
                 {
+                    if (!has)
+                    {
+                        FairyGuiPackage.AddPackageSync(assetPath);
+                    }
+
                     // 从Resources 中加载
-                    return LoadAssetSuccessCallback(uiFormAssetName, Resources.Load(uiFormAssetName), 0, OpenUIFormInfo.Create(serialId, uiGroup, pauseCoveredUIForm, userData));
+                    return LoadAssetSuccessCallback(uiFormAssetName, openUIFormInfo, 0, OpenUIFormInfo.Create(serialId, uiGroup, pauseCoveredUIForm, userData));
                 }
             }
             else
@@ -657,9 +679,30 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             CloseUIForm(uiForm, null);
         }
 
-        public void CloseUIForm<T>()
+        /// <summary>
+        /// 关闭界面。
+        /// </summary>
+        /// <param name="userData">用户自定义数据。</param>
+        /// <typeparam name="T"></typeparam>
+        public void CloseUIForm<T>(object userData) where T : IUIForm
         {
-            
+            /*var fullName = typeof(T).FullName;
+            IUIForm[] uiForms = GetAllLoadedUIForms();
+            foreach (IUIForm uiForm in uiForms)
+            {
+                if (uiForm.FullName != fullName)
+                {
+                    continue;
+                }
+
+                if (!HasUIFormFullName(uiForm.FullName))
+                {
+                    continue;
+                }
+
+                CloseUIForm(uiForm, userData);
+                break;
+            }*/
         }
 
         /// <summary>
@@ -762,6 +805,16 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             m_InstancePool.SetLocked(uiFormInstance, locked);
         }
 
+        public void DisposeUIForm(int serialId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DisposeUIForm<T>() where T : IUIForm
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 设置界面实例的优先级。
         /// </summary>
@@ -784,7 +837,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                     throw new GameFrameworkException("Can not create UI form in UI form helper.");
                 }
 
-                uiForm.OnInit(serialId, uiFormAssetName, uiGroup, pauseCoveredUIForm, isNewInstance, userData);
+                uiForm.OnInit<FUI>(serialId, uiFormAssetName, uiGroup, pauseCoveredUIForm, isNewInstance, userData);
                 uiGroup.AddUIForm(uiForm);
                 uiForm.OnOpen(userData);
                 uiGroup.Refresh();
@@ -820,6 +873,13 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 throw new GameFrameworkException("Open UI form info is invalid.");
             }
 
+            var openUIFormInfoData = (OpenUIFormInfoData)uiFormAsset;
+            if (openUIFormInfoData == null)
+            {
+                throw new GameFrameworkException("Open UI form info is invalid.");
+            }
+
+
             if (m_UIFormsToReleaseOnLoad.Contains(openUIFormInfo.SerialId))
             {
                 m_UIFormsToReleaseOnLoad.Remove(openUIFormInfo.SerialId);
@@ -834,6 +894,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
             var uiForm = InternalOpenUIForm(openUIFormInfo.SerialId, uiFormAssetName, openUIFormInfo.UIGroup, uiFormInstanceObject.Target, openUIFormInfo.PauseCoveredUIForm, true, duration, openUIFormInfo.UserData);
             ReferencePool.Release(openUIFormInfo);
+            ReferencePool.Release(openUIFormInfoData);
             return uiForm;
         }
 
@@ -857,7 +918,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             {
                 OpenUIFormFailureEventArgs openUIFormFailureEventArgs = OpenUIFormFailureEventArgs.Create(openUIFormInfo.SerialId, uiFormAssetName, openUIFormInfo.UIGroup.Name, openUIFormInfo.PauseCoveredUIForm, appendErrorMessage, openUIFormInfo.UserData);
                 m_OpenUIFormFailureEventHandler(this, openUIFormFailureEventArgs);
-                ReferencePool.Release(openUIFormFailureEventArgs);
+                // ReferencePool.Release(openUIFormFailureEventArgs);
                 return GetUIForm(openUIFormInfo.SerialId);
             }
 
