@@ -696,7 +696,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <typeparam name="T"></typeparam>
         public void CloseUIForm<T>(object userData) where T : IUIForm
         {
-            /*var fullName = typeof(T).FullName;
+            var fullName = typeof(T).FullName;
             IUIForm[] uiForms = GetAllLoadedUIForms();
             foreach (IUIForm uiForm in uiForms)
             {
@@ -712,7 +712,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
                 CloseUIForm(uiForm, userData);
                 break;
-            }*/
+            }
         }
 
         /// <summary>
@@ -815,14 +815,24 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             m_InstancePool.SetLocked(uiFormInstance, locked);
         }
 
-        public void DisposeUIForm(int serialId)
+        /// <summary>
+        /// 是否存在界面。
+        /// </summary>
+        /// <param name="fullName">完整界面名称</param>
+        /// <returns></returns>
+        public bool HasUIFormFullName(string fullName)
         {
-            throw new NotImplementedException();
-        }
+            GameFrameworkGuard.NotNullOrEmpty(fullName, nameof(fullName));
 
-        public void DisposeUIForm<T>() where T : IUIForm
-        {
-            throw new NotImplementedException();
+            foreach (KeyValuePair<string, UIGroup> uiGroup in m_UIGroups)
+            {
+                if (uiGroup.Value.HasUIFormFullName(fullName))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
