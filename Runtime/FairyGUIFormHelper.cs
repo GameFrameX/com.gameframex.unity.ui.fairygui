@@ -75,8 +75,10 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <param name="uiFormInstance">要释放的界面实例。</param>
         public override void ReleaseUIForm(object uiFormAsset, object uiFormInstance)
         {
-            // m_AssetComponent.UnloadAsset(uiFormAsset);
-            Destroy((Object)uiFormInstance);
+            if (uiFormInstance is GComponent component)
+            {
+                component.Dispose();
+            }
         }
 
         private void Start()
