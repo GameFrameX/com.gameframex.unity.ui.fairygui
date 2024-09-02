@@ -618,22 +618,42 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 OpenUIFormInfoData openUIFormInfoData = OpenUIFormInfoData.Create(serialId, packageName, uiFormAssetName, uiGroup, uiFormType, pauseCoveredUIForm, userData);
 
                 OpenUIFormInfo openUIFormInfo = OpenUIFormInfo.Create(serialId, uiGroup, uiFormType, pauseCoveredUIForm, userData);
-                if (uiFormAssetName.IndexOf(Utility.Asset.Path.BundlesDirectoryName, StringComparison.OrdinalIgnoreCase) >= 0)
+                if (assetPath.IndexOf(Utility.Asset.Path.BundlesDirectoryName, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     if (!has)
                     {
+                        // if (packageName == uiFormAssetName)
+                        // {
                         await FairyGuiPackage.AddPackageAsync(assetPath);
-                    }
+                        // }
+                        // else
+                        // {
+                        //     string newAssetPackagePath = PathHelper.Combine(uiFormAssetPath, packageName);
+                        //     await FairyGuiPackage.AddPackageAsync(newAssetPackagePath);
+                        // }
 
-                    // 从包中加载
-                    var assetHandle = await m_AssetManager.LoadAssetAsync<UnityEngine.Object>(uiFormAssetName);
-                    if (assetHandle.IsSucceed)
-                    {
-                        return LoadAssetSuccessCallback(uiFormAssetName, openUIFormInfoData, assetHandle.Progress, openUIFormInfo);
+                        string newAssetPackagePath = assetPath;
+                        if (packageName != uiFormAssetName)
+                        {
+                            newAssetPackagePath = PathHelper.Combine(uiFormAssetPath, packageName);
+                        }
+
+                        newAssetPackagePath += "_fui";
+                        // 从包中加载
+                        var assetHandle = await m_AssetManager.LoadAssetAsync<UnityEngine.Object>(newAssetPackagePath);
+
+                        if (assetHandle.IsSucceed)
+                        {
+                            return LoadAssetSuccessCallback(uiFormAssetName, openUIFormInfoData, assetHandle.Progress, openUIFormInfo);
+                        }
+                        else
+                        {
+                            return LoadAssetFailureCallback(uiFormAssetName, assetHandle.LastError, openUIFormInfo);
+                        }
                     }
                     else
                     {
-                        return LoadAssetFailureCallback(uiFormAssetName, assetHandle.LastError, openUIFormInfo);
+                        return LoadAssetSuccessCallback(uiFormAssetName, openUIFormInfoData, 1, openUIFormInfo);
                     }
                 }
                 else
