@@ -36,7 +36,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                         package.LoadAllAssets();
                     }
 
-                    m_UIPackages.Add(descFilePath, package);
+                    m_UIPackages.Add(uiPackage.name, package);
                     tcs.TrySetResult(package);
                 }
 
@@ -65,7 +65,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                         package.LoadAllAssets();
                     }
 
-                    m_UIPackages.Add(descFilePath, package);
+                    m_UIPackages.Add(uiPackage.name, package);
                     complete?.Invoke(package);
                 }
 
@@ -88,20 +88,20 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                     package.LoadAllAssets();
                 }
 
-                m_UIPackages.Add(descFilePath, package);
+                m_UIPackages.Add(package.name, package);
             }
         }
 
         /// <summary>
         /// 移除UI 包
         /// </summary>
-        /// <param name="descFilePath">UI包路径</param>
-        public void RemovePackage(string descFilePath)
+        /// <param name="packageName">UI包路径</param>
+        public void RemovePackage(string packageName)
         {
-            if (m_UIPackages.TryGetValue(descFilePath, out var package))
+            if (m_UIPackages.TryGetValue(packageName, out var package))
             {
-                UIPackage.RemovePackage(descFilePath);
-                m_UIPackages.Remove(descFilePath);
+                UIPackage.RemovePackage(packageName);
+                m_UIPackages.Remove(packageName);
             }
         }
 
