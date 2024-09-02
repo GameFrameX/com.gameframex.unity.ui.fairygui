@@ -862,7 +862,16 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                     throw new GameFrameworkException("Can not create UI form in UI form helper.");
                 }
 
-                uiForm.OnInit(serialId, uiFormAssetName, uiGroup, uiFormType, pauseCoveredUIForm, isNewInstance, userData);
+                uiForm.OnInit(serialId, uiFormAssetName, uiGroup, uiFormType, OnInitAction, pauseCoveredUIForm, isNewInstance, userData);
+
+                void OnInitAction(UIFormLogic obj)
+                {
+                    if (obj is FUI fui)
+                    {
+                        fui.SetGObject(uiFormInstance as GObject);
+                    }
+                }
+
                 uiGroup.AddUIForm(uiForm);
                 uiForm.OnOpen(userData);
                 uiGroup.Refresh();
