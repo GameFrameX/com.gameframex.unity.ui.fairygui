@@ -170,7 +170,17 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             {
                 IUIForm uiForm = m_RecycleQueue.Dequeue();
                 uiForm.OnRecycle();
-                m_InstancePool.Unspawn(uiForm.Handle);
+
+                var formHandle = uiForm.Handle as GameObject;
+                if (formHandle)
+                {
+                    var displayObjectInfo = formHandle.GetComponent<DisplayObjectInfo>();
+                    if (displayObjectInfo)
+                    {
+                        var component = displayObjectInfo.displayObject.gOwner as GComponent;
+                        m_InstancePool.Unspawn(component);
+                    }
+                }
             }
 
             foreach (KeyValuePair<string, UIGroup> uiGroup in m_UIGroups)
