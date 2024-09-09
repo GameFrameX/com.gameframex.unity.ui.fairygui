@@ -22,6 +22,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     /// <summary>
     /// 界面管理器。
     /// </summary>
+    [UnityEngine.Scripting.Preserve]
     internal sealed partial class UIManager : GameFrameworkModule, IUIManager
     {
         private readonly Dictionary<string, UIGroup> m_UIGroups;

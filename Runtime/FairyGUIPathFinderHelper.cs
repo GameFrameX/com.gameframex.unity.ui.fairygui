@@ -8,6 +8,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     /// <summary>
     /// FGUI 路径帮助类
     /// </summary>
+    [UnityEngine.Scripting.Preserve]
     public static class FairyGUIPathFinderHelper
     {
         /// <summary>

@@ -16,6 +16,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     /// <summary>
     /// 默认界面辅助器。
     /// </summary>
+    [UnityEngine.Scripting.Preserve]
     public class FairyGUIFormHelper : UIFormHelperBase
     {
         private AssetComponent m_AssetComponent = null;

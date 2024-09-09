@@ -9,6 +9,7 @@ using YooAsset;
 
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
+    [UnityEngine.Scripting.Preserve]
     internal sealed class FairyGUILoadAsyncResourceHelper : IAsyncResource
     {
         private readonly Dictionary<string, UIPackageData> m_UIPackages = new Dictionary<string, UIPackageData>(32);

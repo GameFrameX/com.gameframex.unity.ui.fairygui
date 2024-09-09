@@ -6,6 +6,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     /// <summary>
     /// GObject 帮助类
     /// </summary>
+    [UnityEngine.Scripting.Preserve]
     public static class GObjectHelper
     {
         private static readonly Dictionary<GObject, FUI> KeyValuePairs = new Dictionary<GObject, FUI>();

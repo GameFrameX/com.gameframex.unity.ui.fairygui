@@ -12,6 +12,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     /// </summary>
     [DisallowMultipleComponent]
     [AddComponentMenu("Game Framework/FairyGUIPackage")]
+    [UnityEngine.Scripting.Preserve]
     public sealed class FairyGUIPackageComponent : GameFrameworkComponent
     {
         private readonly Dictionary<string, UIPackage> m_UIPackages = new Dictionary<string, UIPackage>(32);

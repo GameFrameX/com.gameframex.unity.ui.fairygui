@@ -14,6 +14,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     /// <summary>
     /// FairyGUI界面组辅助器。
     /// </summary>
+    [UnityEngine.Scripting.Preserve]
     public sealed class FairyGUIUIGroupHelper : UIGroupHelperBase
     {
         /// <summary>
