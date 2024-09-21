@@ -6,6 +6,7 @@
 //------------------------------------------------------------
 
 using GameFrameX.ObjectPool;
+using GameFrameX.Runtime;
 using GameFrameX.UI.Runtime;
 
 namespace GameFrameX.UI.FairyGUI.Runtime
