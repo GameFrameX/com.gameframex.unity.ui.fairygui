@@ -1,4 +1,5 @@
-﻿using FairyGUI;
+﻿using System;
+using FairyGUI;
 using GameFrameX.UI.Runtime;
 
 namespace GameFrameX.UI.FairyGUI.Runtime
@@ -10,6 +11,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// UI 对象
         /// </summary>
         public GObject GObject { get; private set; }
+
+        public Action<bool> OnVisibleChanged { get; set; }
 
         /// <summary>
         /// 设置UI的显示状态，不发出事件
@@ -23,6 +26,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             }
 
             GObject.visible = value;
+            OnVisibleChanged?.Invoke(value);
+            EventSubscriber.Fire(UIFormVisibleChangedEventArgs.EventId, UIFormVisibleChangedEventArgs.Create(UIForm, value, null));
         }
 
         public override bool Visible
@@ -49,6 +54,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 }
 
                 GObject.visible = value;
+                OnVisibleChanged?.Invoke(value);
+                EventSubscriber.Fire(UIFormVisibleChangedEventArgs.EventId, UIFormVisibleChangedEventArgs.Create(UIForm, value, null));
             }
         }
 
