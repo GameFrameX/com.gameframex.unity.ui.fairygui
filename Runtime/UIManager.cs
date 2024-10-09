@@ -590,8 +590,9 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <param name="uiFormType">界面逻辑类型。</param>
         /// <param name="pauseCoveredUIForm">是否暂停被覆盖的界面。</param>
         /// <param name="userData">用户自定义数据。</param>
+        /// <param name="isFullScreen">是否全屏</param>
         /// <returns>界面的序列编号。</returns>
-        public async Task<IUIForm> OpenUIFormAsync(string uiFormAssetPath, string uiFormAssetName, string uiGroupName, Type uiFormType, bool pauseCoveredUIForm, object userData)
+        public async Task<IUIForm> OpenUIFormAsync(string uiFormAssetPath, string uiFormAssetName, string uiGroupName, Type uiFormType, bool pauseCoveredUIForm, object userData, bool isFullScreen = false)
         {
             GameFrameworkGuard.NotNull(m_AssetManager, nameof(m_AssetManager));
             GameFrameworkGuard.NotNull(m_UIFormHelper, nameof(m_UIFormHelper));
@@ -618,7 +619,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
                 OpenUIFormInfoData openUIFormInfoData = OpenUIFormInfoData.Create(serialId, packageName, uiFormAssetName, uiGroup, uiFormType, pauseCoveredUIForm, userData);
 
-                OpenUIFormInfo openUIFormInfo = OpenUIFormInfo.Create(serialId, uiGroup, uiFormType, pauseCoveredUIForm, userData);
+                OpenUIFormInfo openUIFormInfo = OpenUIFormInfo.Create(serialId, uiGroup, uiFormType, pauseCoveredUIForm, userData, isFullScreen);
                 if (assetPath.IndexOf(Utility.Asset.Path.BundlesDirectoryName, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     if (!has)
@@ -670,7 +671,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             }
             else
             {
-                return InternalOpenUIForm(serialId, uiFormAssetName, uiGroup, uiFormType, uiFormInstanceObject.Target, pauseCoveredUIForm, false, 0f, userData);
+                return InternalOpenUIForm(serialId, uiFormAssetName, uiGroup, uiFormType, uiFormInstanceObject.Target, pauseCoveredUIForm, false, 0f, userData, isFullScreen);
             }
         }
 
@@ -873,7 +874,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             m_InstancePool.SetPriority(uiFormInstance, priority);
         }
 
-        private IUIForm InternalOpenUIForm(int serialId, string uiFormAssetName, UIGroup uiGroup, Type uiFormType, object uiFormInstance, bool pauseCoveredUIForm, bool isNewInstance, float duration, object userData)
+        private IUIForm InternalOpenUIForm(int serialId, string uiFormAssetName, UIGroup uiGroup, Type uiFormType, object uiFormInstance, bool pauseCoveredUIForm, bool isNewInstance, float duration, object userData, bool isFullScreen)
         {
             try
             {
@@ -883,7 +884,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                     throw new GameFrameworkException("Can not create UI form in UI form helper.");
                 }
 
-                uiForm.OnInit(serialId, uiFormAssetName, uiGroup, uiFormType, OnInitAction, pauseCoveredUIForm, isNewInstance, userData);
+                uiForm.OnInit(serialId, uiFormAssetName, uiGroup, uiFormType, OnInitAction, pauseCoveredUIForm, isNewInstance, userData, isFullScreen);
 
                 void OnInitAction(UIFormLogic obj)
                 {
@@ -947,7 +948,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             UIFormInstanceObject uiFormInstanceObject = UIFormInstanceObject.Create(uiFormAssetName, uiFormAsset, m_UIFormHelper.InstantiateUIForm(uiFormAsset), m_UIFormHelper);
             m_InstancePool.Register(uiFormInstanceObject, true);
 
-            var uiForm = InternalOpenUIForm(openUIFormInfo.SerialId, uiFormAssetName, openUIFormInfo.UIGroup, openUIFormInfo.FormType, uiFormInstanceObject.Target, openUIFormInfo.PauseCoveredUIForm, true, duration, openUIFormInfo.UserData);
+            var uiForm = InternalOpenUIForm(openUIFormInfo.SerialId, uiFormAssetName, openUIFormInfo.UIGroup, openUIFormInfo.FormType, uiFormInstanceObject.Target, openUIFormInfo.PauseCoveredUIForm, true, duration, openUIFormInfo.UserData, openUIFormInfo.IsFullScreen);
             ReferencePool.Release(openUIFormInfo);
             ReferencePool.Release(openUIFormInfoData);
             return uiForm;
