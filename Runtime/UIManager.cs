@@ -171,23 +171,32 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             while (m_RecycleQueue.Count > 0)
             {
                 IUIForm uiForm = m_RecycleQueue.Dequeue();
-                uiForm.OnRecycle();
 
-                var formHandle = uiForm.Handle as GameObject;
-                if (formHandle)
-                {
-                    var displayObjectInfo = formHandle.GetComponent<DisplayObjectInfo>();
-                    if (displayObjectInfo)
-                    {
-                        var component = displayObjectInfo.displayObject.gOwner as GComponent;
-                        m_InstancePool.Unspawn(component);
-                    }
-                }
+                RecycleUIForm(uiForm);
             }
 
             foreach (KeyValuePair<string, UIGroup> uiGroup in m_UIGroups)
             {
                 uiGroup.Value.Update(elapseSeconds, realElapseSeconds);
+            }
+        }
+
+        /// <summary>
+        /// 回收界面实例对象。
+        /// </summary>
+        /// <param name="uiForm"></param>
+        private void RecycleUIForm(IUIForm uiForm)
+        {
+            uiForm.OnRecycle();
+            var formHandle = uiForm.Handle as GameObject;
+            if (formHandle)
+            {
+                var displayObjectInfo = formHandle.GetComponent<DisplayObjectInfo>();
+                if (displayObjectInfo)
+                {
+                    var component = displayObjectInfo.displayObject.gOwner as GComponent;
+                    m_InstancePool.Unspawn(component);
+                }
             }
         }
 
@@ -765,6 +774,99 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             }
 
             m_RecycleQueue.Enqueue(uiForm);
+        }
+
+
+        /// <summary>
+        /// 关闭界面。
+        /// </summary>
+        /// <param name="serialId">要关闭界面的序列编号。</param>
+        public void CloseUIFormNow(int serialId)
+        {
+            CloseUIFormNow(serialId, null);
+        }
+
+        /// <summary>
+        /// 关闭界面。
+        /// </summary>
+        /// <param name="serialId">要关闭界面的序列编号。</param>
+        /// <param name="userData">用户自定义数据。</param>
+        public void CloseUIFormNow(int serialId, object userData)
+        {
+            if (IsLoadingUIForm(serialId))
+            {
+                m_UIFormsToReleaseOnLoad.Add(serialId);
+                m_UIFormsBeingLoaded.Remove(serialId);
+                return;
+            }
+
+            IUIForm uiForm = GetUIForm(serialId);
+            if (uiForm == null)
+            {
+                throw new GameFrameworkException(Utility.Text.Format("Can not find UI form '{0}'.", serialId));
+            }
+
+            CloseUIFormNow(uiForm, userData);
+        }
+
+        /// <summary>
+        /// 关闭界面。
+        /// </summary>
+        /// <param name="uiForm">要关闭的界面。</param>
+        public void CloseUIFormNow(IUIForm uiForm)
+        {
+            CloseUIFormNow(uiForm, null);
+        }
+
+        /// <summary>
+        /// 关闭界面。
+        /// </summary>
+        /// <param name="userData">用户自定义数据。</param>
+        /// <typeparam name="T"></typeparam>
+        public void CloseUIFormNow<T>(object userData) where T : IUIForm
+        {
+            var fullName = typeof(T).FullName;
+            IUIForm[] uiForms = GetAllLoadedUIForms();
+            foreach (IUIForm uiForm in uiForms)
+            {
+                if (uiForm.FullName != fullName)
+                {
+                    continue;
+                }
+
+                if (!HasUIFormFullName(uiForm.FullName))
+                {
+                    continue;
+                }
+
+                CloseUIFormNow(uiForm, userData);
+                break;
+            }
+        }
+
+        /// <summary>
+        /// 关闭界面。
+        /// </summary>
+        /// <param name="uiForm">要关闭的界面。</param>
+        /// <param name="userData">用户自定义数据。</param>
+        public void CloseUIFormNow(IUIForm uiForm, object userData)
+        {
+            GameFrameworkGuard.NotNull(uiForm, nameof(uiForm));
+            GameFrameworkGuard.NotNull(uiForm.UIGroup, nameof(uiForm.UIGroup));
+            UIGroup uiGroup = (UIGroup)uiForm.UIGroup;
+
+            uiGroup.RemoveUIForm(uiForm);
+            uiForm.OnClose(m_IsShutdown, userData);
+            uiGroup.Refresh();
+
+            if (m_CloseUIFormCompleteEventHandler != null)
+            {
+                CloseUIFormCompleteEventArgs closeUIFormCompleteEventArgs = CloseUIFormCompleteEventArgs.Create(uiForm.SerialId, uiForm.UIFormAssetName, uiGroup, userData);
+                m_CloseUIFormCompleteEventHandler(this, closeUIFormCompleteEventArgs);
+                // ReferencePool.Release(closeUIFormCompleteEventArgs);
+            }
+
+            RecycleUIForm(uiForm);
         }
 
         /// <summary>
