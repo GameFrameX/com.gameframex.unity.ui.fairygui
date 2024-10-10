@@ -16,6 +16,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     public sealed class FairyGUIPackageComponent : GameFrameworkComponent
     {
         private readonly Dictionary<string, UIPackage> m_UIPackages = new Dictionary<string, UIPackage>(32);
+        private readonly Dictionary<string, string> m_UIAssetPathPackages = new Dictionary<string, string>(32);
 
         /// <summary>
         /// 异步添加UI 包
@@ -37,7 +38,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                         package.LoadAllAssets();
                     }
 
-                    m_UIPackages.Add(uiPackage.name, package);
+                    m_UIAssetPathPackages.Add(package.name, descFilePath);
+                    m_UIPackages.Add(descFilePath, package);
                     tcs.TrySetResult(package);
                 }
 
@@ -66,7 +68,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                         package.LoadAllAssets();
                     }
 
-                    m_UIPackages.Add(uiPackage.name, package);
+                    m_UIAssetPathPackages.Add(package.name, descFilePath);
+                    m_UIPackages.Add(descFilePath, package);
                     complete?.Invoke(package);
                 }
 
@@ -89,7 +92,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                     package.LoadAllAssets();
                 }
 
-                m_UIPackages.Add(package.name, package);
+                m_UIAssetPathPackages.Add(package.name, descFilePath);
+                m_UIPackages.Add(descFilePath, package);
             }
         }
 
@@ -99,10 +103,11 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <param name="packageName">UI包路径</param>
         public void RemovePackage(string packageName)
         {
-            if (m_UIPackages.TryGetValue(packageName, out var package))
+            if (m_UIAssetPathPackages.TryGetValue(packageName, out var value))
             {
                 UIPackage.RemovePackage(packageName);
-                m_UIPackages.Remove(packageName);
+                m_UIAssetPathPackages.Remove(packageName);
+                m_UIPackages.Remove(value);
             }
         }
 
@@ -113,6 +118,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         {
             UIPackage.RemoveAllPackages();
             m_UIPackages.Clear();
+            m_UIAssetPathPackages.Clear();
         }
 
 
@@ -133,7 +139,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <returns></returns>
         public UIPackage Get(string uiPackageName)
         {
-            if (m_UIPackages.TryGetValue(uiPackageName, out var package))
+            if (m_UIAssetPathPackages.TryGetValue(uiPackageName, out var value) && m_UIPackages.TryGetValue(value, out var package))
             {
                 return package;
             }
