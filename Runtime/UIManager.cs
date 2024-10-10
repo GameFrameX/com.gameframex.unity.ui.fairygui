@@ -194,8 +194,11 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 var displayObjectInfo = formHandle.GetComponent<DisplayObjectInfo>();
                 if (displayObjectInfo)
                 {
-                    var component = displayObjectInfo.displayObject.gOwner as GComponent;
-                    m_InstancePool.Unspawn(component);
+                    if (displayObjectInfo.displayObject.gOwner is GComponent component)
+                    {
+                        component.Dispose();
+                        // m_InstancePool.Unspawn(component);
+                    }
                 }
             }
         }
