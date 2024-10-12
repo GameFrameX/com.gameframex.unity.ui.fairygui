@@ -196,6 +196,27 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 {
                     if (displayObjectInfo.displayObject.gOwner is GComponent component)
                     {
+                        m_InstancePool.Unspawn(component);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 回收界面实例对象。
+        /// </summary>
+        /// <param name="uiForm"></param>
+        private void RecycleUIFormNow(IUIForm uiForm)
+        {
+            uiForm.OnRecycle();
+            var formHandle = uiForm.Handle as GameObject;
+            if (formHandle)
+            {
+                var displayObjectInfo = formHandle.GetComponent<DisplayObjectInfo>();
+                if (displayObjectInfo)
+                {
+                    if (displayObjectInfo.displayObject.gOwner is GComponent component)
+                    {
                         component.Dispose();
                         // m_InstancePool.Unspawn(component);
                     }
@@ -869,7 +890,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 // ReferencePool.Release(closeUIFormCompleteEventArgs);
             }
 
-            RecycleUIForm(uiForm);
+            RecycleUIFormNow(uiForm);
         }
 
         /// <summary>
