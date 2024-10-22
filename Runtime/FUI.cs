@@ -68,7 +68,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             GObject?.asCom?.MakeFullScreen();
         }
 
-        public FUI(GObject gObject, object userData = null, bool isRoot = false)
+        public FUI(GObject gObject, bool isRoot = false)
         {
             GObject = gObject;
             InitView();
