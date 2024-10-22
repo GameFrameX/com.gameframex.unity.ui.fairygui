@@ -657,15 +657,15 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 {
                     if (!has)
                     {
-                        // if (packageName == uiFormAssetName)
-                        // {
-                        await FairyGuiPackage.AddPackageAsync(assetPath);
-                        // }
-                        // else
-                        // {
-                        //     string newAssetPackagePath = PathHelper.Combine(uiFormAssetPath, packageName);
-                        //     await FairyGuiPackage.AddPackageAsync(newAssetPackagePath);
-                        // }
+                        if (packageName == uiFormAssetName)
+                        {
+                            await FairyGuiPackage.AddPackageAsync(assetPath);
+                        }
+                        else
+                        {
+                            string newPackagePath = PathHelper.Combine(uiFormAssetPath, packageName);
+                            await FairyGuiPackage.AddPackageAsync(newPackagePath);
+                        }
 
                         string newAssetPackagePath = assetPath;
                         if (packageName != uiFormAssetName)
