@@ -246,7 +246,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             GameFrameworkGuard.NotNull(objectPoolManager, nameof(objectPoolManager));
 
             m_ObjectPoolManager = objectPoolManager;
-            m_InstancePool = m_ObjectPoolManager.CreateSingleSpawnObjectPool<UIFormInstanceObject>("UI Instance Pool");
+            m_InstancePool = m_ObjectPoolManager.CreateMultiSpawnObjectPool<UIFormInstanceObject>("UI Instance Pool");
         }
 
         /// <summary>
