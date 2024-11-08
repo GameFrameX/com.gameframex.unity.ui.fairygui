@@ -5,7 +5,7 @@ using GameFrameX.UI.Runtime;
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
     [UnityEngine.Scripting.Preserve]
-    public class FUI : UIFormLogic
+    public class FUI : UIForm
     {
         /// <summary>
         /// UI 对象
@@ -27,7 +27,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
             GObject.visible = value;
             OnVisibleChanged?.Invoke(value);
-            EventSubscriber.Fire(UIFormVisibleChangedEventArgs.EventId, UIFormVisibleChangedEventArgs.Create(UIForm, value, null));
+            EventSubscriber.Fire(UIFormVisibleChangedEventArgs.EventId, UIFormVisibleChangedEventArgs.Create(this, value, null));
         }
 
         public override bool Visible
@@ -55,7 +55,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
                 GObject.visible = value;
                 OnVisibleChanged?.Invoke(value);
-                EventSubscriber.Fire(UIFormVisibleChangedEventArgs.EventId, UIFormVisibleChangedEventArgs.Create(UIForm, value, null));
+                EventSubscriber.Fire(UIFormVisibleChangedEventArgs.EventId, UIFormVisibleChangedEventArgs.Create(this, value, null));
             }
         }
 

@@ -582,7 +582,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <param name="uiFormAssetName">界面资源名称。</param>
         /// <param name="uiGroupName">界面组名称。</param>
         /// <returns>界面的序列编号。</returns>
-        public Task<IUIForm> OpenUIFormAsync<T>(string uiFormAssetPath, string uiFormAssetName, string uiGroupName) where T : IUIFormLogic
+        public Task<IUIForm> OpenUIFormAsync<T>(string uiFormAssetPath, string uiFormAssetName, string uiGroupName) where T : IUIForm
         {
             return OpenUIFormAsync(uiFormAssetPath, uiFormAssetName, uiGroupName, typeof(T), false, null);
         }
@@ -596,7 +596,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <param name="uiGroupName">界面组名称。</param>
         /// <param name="pauseCoveredUIForm">是否暂停被覆盖的界面。</param>
         /// <returns>界面的序列编号。</returns>
-        public Task<IUIForm> OpenUIFormAsync<T>(string uiFormAssetPath, string uiFormAssetName, string uiGroupName, bool pauseCoveredUIForm) where T : IUIFormLogic
+        public Task<IUIForm> OpenUIFormAsync<T>(string uiFormAssetPath, string uiFormAssetName, string uiGroupName, bool pauseCoveredUIForm) where T : IUIForm
         {
             return OpenUIFormAsync(uiFormAssetPath, uiFormAssetName, uiGroupName, typeof(T), pauseCoveredUIForm, null);
         }
@@ -609,7 +609,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <param name="uiGroupName">界面组名称。</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>界面的序列编号。</returns>
-        public async Task<IUIForm> OpenUIFormAsync<T>(string uiFormAssetPath, string uiFormAssetName, string uiGroupName, object userData) where T : IUIFormLogic
+        public async Task<IUIForm> OpenUIFormAsync<T>(string uiFormAssetPath, string uiFormAssetName, string uiGroupName, object userData) where T : IUIForm
         {
             return await OpenUIFormAsync(uiFormAssetPath, uiFormAssetName, uiGroupName, typeof(T), false, userData);
         }
@@ -1004,15 +1004,15 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         {
             try
             {
-                IUIForm uiForm = m_UIFormHelper.CreateUIForm(uiFormInstance, uiGroup, userData);
+                IUIForm uiForm = m_UIFormHelper.CreateUIForm(uiFormInstance, uiGroup, uiFormType, userData);
                 if (uiForm == null)
                 {
                     throw new GameFrameworkException("Can not create UI form in UI form helper.");
                 }
 
-                uiForm.OnInit(serialId, uiFormAssetName, uiGroup, uiFormType, OnInitAction, pauseCoveredUIForm, isNewInstance, userData, isFullScreen);
+                uiForm.OnInit(serialId, uiFormAssetName, uiGroup, OnInitAction, pauseCoveredUIForm, isNewInstance, userData, isFullScreen);
 
-                void OnInitAction(UIFormLogic obj)
+                void OnInitAction(IUIForm obj)
                 {
                     if (obj is FUI fui)
                     {
