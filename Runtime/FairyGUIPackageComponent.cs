@@ -15,137 +15,175 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     [UnityEngine.Scripting.Preserve]
     public sealed class FairyGUIPackageComponent : GameFrameworkComponent
     {
-        private readonly Dictionary<string, UIPackage> m_UIPackages = new Dictionary<string, UIPackage>(32);
-        private readonly Dictionary<string, string> m_UIAssetPathPackages = new Dictionary<string, string>(32);
+        private readonly Dictionary<string, UIPackageData> m_UIPackages = new Dictionary<string, UIPackageData>(32);
 
         /// <summary>
-        /// 异步添加UI 包
+        /// 表示UI包的数据结构。
         /// </summary>
-        /// <param name="descFilePath">UI包路径</param>
-        /// <param name="isLoadAsset">是否在加载描述文件之后, 加载资源</param>
-        /// <returns></returns>
+        [Serializable]
+        public sealed class UIPackageData
+        {
+            /// <summary>
+            /// 描述文件路径。
+            /// </summary>
+            public string DescFilePath { get; }
+
+            /// <summary>
+            /// 是否加载资源。
+            /// </summary>
+            public bool IsLoadAsset { get; }
+
+            /// <summary>
+            /// UI包实例。
+            /// </summary>
+            public UIPackage Package { get; private set; }
+
+            /// <summary>
+            /// 获取UI包的名称。
+            /// </summary>
+            public string Name
+            {
+                get { return Package.name; }
+            }
+
+            /// <summary>
+            /// 设置UI包实例。
+            /// </summary>
+            /// <param name="package">UI包实例。</param>
+            public void SetPackage(UIPackage package)
+            {
+                Package = package;
+            }
+
+            public UIPackageData(string descFilePath, bool isLoadAsset)
+            {
+                DescFilePath = descFilePath;
+                IsLoadAsset = isLoadAsset;
+            }
+        }
+
+        /// <summary>
+        /// 异步添加UI包。
+        /// </summary>
+        /// <param name="descFilePath">描述文件路径。</param>
+        /// <param name="isLoadAsset">是否加载资源，默认为true。</param>
+        /// <returns>返回一个表示UI包的UniTask。</returns>
         public UniTask<UIPackage> AddPackageAsync(string descFilePath, bool isLoadAsset = true)
         {
-            if (!m_UIPackages.TryGetValue(descFilePath, out var package))
+            if (!m_UIPackages.TryGetValue(descFilePath, out var packageData))
             {
                 var tcs = new UniTaskCompletionSource<UIPackage>();
+                packageData = new UIPackageData(descFilePath, isLoadAsset);
+                m_UIPackages[descFilePath] = packageData;
 
                 void Complete(UIPackage uiPackage)
                 {
-                    package = uiPackage;
+                    packageData.SetPackage(uiPackage);
                     if (isLoadAsset)
                     {
-                        package.LoadAllAssets();
+                        packageData.Package.LoadAllAssets();
                     }
 
-                    m_UIAssetPathPackages.Add(package.name, descFilePath);
-                    m_UIPackages.Add(descFilePath, package);
-                    tcs.TrySetResult(package);
+                    tcs.TrySetResult(packageData.Package);
                 }
 
                 UIPackage.AddPackageAsync(descFilePath, Complete);
                 return tcs.Task;
             }
 
-            return UniTask.FromResult(package);
+            return UniTask.FromResult(packageData.Package);
         }
 
         /// <summary>
-        /// 同步添加UI 包
+        /// 同步添加UI包。
         /// </summary>
-        /// <param name="descFilePath">包路径</param>
-        /// <param name="complete">加载完成回调</param>
-        /// <param name="isLoadAsset">是否在加载描述文件之后, 加载资源</param>
-        public void AddPackageSync(string descFilePath, Action<UIPackage> complete, bool isLoadAsset = true)
-        {
-            if (!m_UIPackages.TryGetValue(descFilePath, out var package))
-            {
-                void Complete(UIPackage uiPackage)
-                {
-                    package = uiPackage;
-                    if (isLoadAsset)
-                    {
-                        package.LoadAllAssets();
-                    }
-
-                    m_UIAssetPathPackages.Add(package.name, descFilePath);
-                    m_UIPackages.Add(descFilePath, package);
-                    complete?.Invoke(package);
-                }
-
-                UIPackage.AddPackageAsync(descFilePath, Complete);
-            }
-        }
-
-        /// <summary>
-        /// 同步添加UI 包
-        /// </summary>
-        /// <param name="descFilePath">UI包路径</param>
-        /// <param name="isLoadAsset">是否在加载描述文件之后, 加载资源</param>
+        /// <param name="descFilePath">描述文件路径。</param>
+        /// <param name="isLoadAsset">是否加载资源，默认为true。</param>
         public void AddPackageSync(string descFilePath, bool isLoadAsset = true)
         {
-            if (!m_UIPackages.TryGetValue(descFilePath, out var package))
+            if (!m_UIPackages.TryGetValue(descFilePath, out var packageData))
             {
-                package = UIPackage.AddPackage(descFilePath);
+                packageData = new UIPackageData(descFilePath, isLoadAsset);
+
+                m_UIPackages[descFilePath] = packageData;
+                packageData.SetPackage(UIPackage.AddPackage(descFilePath));
+
                 if (isLoadAsset)
                 {
-                    package.LoadAllAssets();
+                    packageData.Package.LoadAllAssets();
                 }
-
-                m_UIAssetPathPackages.Add(package.name, descFilePath);
-                m_UIPackages.Add(descFilePath, package);
             }
         }
 
         /// <summary>
-        /// 移除UI 包
+        /// 移除指定名称的UI包。
         /// </summary>
-        /// <param name="packageName">UI包路径</param>
+        /// <param name="packageName">UI包的名称。</param>
         public void RemovePackage(string packageName)
         {
-            if (m_UIAssetPathPackages.TryGetValue(packageName, out var value))
+            string key = null;
+            UIPackageData uiPackageData = null;
+            foreach (var packageData in m_UIPackages)
             {
+                if (packageData.Value.Name.EqualsFast(packageName))
+                {
+                    key = packageData.Key;
+                    uiPackageData = packageData.Value;
+                    break;
+                }
+            }
+
+            if (uiPackageData != null)
+            {
+                uiPackageData.Package.UnloadAssets();
                 UIPackage.RemovePackage(packageName);
-                m_UIAssetPathPackages.Remove(packageName);
-                m_UIPackages.Remove(value);
+                m_UIPackages.Remove(key);
             }
         }
 
         /// <summary>
-        /// 移除所有UI 包
+        /// 移除所有UI包。
         /// </summary>
         public void RemoveAllPackages()
         {
+            var packages = UIPackage.GetPackages();
+            foreach (var package in packages)
+            {
+                package.UnloadAssets();
+            }
+
             UIPackage.RemoveAllPackages();
             m_UIPackages.Clear();
-            m_UIAssetPathPackages.Clear();
         }
 
-
         /// <summary>
-        /// 是否包含UI 包
+        /// 检查是否存在指定名称的UI包。
         /// </summary>
-        /// <param name="uiPackageName">UI包名称</param>
-        /// <returns></returns>
+        /// <param name="uiPackageName">UI包的名称。</param>
+        /// <returns>如果存在返回true，否则返回false。</returns>
         public bool Has(string uiPackageName)
         {
             return Get(uiPackageName) != null;
         }
 
         /// <summary>
-        /// 获取UI 包
+        /// 获取指定名称的UI包。
         /// </summary>
-        /// <param name="uiPackageName">UI包名称</param>
-        /// <returns></returns>
+        /// <param name="uiPackageName">UI包的名称。</param>
+        /// <returns>返回UI包实例，如果不存在则返回null。</returns>
         public UIPackage Get(string uiPackageName)
         {
-            if (m_UIAssetPathPackages.TryGetValue(uiPackageName, out var value) && m_UIPackages.TryGetValue(value, out var package))
+            foreach (var packageData in m_UIPackages)
             {
-                return package;
+                if (packageData.Value.Name.EqualsFast(uiPackageName))
+                {
+                    return packageData.Value.Package;
+                }
             }
 
-            return null;
+            return default;
         }
+
 
         protected override void Awake()
         {
