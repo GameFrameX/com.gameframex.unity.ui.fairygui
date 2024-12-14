@@ -41,10 +41,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             /// <summary>
             /// 获取UI包的名称。
             /// </summary>
-            public string Name
-            {
-                get { return Package.name; }
-            }
+            public string Name { get; private set; }
 
             /// <summary>
             /// 设置UI包实例。
@@ -55,10 +52,11 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 Package = package;
             }
 
-            public UIPackageData(string descFilePath, bool isLoadAsset)
+            public UIPackageData(string descFilePath, string name, bool isLoadAsset)
             {
                 DescFilePath = descFilePath;
                 IsLoadAsset = isLoadAsset;
+                Name = name;
             }
         }
 
@@ -73,17 +71,17 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             if (!m_UIPackages.TryGetValue(descFilePath, out var packageData))
             {
                 var tcs = new UniTaskCompletionSource<UIPackage>();
-                packageData = new UIPackageData(descFilePath, isLoadAsset);
-                m_UIPackages[descFilePath] = packageData;
 
                 void Complete(UIPackage uiPackage)
                 {
+                    packageData = new UIPackageData(descFilePath, uiPackage.name, isLoadAsset);
                     packageData.SetPackage(uiPackage);
                     if (isLoadAsset)
                     {
                         packageData.Package.LoadAllAssets();
                     }
 
+                    m_UIPackages[descFilePath] = packageData;
                     tcs.TrySetResult(packageData.Package);
                 }
 
@@ -103,11 +101,10 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         {
             if (!m_UIPackages.TryGetValue(descFilePath, out var packageData))
             {
-                packageData = new UIPackageData(descFilePath, isLoadAsset);
-
+                var package = UIPackage.AddPackage(descFilePath);
+                packageData = new UIPackageData(descFilePath, package.name, isLoadAsset);
+                packageData.SetPackage(package);
                 m_UIPackages[descFilePath] = packageData;
-                packageData.SetPackage(UIPackage.AddPackage(descFilePath));
-
                 if (isLoadAsset)
                 {
                     packageData.Package.LoadAllAssets();
