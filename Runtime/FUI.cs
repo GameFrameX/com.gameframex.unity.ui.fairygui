@@ -41,7 +41,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
                 return GObject.visible;
             }
-            set
+            protected set
             {
                 if (GObject == null)
                 {
