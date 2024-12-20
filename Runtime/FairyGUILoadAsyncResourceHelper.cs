@@ -15,6 +15,51 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         private readonly Dictionary<string, UIPackageData> m_UIPackages = new Dictionary<string, UIPackageData>(32);
 
         /// <summary>
+        /// 释放UI包
+        /// </summary>
+        /// <param name="uiPackageName"></param>
+        public void ReleasePackage(string uiPackageName)
+        {
+            if (m_UIPackages.TryGetValue(uiPackageName, out var uiPackageData))
+            {
+                AssetComponent.UnloadAsset(uiPackageData.DefiledAssetPath);
+                AssetComponent.UnloadAsset(uiPackageData.ResourceAssetPath);
+                uiPackageData.Dispose();
+                m_UIPackages.Remove(uiPackageName);
+            }
+        }
+
+        /// <summary>
+        /// 释放所有UI包
+        /// </summary>
+        public void ReleaseAllPackage()
+        {
+            foreach (var kv in m_UIPackages)
+            {
+                AssetComponent.UnloadAsset(kv.Value.DefiledAssetPath);
+                AssetComponent.UnloadAsset(kv.Value.ResourceAssetPath);
+                kv.Value.Dispose();
+            }
+
+            m_UIPackages.Clear();
+        }
+
+        private AssetComponent _assetComponent;
+
+        private AssetComponent AssetComponent
+        {
+            get
+            {
+                if (_assetComponent == null)
+                {
+                    _assetComponent = GameEntry.GetComponent<AssetComponent>();
+                }
+
+                return _assetComponent;
+            }
+        }
+
+        /// <summary>
         /// 加载资源
         /// </summary>
         /// <param name="assetName">资源名称</param>
@@ -30,7 +75,6 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 m_UIPackages.Add(uiPackageName, uiPackageData);
             }
 
-            var assetComponent = GameEntry.GetComponent<AssetComponent>();
 
             if (type == PackageItemType.Misc)
             {
@@ -38,8 +82,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 AssetHandle assetHandle;
                 if (uiPackageData.DefiledAssetHandle == null)
                 {
-                    assetHandle = await assetComponent.LoadAssetAsync(assetName);
-                    uiPackageData.DefiledAssetHandle = assetHandle;
+                    assetHandle = await AssetComponent.LoadAssetAsync(assetName);
+                    uiPackageData.SetDefiledAssetHandle(assetHandle, assetName);
                 }
                 else
                 {
@@ -59,15 +103,14 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 }
             }
 
-            var allAssetsHandle = await assetComponent.LoadAllAssetsAsync(assetName);
+            var allAssetsHandle = await AssetComponent.LoadAllAssetsAsync(assetName);
             if (!allAssetsHandle.IsSucceed)
             {
                 action.Invoke(false, assetName, null);
                 return;
             }
 
-            uiPackageData.ResourceAllAssetsHandle = allAssetsHandle;
-
+            uiPackageData.SetResourceAllAssetsHandle(allAssetsHandle, assetName);
             if (uiPackageData.ResourceAllAssetsHandle == null)
             {
                 action.Invoke(false, assetName, null);
@@ -123,7 +166,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                         case PackageItemType.DragoneBones:
                         {
 #if FAIRYGUI_DRAGONBONES
-                    var assetHandle = @await assetComponent.LoadAssetAsync<DragonBones.DragonBonesData>(assetName);
+                    var assetHandle = @await AssetComponent.LoadAssetAsync<DragonBones.DragonBonesData>(assetName);
                     action.Invoke(assetHandle != null && assetHandle.AssetObject != null, assetName, assetHandle?.GetAssetObject<DragonBones.DragonBonesData>());
 #else
                             Log.Error("加载资源失败.暂未适配 Unknown file type: " + assetName + " extension: " + extension);
@@ -151,26 +194,54 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         {
         }
 
-        sealed class UIPackageData
+        sealed class UIPackageData : IDisposable
         {
             /// <summary>
             /// 包名
             /// </summary>
             public readonly string PackageName;
 
+            public void SetResourceAllAssetsHandle(AllAssetsHandle allAssetsHandle, string assetPath)
+            {
+                ResourceAllAssetsHandle = allAssetsHandle;
+                ResourceAssetPath = assetPath;
+            }
+
             /// <summary>
             /// 资源包
             /// </summary>
-            public AllAssetsHandle ResourceAllAssetsHandle;
+            public AllAssetsHandle ResourceAllAssetsHandle { get; private set; }
+
+            /// <summary>
+            /// 资源包资源路径
+            /// </summary>
+            public string ResourceAssetPath { get; private set; }
+
+            public void SetDefiledAssetHandle(AssetHandle defiledAssetHandle, string defiledAssetPath)
+            {
+                DefiledAssetHandle = defiledAssetHandle;
+                DefiledAssetPath = defiledAssetPath;
+            }
 
             /// <summary>
             /// 描述文件包
             /// </summary>
-            public AssetHandle DefiledAssetHandle;
+            public AssetHandle DefiledAssetHandle { get; private set; }
+
+            /// <summary>
+            /// 描述文件包资源路径
+            /// </summary>
+            public string DefiledAssetPath { get; private set; }
 
             public UIPackageData(string packageName)
             {
                 PackageName = packageName;
+            }
+
+            public void Dispose()
+            {
+                ResourceAllAssetsHandle?.Dispose();
+                DefiledAssetHandle?.Dispose();
             }
         }
     }

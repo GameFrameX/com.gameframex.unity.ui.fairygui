@@ -15,7 +15,10 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     [UnityEngine.Scripting.Preserve]
     public sealed class FairyGUIPackageComponent : GameFrameworkComponent
     {
-        private readonly Dictionary<string, UIPackageData> m_UIPackages = new Dictionary<string, UIPackageData>(32);
+        private readonly Dictionary<string, UIPackageData> m_UILoadedPackages = new Dictionary<string, UIPackageData>(32);
+
+        private readonly Dictionary<string, UniTaskCompletionSource<UIPackage>> m_UIPackageLoading = new Dictionary<string, UniTaskCompletionSource<UIPackage>>(32);
+        FairyGUILoadAsyncResourceHelper resourceHelper;
 
         /// <summary>
         /// 表示UI包的数据结构。
@@ -68,12 +71,18 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <returns>返回一个表示UI包的UniTask。</returns>
         public UniTask<UIPackage> AddPackageAsync(string descFilePath, bool isLoadAsset = true)
         {
-            if (!m_UIPackages.TryGetValue(descFilePath, out var packageData))
+            if (m_UIPackageLoading.TryGetValue(descFilePath, out var tcsLoading))
+            {
+                return tcsLoading.Task;
+            }
+
+            if (!m_UILoadedPackages.TryGetValue(descFilePath, out var packageData))
             {
                 var tcs = new UniTaskCompletionSource<UIPackage>();
 
                 void Complete(UIPackage uiPackage)
                 {
+                    m_UIPackageLoading.Remove(descFilePath);
                     packageData = new UIPackageData(descFilePath, uiPackage.name, isLoadAsset);
                     packageData.SetPackage(uiPackage);
                     if (isLoadAsset)
@@ -81,10 +90,11 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                         packageData.Package.LoadAllAssets();
                     }
 
-                    m_UIPackages[descFilePath] = packageData;
+                    m_UILoadedPackages[descFilePath] = packageData;
                     tcs.TrySetResult(packageData.Package);
                 }
 
+                m_UIPackageLoading[descFilePath] = tcs;
                 UIPackage.AddPackageAsync(descFilePath, Complete);
                 return tcs.Task;
             }
@@ -99,12 +109,12 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <param name="isLoadAsset">是否加载资源，默认为true。</param>
         public void AddPackageSync(string descFilePath, bool isLoadAsset = true)
         {
-            if (!m_UIPackages.TryGetValue(descFilePath, out var packageData))
+            if (!m_UILoadedPackages.TryGetValue(descFilePath, out var packageData))
             {
                 var package = UIPackage.AddPackage(descFilePath);
                 packageData = new UIPackageData(descFilePath, package.name, isLoadAsset);
                 packageData.SetPackage(package);
-                m_UIPackages[descFilePath] = packageData;
+                m_UILoadedPackages[descFilePath] = packageData;
                 if (isLoadAsset)
                 {
                     packageData.Package.LoadAllAssets();
@@ -120,7 +130,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         {
             string key = null;
             UIPackageData uiPackageData = null;
-            foreach (var packageData in m_UIPackages)
+            foreach (var packageData in m_UILoadedPackages)
             {
                 if (packageData.Value.Name.EqualsFast(packageName))
                 {
@@ -134,7 +144,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             {
                 uiPackageData.Package.UnloadAssets();
                 UIPackage.RemovePackage(packageName);
-                m_UIPackages.Remove(key);
+                resourceHelper.ReleasePackage(packageName);
+                m_UILoadedPackages.Remove(key);
             }
         }
 
@@ -149,8 +160,9 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 package.UnloadAssets();
             }
 
+            resourceHelper.ReleaseAllPackage();
             UIPackage.RemoveAllPackages();
-            m_UIPackages.Clear();
+            m_UILoadedPackages.Clear();
         }
 
         /// <summary>
@@ -170,7 +182,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <returns>返回UI包实例，如果不存在则返回null。</returns>
         public UIPackage Get(string uiPackageName)
         {
-            foreach (var packageData in m_UIPackages)
+            foreach (var packageData in m_UILoadedPackages)
             {
                 if (packageData.Value.Name.EqualsFast(uiPackageName))
                 {
@@ -186,7 +198,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         {
             IsAutoRegister = false;
             base.Awake();
-            UIPackage.SetAsyncLoadResource(new FairyGUILoadAsyncResourceHelper());
+            resourceHelper = new FairyGUILoadAsyncResourceHelper();
+            UIPackage.SetAsyncLoadResource(resourceHelper);
         }
     }
 }
