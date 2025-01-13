@@ -1022,6 +1022,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
                 uiGroup.AddUIForm(uiForm);
                 uiForm.OnOpen(userData);
+                uiForm.UpdateLocalization();
                 uiGroup.Refresh();
 
                 if (m_OpenUIFormSuccessEventHandler != null)
