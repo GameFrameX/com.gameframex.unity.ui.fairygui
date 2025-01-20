@@ -18,5 +18,10 @@
     "email": "alianblank@outlook.com",
     "url": "https://gameframex.doc.alianblank.com"
   },
-  "dependencies": {}
+  "dependencies": {
+    "com.gameframex.unity": "1.1.1",
+    "com.gameframex.unity.ui": "1.0.0",
+    "com.gameframex.unity.asset": "1.0.6",
+    "com.gameframex.unity.event": "1.0.0"
+  }
 }
