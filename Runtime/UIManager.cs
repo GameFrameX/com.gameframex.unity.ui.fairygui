@@ -587,7 +587,6 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             return OpenUIFormAsync(uiFormAssetPath, uiFormAssetName, uiGroupName, typeof(T), false, null);
         }
 
-
         /// <summary>
         /// 打开界面。
         /// </summary>
@@ -1020,7 +1019,11 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                     }
                 }
 
-                uiGroup.AddUIForm(uiForm);
+                if (!uiGroup.InternalHasInstanceUIForm(uiFormAssetName, uiForm))
+                {
+                    uiGroup.AddUIForm(uiForm);
+                }
+
                 uiForm.OnOpen(userData);
                 uiForm.UpdateLocalization();
                 uiGroup.Refresh();
