@@ -43,12 +43,33 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <param name="uiFormType">界面逻辑类型</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>界面。</returns>
-        public override IUIForm CreateUIForm(object uiFormInstance, IUIGroup uiGroup, Type uiFormType, object userData)
+        public override IUIForm CreateUIForm(object uiFormInstance, Type uiFormType, object userData)
         {
             GComponent component = uiFormInstance as GComponent;
             if (component == null)
             {
                 Log.Error("UI form instance is invalid.");
+                return null;
+            }
+
+            var componentType = component.displayObject.gameObject.GetOrAddComponent(uiFormType);
+            var uiForm = componentType as IUIForm;
+            if (uiForm == null)
+            {
+                Log.Error("UI form instance is invalid.");
+                return null;
+            }
+
+            if (uiForm.IsAwake == false)
+            {
+                uiForm.OnAwake();
+            }
+
+            var uiGroup = uiForm.UIGroup;
+
+            if (uiGroup == null)
+            {
+                Log.Error("UI group is invalid.");
                 return null;
             }
 
@@ -67,9 +88,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             }
 
             uiGroupComponent.AddChild(component);
-
-            var componentType = component.displayObject.gameObject.GetOrAddComponent(uiFormType);
-            return componentType as IUIForm;
+            return uiForm;
         }
 
         /// <summary>
