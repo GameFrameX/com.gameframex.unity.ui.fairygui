@@ -67,7 +67,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             add { m_OpenUIFormDependencyAssetEventHandler += value; }
             remove { m_OpenUIFormDependencyAssetEventHandler -= value; }
         }*/
-       
+
         /// <summary>
         /// 打开界面。
         /// </summary>
@@ -96,76 +96,74 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             int serialId = ++m_Serial;
             var uiFormAssetName = uiFormType.Name;
             UIFormInstanceObject uiFormInstanceObject = m_InstancePool.Spawn(uiFormAssetName);
-            if (uiFormInstanceObject == null)
+            if (uiFormInstanceObject != null)
             {
-                m_UIFormsBeingLoaded.Add(serialId, uiFormAssetName);
-                string assetPath = PathHelper.Combine(uiFormAssetPath, uiFormAssetName);
+                // 如果对象池存在
+                return InternalOpenUIForm(serialId, uiFormAssetName, uiFormType, uiFormInstanceObject.Target, pauseCoveredUIForm, false, 0f, userData, isFullScreen);
+            }
 
-                var lastIndexOfStart = uiFormAssetPath.LastIndexOf("/", StringComparison.OrdinalIgnoreCase);
-                var packageName = uiFormAssetPath.Substring(lastIndexOfStart + 1);
-                var has = FairyGuiPackage.Has(packageName);
+            m_UIFormsBeingLoaded.Add(serialId, uiFormAssetName);
+            string assetPath = PathHelper.Combine(uiFormAssetPath, uiFormAssetName);
 
-                OpenUIFormInfoData openUIFormInfoData = OpenUIFormInfoData.Create(serialId, packageName, uiFormAssetName, uiFormType, pauseCoveredUIForm, userData);
+            var lastIndexOfStart = uiFormAssetPath.LastIndexOf("/", StringComparison.OrdinalIgnoreCase);
+            var packageName = uiFormAssetPath.Substring(lastIndexOfStart + 1);
+            // 检查UI包是否已经加载过
+            var hasUIPackage = FairyGuiPackage.Has(packageName);
 
-                OpenUIFormInfo openUIFormInfo = OpenUIFormInfo.Create(serialId, uiFormType, pauseCoveredUIForm, userData, isFullScreen);
-                if (assetPath.IndexOf(Utility.Asset.Path.BundlesDirectoryName, StringComparison.OrdinalIgnoreCase) >= 0)
+            OpenUIFormInfoData openUIFormInfoData = OpenUIFormInfoData.Create(serialId, packageName, uiFormAssetName, uiFormType, pauseCoveredUIForm, userData);
+            OpenUIFormInfo openUIFormInfo = OpenUIFormInfo.Create(serialId, uiFormType, pauseCoveredUIForm, userData, isFullScreen);
+            if (assetPath.IndexOf(Utility.Asset.Path.BundlesDirectoryName, StringComparison.OrdinalIgnoreCase) < 0)
+            {
+                // 从Resources 中加载
+                if (!hasUIPackage)
                 {
-                    if (!has)
-                    {
-                        if (packageName == uiFormAssetName)
-                        {
-                            await FairyGuiPackage.AddPackageAsync(assetPath);
-                        }
-                        else
-                        {
-                            string newPackagePath = PathHelper.Combine(uiFormAssetPath, packageName);
-                            await FairyGuiPackage.AddPackageAsync(newPackagePath);
-                        }
-
-                        string newAssetPackagePath = assetPath;
-                        if (packageName != uiFormAssetName)
-                        {
-                            newAssetPackagePath = PathHelper.Combine(uiFormAssetPath, packageName);
-                        }
-
-                        newAssetPackagePath += "_fui";
-                        // 从包中加载
-                        var assetHandle = await m_AssetManager.LoadAssetAsync<UnityEngine.Object>(newAssetPackagePath);
-
-                        if (assetHandle.IsSucceed)
-                        {
-                            return LoadAssetSuccessCallback(uiFormAssetName, openUIFormInfoData, assetHandle.Progress, openUIFormInfo);
-                        }
-                        else
-                        {
-                            return LoadAssetFailureCallback(uiFormAssetName, assetHandle.LastError, openUIFormInfo);
-                        }
-                    }
-                    else
-                    {
-                        return LoadAssetSuccessCallback(uiFormAssetName, openUIFormInfoData, 1, openUIFormInfo);
-                    }
+                    FairyGuiPackage.AddPackageSync(assetPath);
                 }
-                else
-                {
-                    if (!has)
-                    {
-                        FairyGuiPackage.AddPackageSync(assetPath);
-                    }
 
-                    // 从Resources 中加载
-                    return LoadAssetSuccessCallback(uiFormAssetName, openUIFormInfoData, 0, openUIFormInfo);
-                }
+                return LoadAssetSuccessCallback(uiFormAssetName, openUIFormInfoData, 0, openUIFormInfo);
+            }
+
+            // 检查UI包是否已经加载过
+            if (hasUIPackage)
+            {
+                // 如果UI 包存在则创建界面
+                return LoadAssetSuccessCallback(uiFormAssetName, openUIFormInfoData, 1, openUIFormInfo);
+            }
+
+            if (packageName == uiFormAssetName)
+            {
+                // 如果UI资源名字和包名一致则直接加载
+                await FairyGuiPackage.AddPackageAsync(assetPath);
             }
             else
             {
-                return InternalOpenUIForm(serialId, uiFormAssetName, uiFormType, uiFormInstanceObject.Target, pauseCoveredUIForm, false, 0f, userData, isFullScreen);
+                // 不一致则重新拼接路径
+                string newPackagePath = PathHelper.Combine(uiFormAssetPath, packageName);
+                await FairyGuiPackage.AddPackageAsync(newPackagePath);
             }
+
+            string newAssetPackagePath = assetPath;
+            if (packageName != uiFormAssetName)
+            {
+                newAssetPackagePath = PathHelper.Combine(uiFormAssetPath, packageName);
+            }
+
+            newAssetPackagePath += "_fui";
+            // 从包中加载
+            var assetHandle = await m_AssetManager.LoadAssetAsync<UnityEngine.Object>(newAssetPackagePath);
+
+            if (assetHandle.IsSucceed)
+            {
+                // 加载成功
+                return LoadAssetSuccessCallback(uiFormAssetName, openUIFormInfoData, assetHandle.Progress, openUIFormInfo);
+            }
+
+            // UI包不存在
+            return LoadAssetFailureCallback(uiFormAssetName, assetHandle.LastError, openUIFormInfo);
         }
 
         private IUIForm InternalOpenUIForm(int serialId, string uiFormAssetName, Type uiFormType, object uiFormInstance, bool pauseCoveredUIForm, bool isNewInstance, float duration, object userData, bool isFullScreen)
         {
-            IUIGroup uiGroup = null;
             try
             {
                 IUIForm uiForm = m_UIFormHelper.CreateUIForm(uiFormInstance, uiFormType, userData);
@@ -174,8 +172,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                     throw new GameFrameworkException("Can not create UI form in UI form helper.");
                 }
 
-                uiGroup = uiForm.UIGroup;
-                uiForm.Init(serialId, uiFormAssetName, uiForm.UIGroup, OnInitAction, pauseCoveredUIForm, isNewInstance, userData, isFullScreen);
+                var uiGroup = uiForm.UIGroup;
+                uiForm.Init(serialId, uiFormAssetName, uiGroup, OnInitAction, pauseCoveredUIForm, isNewInstance, userData, isFullScreen);
 
                 void OnInitAction(IUIForm obj)
                 {
