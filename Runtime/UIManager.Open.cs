@@ -86,6 +86,15 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             return await InnerOpenUIFormAsync(uiFormAssetPath, uiFormType, pauseCoveredUIForm, userData, isFullScreen);
         }
 
+        /// <summary>
+        /// 打开界面。
+        /// </summary>
+        /// <param name="uiFormAssetPath">界面所在路径</param>
+        /// <param name="pauseCoveredUIForm">是否暂停被覆盖的界面。</param>
+        /// <param name="userData">用户自定义数据。</param>
+        /// <param name="isFullScreen">是否全屏</param>
+        /// <param name="isMultiple">是否创建新界面</param>
+        /// <returns>界面的序列编号。</returns>
         public Task<IUIForm> OpenUIFormAsync<T>(string uiFormAssetPath, bool pauseCoveredUIForm, object userData, bool isFullScreen = false, bool isMultiple = false) where T : class, IUIForm
         {
             return InnerOpenUIFormAsync(uiFormAssetPath, typeof(T), pauseCoveredUIForm, userData, isFullScreen, isMultiple);
