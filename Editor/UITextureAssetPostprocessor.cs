@@ -19,6 +19,10 @@ namespace GameFrameX.UI.Editor
                 {
                     textureImporter.mipmapEnabled = false;
                 }
+
+                textureImporter.alphaSource = TextureImporterAlphaSource.FromInput;
+                textureImporter.alphaIsTransparency = true;
+
             }
         }
     }
