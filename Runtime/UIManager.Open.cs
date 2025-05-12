@@ -107,16 +107,16 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
         private async Task<IUIForm> InnerOpenUIFormAsync(string uiFormAssetPath, Type uiFormType, bool pauseCoveredUIForm, object userData, bool isFullScreen = false, bool isMultiple = false)
         {
-            int serialId = ++m_Serial;
             var uiFormAssetName = uiFormType.Name;
             UIFormInstanceObject uiFormInstanceObject = m_InstancePool.Spawn(uiFormAssetName);
 
             if (uiFormInstanceObject != null && isMultiple == false)
             {
                 // 如果对象池存在
-                return InternalOpenUIForm(serialId, uiFormAssetName, uiFormType, uiFormInstanceObject.Target, pauseCoveredUIForm, false, 0f, userData, isFullScreen);
+                return InternalOpenUIForm(-1, uiFormAssetName, uiFormType, uiFormInstanceObject.Target, pauseCoveredUIForm, false, 0f, userData, isFullScreen);
             }
 
+            int serialId = ++m_Serial;
             m_UIFormsBeingLoaded.Add(serialId, uiFormAssetName);
             string assetPath = PathHelper.Combine(uiFormAssetPath, uiFormAssetName);
 
