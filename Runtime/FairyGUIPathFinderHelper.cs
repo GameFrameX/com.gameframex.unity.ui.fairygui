@@ -5,6 +5,19 @@ using GameFrameX.Runtime;
 
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
+    public static class GObjectExtensions
+    {
+        /// <summary>
+        /// 获取UI路径
+        /// </summary>
+        /// <param name="self">GObject对象</param>
+        /// <returns>UI路径</returns>
+        public static string GetUIPath(this GObject self)
+        {
+            return FairyGUIPathFinderHelper.GetUIPath(self);
+        }
+    }
+
     /// <summary>
     /// FGUI 路径帮助类
     /// </summary>
