@@ -1,4 +1,6 @@
-﻿using GameFrameX.Runtime;
+﻿#if ENABLE_UI_FAIRYGUI
+
+using GameFrameX.Runtime;
 using UnityEditor;
 
 namespace GameFrameX.UI.FairyGUI.Editor
@@ -22,8 +24,8 @@ namespace GameFrameX.UI.FairyGUI.Editor
 
                 textureImporter.alphaSource = TextureImporterAlphaSource.FromInput;
                 textureImporter.alphaIsTransparency = true;
-
             }
         }
     }
 }
+#endif
