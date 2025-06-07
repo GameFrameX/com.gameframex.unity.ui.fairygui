@@ -1,7 +1,7 @@
 ﻿using GameFrameX.Runtime;
 using UnityEditor;
 
-namespace GameFrameX.UI.Editor
+namespace GameFrameX.UI.FairyGUI.Editor
 {
     internal sealed class UITextureAssetPostprocessor : AssetPostprocessor
     {
