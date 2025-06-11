@@ -27,7 +27,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
             GObject.visible = value;
             OnVisibleChanged?.Invoke(value);
-            EventSubscriber.Fire(UIFormVisibleChangedEventArgs.EventId, UIFormVisibleChangedEventArgs.Create(this, value, null));
+            EventSubscriber?.Fire(UIFormVisibleChangedEventArgs.EventId, UIFormVisibleChangedEventArgs.Create(this, value, null));
         }
 
         public override bool Visible
@@ -55,7 +55,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
                 GObject.visible = value;
                 OnVisibleChanged?.Invoke(value);
-                EventSubscriber.Fire(UIFormVisibleChangedEventArgs.EventId, UIFormVisibleChangedEventArgs.Create(this, value, null));
+                EventSubscriber?.Fire(UIFormVisibleChangedEventArgs.EventId, UIFormVisibleChangedEventArgs.Create(this, value, null));
             }
         }
 
