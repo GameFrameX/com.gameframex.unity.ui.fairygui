@@ -18,7 +18,6 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     internal sealed partial class UIManager : BaseUIManager
     {
         private FairyGUIPackageComponent FairyGuiPackage { get; set; }
-        private int m_Serial;
 
         /// <summary>
         /// 初始化界面管理器的新实例。
