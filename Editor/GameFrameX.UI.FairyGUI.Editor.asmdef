@@ -1,19 +1,21 @@
 {
-    "name": "GameFrameX.UI.FairyGUI.Editor",
-    "references": [
-        "GameFrameX.UI.FairyGUI.Runtime",
-        "GameFrameX.Editor",
-        "GameFrameX.Runtime"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+  "name": "GameFrameX.UI.FairyGUI.Editor",
+  "references": [
+    "GameFrameX.UI.FairyGUI.Runtime",
+    "GameFrameX.Editor",
+    "GameFrameX.Runtime",
+    "FairyGUI.Editor",
+    "FairyGUI.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
 }
