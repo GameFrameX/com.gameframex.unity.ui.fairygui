@@ -107,6 +107,14 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 }
 
                 var uiGroup = uiForm.UIGroup;
+                if (serialId < 0)
+                {
+                    if (m_UIFormsToReleaseOnLoad.Contains(uiForm.SerialId))
+                    {
+                        m_UIFormsToReleaseOnLoad.Remove(uiForm.SerialId);
+                    }
+                }
+
                 uiForm.Init(serialId, uiFormAssetName, uiGroup, OnInitAction, pauseCoveredUIForm, isNewInstance, userData, isFullScreen);
 
                 void OnInitAction(IUIForm obj)
