@@ -23,7 +23,11 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             if (m_UIPackages.TryGetValue(uiPackageName, out var uiPackageData))
             {
                 AssetComponent.UnloadAsset(uiPackageData.DefiledAssetPath);
-                if(uiPackageData.ResourceAssetPath!=null) AssetComponent.UnloadAsset(uiPackageData.ResourceAssetPath);
+                if (uiPackageData.ResourceAssetPath != null)
+                {
+                    AssetComponent.UnloadAsset(uiPackageData.ResourceAssetPath);
+                }
+
                 uiPackageData.Dispose();
                 m_UIPackages.Remove(uiPackageName);
             }
