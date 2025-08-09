@@ -39,7 +39,6 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// 创建界面。
         /// </summary>
         /// <param name="uiFormInstance">界面实例。</param>
-        /// <param name="uiGroup">界面所属的界面组。</param>
         /// <param name="uiFormType">界面逻辑类型</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>界面。</returns>
