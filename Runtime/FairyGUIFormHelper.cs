@@ -6,6 +6,7 @@
 //------------------------------------------------------------
 
 using System;
+using System.Reflection;
 using FairyGUI;
 using GameFrameX.Asset.Runtime;
 using GameFrameX.Runtime;
@@ -21,6 +22,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     public class FairyGUIFormHelper : UIFormHelperBase
     {
         private AssetComponent m_AssetComponent = null;
+        private UIComponent m_UIComponent = null;
 
         /// <summary>
         /// 实例化界面。
@@ -68,6 +70,15 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
             if (uiGroup == null)
             {
+                var attribute = uiFormType.GetCustomAttribute(typeof(OptionUIGroup));
+                if (attribute is OptionUIGroup optionUIGroup)
+                {
+                    uiGroup = m_UIComponent.GetUIGroup(optionUIGroup.GroupName);
+                }
+            }
+
+            if (uiGroup == null)
+            {
                 Log.Error("UI group is invalid.");
                 return null;
             }
@@ -109,6 +120,13 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             if (m_AssetComponent == null)
             {
                 Log.Fatal("Asset component is invalid.");
+                return;
+            }
+
+            m_UIComponent = GameEntry.GetComponent<UIComponent>();
+            if (m_UIComponent == null)
+            {
+                Log.Fatal("UI component is invalid.");
                 return;
             }
         }
