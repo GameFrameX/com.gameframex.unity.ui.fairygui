@@ -114,7 +114,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             }
         }
 
-        private void Start()
+        private void Awake()
         {
             m_AssetComponent = GameEntry.GetComponent<AssetComponent>();
             if (m_AssetComponent == null)
