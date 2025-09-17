@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.0](https://github.com/GameFrameX/com.gameframex.unity.ui.fairygui/tree/2.1.0) (2025-09-17)
+
+[Full Changelog](https://github.com/GameFrameX/com.gameframex.unity.ui.fairygui/compare/2.0.0...2.1.0)
+
+**Merged pull requests:**
+
+- \[修改\] RemovePackage 时如果只有描述文件,没有资源文件，报 can not be null [\#1](https://github.com/GameFrameX/com.gameframex.unity.ui.fairygui/pull/1) ([DreamChaseAndVera](https://github.com/DreamChaseAndVera))
+
 ## [2.0.0](https://github.com/GameFrameX/com.gameframex.unity.ui.fairygui/tree/2.0.0) (2025-06-12)
 
 [Full Changelog](https://github.com/GameFrameX/com.gameframex.unity.ui.fairygui/compare/1.2.6...2.0.0)
