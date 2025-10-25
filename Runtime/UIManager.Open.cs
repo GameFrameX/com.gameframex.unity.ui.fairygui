@@ -6,16 +6,11 @@
 //------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
-using Cysharp.Threading.Tasks;
 using FairyGUI;
-using GameFrameX.Asset.Runtime;
-using GameFrameX.ObjectPool;
 using GameFrameX.Runtime;
 using GameFrameX.UI.Runtime;
-using UnityEngine;
+using YooAsset;
 
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
@@ -86,7 +81,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             // 从包中加载
             var assetHandle = await m_AssetManager.LoadAssetAsync<UnityEngine.Object>(newAssetPackagePath);
 
-            if (assetHandle.IsSucceed)
+            if (assetHandle.IsSucceed())
             {
                 // 加载成功
                 return LoadAssetSuccessCallback(uiFormAssetName, openUIFormInfoData, assetHandle.Progress, openUIFormInfo);
