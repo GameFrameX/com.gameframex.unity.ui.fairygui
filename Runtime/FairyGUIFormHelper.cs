@@ -101,6 +101,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 }
             }
 
+            uiForm.UIGroup = uiGroup;
             if (uiGroup == null)
             {
                 Log.Error("UI group is invalid.");
