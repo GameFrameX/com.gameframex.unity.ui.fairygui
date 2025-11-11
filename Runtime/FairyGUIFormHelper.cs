@@ -146,7 +146,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// </summary>
         /// <param name="uiFormAsset">要释放的界面资源。</param>
         /// <param name="uiFormInstance">要释放的界面实例。</param>
-        public override void ReleaseUIForm(object uiFormAsset, object uiFormInstance)
+        /// <param name="assetHandle">资源句柄。</param>
+        public override void ReleaseUIForm(object uiFormAsset, object uiFormInstance, object assetHandle)
         {
             if (uiFormInstance is GComponent component)
             {
@@ -154,6 +155,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 component.Remove();
                 component.Dispose();
             }
+
+            m_AssetComponent.UnloadAssetHandle(assetHandle);
         }
 
         private void Awake()
