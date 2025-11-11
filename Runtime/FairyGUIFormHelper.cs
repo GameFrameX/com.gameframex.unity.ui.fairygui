@@ -135,6 +135,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         {
             if (uiFormInstance is GComponent component)
             {
+                component.RemoveFromParent();
+                component.Remove();
                 component.Dispose();
             }
         }

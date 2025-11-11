@@ -67,9 +67,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
             if (isDispose)
             {
-                component.RemoveFromParent();
-                component.Remove();
-                component.Dispose();
+                m_InstancePool.ReleaseObject(component);
             }
         }
 
