@@ -103,6 +103,20 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 uiForm.UIGroup = uiGroup;
             }
 
+            var showAnimationAttribute = uiFormType.GetCustomAttribute(typeof(OptionUIShowAnimationAttribute));
+            if (showAnimationAttribute is OptionUIShowAnimationAttribute optionShowAnimation)
+            {
+                uiForm.EnableShowAnimation = optionShowAnimation.Enable;
+                uiForm.ShowAnimationName = optionShowAnimation.AnimationName;
+            }
+
+            var hideAnimationAttribute = uiFormType.GetCustomAttribute(typeof(OptionUIHideAnimationAttribute));
+            if (hideAnimationAttribute is OptionUIHideAnimationAttribute optionHideAnimation)
+            {
+                uiForm.EnableHideAnimation = optionHideAnimation.Enable;
+                uiForm.HideAnimationName = optionHideAnimation.AnimationName;
+            }
+
             if (uiGroup == null)
             {
                 Log.Error("UI group is invalid.");

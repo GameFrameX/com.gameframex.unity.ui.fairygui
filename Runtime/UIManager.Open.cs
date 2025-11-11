@@ -153,6 +153,11 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 uiForm.BindEvent();
                 uiForm.LoadData();
                 uiForm.UpdateLocalization();
+                if (uiForm.EnableShowAnimation)
+                {
+                    uiForm.Show(m_UIFormShowHandler, null);
+                }
+
                 uiGroup.Refresh();
 
                 if (m_OpenUIFormSuccessEventHandler != null)
