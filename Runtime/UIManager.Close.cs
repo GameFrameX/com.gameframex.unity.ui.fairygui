@@ -49,23 +49,49 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         {
             uiForm.OnRecycle();
             var formHandle = uiForm.Handle as GameObject;
-            if (formHandle)
+            if (!formHandle)
             {
-                var displayObjectInfo = formHandle.GetComponent<DisplayObjectInfo>();
-                if (displayObjectInfo)
-                {
-                    if (displayObjectInfo.displayObject.gOwner is GComponent component)
-                    {
-                        if (isDispose)
-                        {
-                            component.Dispose();
-                        }
-                        else
-                        {
-                            m_InstancePool.Unspawn(component);
-                        }
-                    }
-                }
+                return;
+            }
+
+            var displayObjectInfo = formHandle.GetComponent<DisplayObjectInfo>();
+            if (!displayObjectInfo)
+            {
+                return;
+            }
+
+            if (displayObjectInfo.displayObject.gOwner is not GComponent component)
+            {
+                return;
+            }
+
+            if (isDispose)
+            {
+                component.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// 回收界面实例对象到实例池。
+        /// </summary>
+        /// <param name="uiForm">要回收的界面实例对象。</param>
+        protected override void RecycleToPoolUIForm(IUIForm uiForm)
+        {
+            var formHandle = uiForm.Handle as GameObject;
+            if (!formHandle)
+            {
+                return;
+            }
+
+            var displayObjectInfo = formHandle.GetComponent<DisplayObjectInfo>();
+            if (!displayObjectInfo)
+            {
+                return;
+            }
+
+            if (displayObjectInfo.displayObject.gOwner is GComponent component)
+            {
+                m_InstancePool.Unspawn(component);
             }
         }
     }
