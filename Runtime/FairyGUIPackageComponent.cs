@@ -42,7 +42,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     /// 管理所有UI 包
     /// </summary>
     [DisallowMultipleComponent]
-    [AddComponentMenu("Game Framework/FairyGUIPackage")]
+    [AddComponentMenu("GameFrameX/FairyGUIPackage")]
     [UnityEngine.Scripting.Preserve]
     public sealed class FairyGUIPackageComponent : GameFrameworkComponent
     {
