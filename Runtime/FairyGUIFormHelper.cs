@@ -126,14 +126,14 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             DisplayObjectInfo displayObjectInfo = ((MonoBehaviour)uiGroup.Helper).gameObject.GetComponent<DisplayObjectInfo>();
             if (displayObjectInfo == null)
             {
-                Log.Error("UI group is invalid.");
+                Log.Error("Display object info is invalid.");
                 return null;
             }
 
             var uiGroupComponent = displayObjectInfo.displayObject.gOwner as GComponent;
             if (uiGroupComponent == null)
             {
-                Log.Error("UI group is invalid.");
+                Log.Error("UI group component is invalid.");
                 return null;
             }
 
