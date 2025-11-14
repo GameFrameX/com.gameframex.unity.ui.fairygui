@@ -49,6 +49,40 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         public Action<bool> OnVisibleChanged { get; set; }
 
         /// <summary>
+        /// 界面显示。
+        /// </summary>
+        /// <param name="handler">界面显示处理接口</param>
+        /// <param name="complete">完成回调</param>
+        public override void Show(IUIFormShowHandler handler, Action complete)
+        {
+            if (handler != null)
+            {
+                handler.Handler(GObject, EnableShowAnimation, ShowAnimationName, complete);
+            }
+            else
+            {
+                complete?.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// 界面隐藏。
+        /// </summary>
+        /// <param name="handler">界面隐藏处理接口</param>
+        /// <param name="complete">完成回调</param>
+        public override void Hide(IUIFormHideHandler handler, Action complete)
+        {
+            if (handler != null)
+            {
+                handler.Handler(GObject, EnableHideAnimation, HideAnimationName, complete);
+            }
+            else
+            {
+                complete?.Invoke();
+            }
+        }
+
+        /// <summary>
         /// 设置UI的显示状态，不发出事件
         /// </summary>
         /// <param name="value"></param>
