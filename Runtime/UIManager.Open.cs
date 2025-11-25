@@ -129,7 +129,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 var uiGroup = uiForm.UIGroup;
                 if (serialId < 0)
                 {
-                    if (m_UIFormsToReleaseOnLoad.ContainsKey(uiForm.SerialId))
+                    // 处理已加载的界面，界面复用
+                    if (m_UIFormsToReleaseOnLoad.Contains(uiForm.SerialId))
                     {
                         m_UIFormsToReleaseOnLoad.Remove(uiForm.SerialId);
                     }
@@ -197,13 +198,13 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 throw new GameFrameworkException("Open UI form info is invalid.");
             }
 
-
-            if (m_UIFormsToReleaseOnLoad.ContainsKey(openUIFormInfo.SerialId))
+            if (m_UIFormsToReleaseOnLoad.Contains(openUIFormInfo.SerialId))
             {
                 m_UIFormsToReleaseOnLoad.Remove(openUIFormInfo.SerialId);
                 var form = GetUIForm(openUIFormInfo.SerialId);
                 m_UIFormHelper.ReleaseUIForm(uiFormAsset, null, openUIFormInfo.AssetHandle);
                 ReferencePool.Release(openUIFormInfo);
+                ReferencePool.Release(openUIFormInfoData);
                 return form;
             }
 
@@ -225,9 +226,10 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 throw new GameFrameworkException("Open UI form info is invalid.");
             }
 
-            if (m_UIFormsToReleaseOnLoad.ContainsKey(openUIFormInfo.SerialId))
+            if (m_UIFormsToReleaseOnLoad.Contains(openUIFormInfo.SerialId))
             {
                 m_UIFormsToReleaseOnLoad.Remove(openUIFormInfo.SerialId);
+                ReferencePool.Release(openUIFormInfo);
                 var uiForm = GetUIForm(openUIFormInfo.SerialId);
                 return uiForm;
             }
