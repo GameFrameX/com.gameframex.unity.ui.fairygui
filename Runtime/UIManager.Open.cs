@@ -135,7 +135,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                     }
                 }
 
-                uiForm.Init(serialId, uiFormAssetName, uiGroup, OnInitAction, pauseCoveredUIForm, isNewInstance, userData, isFullScreen);
+                uiForm.Init(serialId, uiFormAssetName, uiGroup, OnInitAction, pauseCoveredUIForm, isNewInstance, userData, RecycleInterval, isFullScreen);
 
                 void OnInitAction(IUIForm obj)
                 {
