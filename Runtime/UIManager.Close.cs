@@ -60,7 +60,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 return;
             }
 
-            if (displayObjectInfo.displayObject.gOwner is not GComponent component)
+            var component = displayObjectInfo.displayObject.gOwner as GComponent;
+            if (component == null)
             {
                 return;
             }
