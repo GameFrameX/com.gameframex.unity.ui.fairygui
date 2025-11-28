@@ -66,14 +66,11 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 return;
             }
 
+            m_InstancePool.Unspawn(component);
             if (isDispose)
             {
                 m_InstancePool.ReleaseObject(component);
-            }
-            else
-            {
-                m_InstancePool.Unspawn(component);
-            }
+            }            
         }
     }
 }
