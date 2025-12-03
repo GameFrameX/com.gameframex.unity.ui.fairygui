@@ -30,6 +30,7 @@
 // ==========================================================================================
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FairyGUI;
 using GameFrameX.Runtime;
@@ -43,6 +44,9 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     /// </summary>
     internal sealed partial class UIManager
     {
+        private readonly List<UIFormLoadingObject> m_LoadingUIForms = new List<UIFormLoadingObject>(64);
+        private readonly List<UIFormLoadingObject> m_UIFormsRemoveList = new List<UIFormLoadingObject>(64);
+
         protected override async Task<IUIForm> InnerOpenUIFormAsync(string uiFormAssetPath, Type uiFormType, bool pauseCoveredUIForm, object userData, bool isFullScreen = false)
         {
             var uiFormAssetName = uiFormType.Name;
@@ -54,6 +58,41 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 return InternalOpenUIForm(-1, uiFormAssetName, uiFormType, uiFormInstanceObject.Target, pauseCoveredUIForm, false, 0f, userData, isFullScreen);
             }
 
+            foreach (var value in m_LoadingUIForms)
+            {
+                if (value.UIFormAssetPath == uiFormAssetPath && value.UIFormAssetName == uiFormAssetName && value.UIFormType == uiFormType)
+                {
+                    return await value.Task;
+                }
+            }
+
+            var uiForm = InnerLoadUIFormAsync(uiFormAssetPath, uiFormType, pauseCoveredUIForm, userData, isFullScreen);
+            UIFormLoadingObject uiFormLoadingObject = UIFormLoadingObject.Create(uiFormAssetPath, uiFormAssetName, uiFormType, uiForm);
+            m_LoadingUIForms.Add(uiFormLoadingObject);
+            var result = await uiForm;
+
+            foreach (var value in m_LoadingUIForms)
+            {
+                if (value.UIFormAssetPath == uiFormAssetPath && value.UIFormAssetName == uiFormAssetName && value.UIFormType == uiFormType)
+                {
+                    m_UIFormsRemoveList.Add(value);
+                }
+            }
+
+            foreach (var value in m_UIFormsRemoveList)
+            {
+                m_LoadingUIForms.Remove(value);
+                ReferencePool.Release(value);
+            }
+
+            m_UIFormsRemoveList.Clear();
+
+            return result;
+        }
+
+        private async Task<IUIForm> InnerLoadUIFormAsync(string uiFormAssetPath, Type uiFormType, bool pauseCoveredUIForm, object userData, bool isFullScreen = false)
+        {
+            var uiFormAssetName = uiFormType.Name;
             int serialId = ++m_Serial;
             m_UIFormsBeingLoaded.Add(serialId, uiFormAssetName);
             string assetPath = PathHelper.Combine(uiFormAssetPath, uiFormAssetName);
@@ -73,14 +112,14 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                     FairyGuiPackage.AddPackageSync(assetPath);
                 }
 
-                return LoadAssetSuccessCallback(uiFormAssetName, openUIFormInfoData, 0, openUIFormInfo);
+                return LoadAssetSuccessCallback(uiFormAssetPath, uiFormAssetName, openUIFormInfoData, 0, openUIFormInfo);
             }
 
             // 检查UI包是否已经加载过
             if (hasUIPackage)
             {
                 // 如果UI 包存在则创建界面
-                return LoadAssetSuccessCallback(uiFormAssetName, openUIFormInfoData, 1, openUIFormInfo);
+                return LoadAssetSuccessCallback(uiFormAssetPath, uiFormAssetName, openUIFormInfoData, 1, openUIFormInfo);
             }
 
             if (packageName == uiFormAssetName)
@@ -109,11 +148,11 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             {
                 // 加载成功
                 openUIFormInfo.SetAssetHandle(assetHandle);
-                return LoadAssetSuccessCallback(uiFormAssetName, openUIFormInfoData, assetHandle.Progress, openUIFormInfo);
+                return LoadAssetSuccessCallback(uiFormAssetPath, uiFormAssetName, openUIFormInfoData, assetHandle.Progress, openUIFormInfo);
             }
 
             // UI包不存在
-            return LoadAssetFailureCallback(uiFormAssetName, assetHandle.LastError, openUIFormInfo);
+            return LoadAssetFailureCallback(uiFormAssetPath, uiFormAssetName, assetHandle.LastError, openUIFormInfo);
         }
 
         private IUIForm InternalOpenUIForm(int serialId, string uiFormAssetName, Type uiFormType, object uiFormInstance, bool pauseCoveredUIForm, bool isNewInstance, float duration, object userData, bool isFullScreen)
@@ -184,7 +223,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             }
         }
 
-        private IUIForm LoadAssetSuccessCallback(string uiFormAssetName, object uiFormAsset, float duration, object userData)
+        private IUIForm LoadAssetSuccessCallback(string uiFormAssetPath, string uiFormAssetName, object uiFormAsset, float duration, object userData)
         {
             var openUIFormInfo = (OpenUIFormInfo)userData;
             if (openUIFormInfo == null)
@@ -205,6 +244,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 m_UIFormHelper.ReleaseUIForm(uiFormAsset, null, openUIFormInfo.AssetHandle);
                 ReferencePool.Release(openUIFormInfo);
                 ReferencePool.Release(openUIFormInfoData);
+
                 return form;
             }
 
@@ -218,7 +258,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             return uiForm;
         }
 
-        private IUIForm LoadAssetFailureCallback(string uiFormAssetName, string errorMessage, object userData)
+        private IUIForm LoadAssetFailureCallback(string uiFormAssetPath, string uiFormAssetName, string errorMessage, object userData)
         {
             OpenUIFormInfo openUIFormInfo = (OpenUIFormInfo)userData;
             if (openUIFormInfo == null)
@@ -240,7 +280,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             {
                 OpenUIFormFailureEventArgs openUIFormFailureEventArgs = OpenUIFormFailureEventArgs.Create(openUIFormInfo.SerialId, uiFormAssetName, openUIFormInfo.PauseCoveredUIForm, appendErrorMessage, openUIFormInfo.UserData);
                 m_OpenUIFormFailureEventHandler(this, openUIFormFailureEventArgs);
-                return GetUIForm(openUIFormInfo.SerialId);
+                var uiForm = GetUIForm(openUIFormInfo.SerialId);
+                return uiForm;
             }
 
             throw new GameFrameworkException(appendErrorMessage);
