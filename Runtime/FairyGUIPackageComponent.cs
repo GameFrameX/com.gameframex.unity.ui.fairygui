@@ -31,7 +31,7 @@
 
 using System;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 using FairyGUI;
 using GameFrameX.Runtime;
 using UnityEngine;
@@ -48,7 +48,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     {
         private readonly Dictionary<string, UIPackageData> m_UILoadedPackages = new Dictionary<string, UIPackageData>(32);
 
-        private readonly Dictionary<string, UniTaskCompletionSource<UIPackage>> m_UIPackageLoading = new Dictionary<string, UniTaskCompletionSource<UIPackage>>(32);
+        private readonly Dictionary<string, TaskCompletionSource<UIPackage>> m_UIPackageLoading = new Dictionary<string, TaskCompletionSource<UIPackage>>(32);
         FairyGUILoadAsyncResourceHelper resourceHelper;
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <param name="descFilePath">描述文件路径。</param>
         /// <param name="isLoadAsset">是否加载资源，默认为true。</param>
         /// <returns>返回一个表示UI包的UniTask。</returns>
-        public UniTask<UIPackage> AddPackageAsync(string descFilePath, bool isLoadAsset = true)
+        public Task<UIPackage> AddPackageAsync(string descFilePath, bool isLoadAsset = true)
         {
             if (m_UIPackageLoading.TryGetValue(descFilePath, out var tcsLoading))
             {
@@ -109,7 +109,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
             if (!m_UILoadedPackages.TryGetValue(descFilePath, out var packageData))
             {
-                var tcs = new UniTaskCompletionSource<UIPackage>();
+                var tcs = new TaskCompletionSource<UIPackage>();
 
                 void Complete(UIPackage uiPackage)
                 {
@@ -130,7 +130,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 return tcs.Task;
             }
 
-            return UniTask.FromResult(packageData.Package);
+            return Task.FromResult(packageData.Package);
         }
 
         /// <summary>
