@@ -43,12 +43,12 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     /// </summary>
     internal sealed partial class UIManager
     {
-        protected override async Task<IUIForm> InnerOpenUIFormAsync(string uiFormAssetPath, Type uiFormType, bool pauseCoveredUIForm, object userData, bool isFullScreen = false, bool isMultiple = false)
+        protected override async Task<IUIForm> InnerOpenUIFormAsync(string uiFormAssetPath, Type uiFormType, bool pauseCoveredUIForm, object userData, bool isFullScreen = false)
         {
             var uiFormAssetName = uiFormType.Name;
-            UIFormInstanceObject uiFormInstanceObject = m_InstancePool.Spawn(uiFormAssetName);
+            var uiFormInstanceObject = m_InstancePool.Spawn(uiFormAssetName);
 
-            if (uiFormInstanceObject != null && isMultiple == false)
+            if (uiFormInstanceObject != null)
             {
                 // 如果对象池存在
                 return InternalOpenUIForm(-1, uiFormAssetName, uiFormType, uiFormInstanceObject.Target, pauseCoveredUIForm, false, 0f, userData, isFullScreen);
@@ -63,8 +63,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             // 检查UI包是否已经加载过
             var hasUIPackage = FairyGuiPackage.Has(packageName);
 
-            OpenUIFormInfoData openUIFormInfoData = OpenUIFormInfoData.Create(serialId, packageName, uiFormAssetName, uiFormType, pauseCoveredUIForm, userData);
-            OpenUIFormInfo openUIFormInfo = OpenUIFormInfo.Create(serialId, uiFormType, pauseCoveredUIForm, userData, isFullScreen);
+            var openUIFormInfoData = OpenUIFormInfoData.Create(serialId, packageName, uiFormAssetName, uiFormType, pauseCoveredUIForm, userData);
+            var openUIFormInfo = OpenUIFormInfo.Create(serialId, uiFormType, pauseCoveredUIForm, userData, isFullScreen);
             if (assetPath.IndexOf(Utility.Asset.Path.BundlesDirectoryName, StringComparison.OrdinalIgnoreCase) < 0)
             {
                 // 从Resources 中加载
@@ -186,7 +186,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
         private IUIForm LoadAssetSuccessCallback(string uiFormAssetName, object uiFormAsset, float duration, object userData)
         {
-            OpenUIFormInfo openUIFormInfo = (OpenUIFormInfo)userData;
+            var openUIFormInfo = (OpenUIFormInfo)userData;
             if (openUIFormInfo == null)
             {
                 throw new GameFrameworkException("Open UI form info is invalid.");
@@ -209,7 +209,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             }
 
             m_UIFormsBeingLoaded.Remove(openUIFormInfo.SerialId);
-            UIFormInstanceObject uiFormInstanceObject = UIFormInstanceObject.Create(uiFormAssetName, uiFormAsset, m_UIFormHelper.InstantiateUIForm(uiFormAsset), m_UIFormHelper, openUIFormInfo.AssetHandle);
+            var uiFormInstanceObject = UIFormInstanceObject.Create(uiFormAssetName, uiFormAsset, m_UIFormHelper.InstantiateUIForm(uiFormAsset), m_UIFormHelper, openUIFormInfo.AssetHandle);
             m_InstancePool.Register(uiFormInstanceObject, true);
 
             var uiForm = InternalOpenUIForm(openUIFormInfo.SerialId, uiFormAssetName, openUIFormInfo.FormType, uiFormInstanceObject.Target, openUIFormInfo.PauseCoveredUIForm, true, duration, openUIFormInfo.UserData, openUIFormInfo.IsFullScreen);
