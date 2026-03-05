@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.1.0...3.2.0) (2026-03-05)
+
+
+### Features
+
+* **FairyGUI:** 添加界面组深度支持并更新Handler方法 ([9b64b6b](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/9b64b6b02d79cbfee942a831f5cb246ca3d73616))
+
 # [3.1.0](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.0.0...3.1.0) (2025-12-23)
 
 
