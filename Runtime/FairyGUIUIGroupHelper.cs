@@ -42,16 +42,31 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     public sealed class FairyGUIUIGroupHelper : UIGroupHelperBase
     {
         /// <summary>
+        /// 获取界面组深度。
+        /// </summary>
+        public override int Depth { get; protected set; }
+
+        /// <summary>
         /// 设置界面组深度。
         /// </summary>
         /// <param name="depth">界面组深度。</param>
         public override void SetDepth(int depth)
         {
+            Depth = depth;
             transform.localPosition = new Vector3(0, 0, depth * 100);
         }
 
-        public override IUIGroupHelper Handler(Transform root, string groupName, string uiGroupHelperTypeName, IUIGroupHelper customUIGroupHelper)
+        /// <summary>
+        /// 创建界面组。
+        /// </summary>
+        /// <param name="root">根节点。</param>
+        /// <param name="groupName">界面组名称。</param>
+        /// <param name="uiGroupHelperTypeName">界面组辅助器类型名。</param>
+        /// <param name="customUIGroupHelper">自定义的界面组辅助器.</param>
+        /// <param name="depth">界面组深度。</param>
+        public override IUIGroupHelper Handler(Transform root, string groupName, string uiGroupHelperTypeName, IUIGroupHelper customUIGroupHelper, int depth = 0)
         {
+            SetDepth(depth);
             GComponent component = new GComponent();
             GRoot.inst.AddChild(component);
             var comName = groupName;
