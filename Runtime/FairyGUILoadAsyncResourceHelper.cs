@@ -117,7 +117,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 AssetHandle assetHandle;
                 if (uiPackageData.DefiledAssetHandle == null)
                 {
-                    assetHandle = await AssetComponent.LoadAssetAsync(assetName);
+                    assetHandle = await AssetComponent.LoadAssetAsync<UnityEngine.Object>(assetName);
                     uiPackageData.SetDefiledAssetHandle(assetHandle, assetName);
                 }
                 else
