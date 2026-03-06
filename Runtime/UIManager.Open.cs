@@ -144,7 +144,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             // 从包中加载
             var assetHandle = await m_AssetManager.LoadAssetAsync<UnityEngine.Object>(newAssetPackagePath);
 
-            if (assetHandle.IsSucceed())
+            if (assetHandle.IsDone && assetHandle.Status == EOperationStatus.Succeed)
             {
                 // 加载成功
                 openUIFormInfo.SetAssetHandle(assetHandle);
