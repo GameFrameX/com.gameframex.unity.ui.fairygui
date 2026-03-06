@@ -241,10 +241,9 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             {
                 m_UIFormsToReleaseOnLoad.Remove(openUIFormInfo.SerialId);
                 var form = GetUIForm(openUIFormInfo.SerialId);
-                m_UIFormHelper.ReleaseUIForm(uiFormAsset, null, openUIFormInfo.AssetHandle);
+                m_UIFormHelper.ReleaseUIForm(uiFormAsset, null, openUIFormInfo.AssetHandle, uiFormAssetPath);
                 ReferencePool.Release(openUIFormInfo);
                 ReferencePool.Release(openUIFormInfoData);
-
                 return form;
             }
 
