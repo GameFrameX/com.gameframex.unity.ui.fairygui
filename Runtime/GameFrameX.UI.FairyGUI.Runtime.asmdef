@@ -8,6 +8,7 @@
     "GameFrameX.UI.Runtime",
     "FairyGUI.Runtime",
     "YooAsset.Runtime",
+    "UniTask.Runtime",
     "YooAsset"
   ],
   "includePlatforms": [],
