@@ -1,3 +1,12 @@
+## [3.2.1](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.2.0...3.2.1) (2026-03-06)
+
+
+### Bug Fixes
+
+* 修复异步加载资源时类型不匹配的问题 ([704477a](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/704477ac67ad8fae9b0538a95405df6816d40b3f))
+* 修复异步资源加载状态检查条件 ([b547b86](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/b547b86064dc9cc584786ae10dfedf90f54d3aa3))
+* 修复释放界面资源时未正确传递资源路径的问题 ([3e7c7ca](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/3e7c7ca9b84f25da48c8af6a41c057c8bbebb701))
+
 # [3.2.0](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.1.0...3.2.0) (2026-03-05)
 
 
