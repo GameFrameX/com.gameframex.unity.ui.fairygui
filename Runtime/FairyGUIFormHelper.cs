@@ -165,7 +165,15 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 component.Dispose();
             }
 
-            m_AssetComponent.UnloadAsset(uiFormAssetPath);
+            if (uiFormAssetPath.IndexOf(Utility.Asset.Path.BundlesDirectoryName, StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                m_AssetComponent.UnloadAsset(uiFormAssetPath);
+            }
+            else
+            {
+                UnityEngine.Resources.UnloadAsset((UnityEngine.Object)uiFormInstance);
+                Destroy((UnityEngine.Object)uiFormInstance);
+            }
         }
 
         private void Awake()
