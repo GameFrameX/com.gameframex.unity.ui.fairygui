@@ -1,3 +1,10 @@
+## [3.2.2](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.2.1...3.2.2) (2026-03-25)
+
+
+### Bug Fixes
+
+* 修复UI资源卸载时未区分AssetBundle与Resources资源的问题 ([ed79223](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/ed792231b99f7fbc59dd6b987a29d18fc1fdde8b))
+
 ## [3.2.1](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.2.0...3.2.1) (2026-03-06)
 
 
