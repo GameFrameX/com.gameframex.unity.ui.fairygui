@@ -1,3 +1,14 @@
+## [3.2.3](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.2.2...3.2.3) (2026-03-27)
+
+
+### Bug Fixes
+
+* **UI:** 修复FairyGUI资源卸载时可能错误销毁GComponent的问题 ([77de48e](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/77de48ea0a4deffccc08880197a143e7137f6b87))
+* **ui:** 修复UI资源路径传递问题 ([895ce96](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/895ce96a412328a8297ef5cbf53a4c149ce823fc))
+* **UI:** 重置UI表单时清空表单类型字段 ([0c534ed](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/0c534ed3553d07185238dd7e6540e4208fcb722f))
+* 修正格式化字符串中参数索引的错误 ([fbcd687](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/fbcd687cd54b958edee8183cdfe3d756eeaa1a68))
+* 处理无斜杠路径时包名提取错误 ([1b94e9a](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/1b94e9ae2e9c14e8295f59956d0df257d409dd2f))
+
 ## [3.2.2](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.2.1...3.2.2) (2026-03-25)
 
 
