@@ -156,7 +156,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <param name="uiFormInstance">要释放的界面实例。</param>
         /// <param name="assetHandle">资源句柄。</param>
         /// <param name="uiFormAssetPath">界面资源路径。</param>
-        public override void ReleaseUIForm(object uiFormAsset, object uiFormInstance, object assetHandle, string uiFormAssetPath)
+        /// <param name="uiFormAssetName">界面资源名称。</param>
+        public override void ReleaseUIForm(object uiFormAsset, object uiFormInstance, object assetHandle, string uiFormAssetPath, string uiFormAssetName)
         {
             if (uiFormInstance is GComponent component)
             {
@@ -171,8 +172,9 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             }
             else
             {
-                UnityEngine.Resources.UnloadAsset((UnityEngine.Object)uiFormInstance);
-                Destroy((UnityEngine.Object)uiFormInstance);
+                var formInstance = uiFormInstance as UnityEngine.Object;
+                Destroy(formInstance);
+                UnityEngine.Resources.UnloadAsset(formInstance);
             }
         }
 
