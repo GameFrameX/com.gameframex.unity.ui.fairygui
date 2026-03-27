@@ -93,6 +93,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             m_UserData = null;
             m_PackageName = null;
             m_UIName = null;
+            m_FormType = null;
         }
     }
 }
