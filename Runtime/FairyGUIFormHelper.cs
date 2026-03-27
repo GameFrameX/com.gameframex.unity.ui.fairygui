@@ -172,9 +172,12 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             }
             else
             {
-                var formInstance = uiFormInstance as UnityEngine.Object;
-                Destroy(formInstance);
-                UnityEngine.Resources.UnloadAsset(formInstance);
+                // Resources 资源卸载：仅当实例非 GComponent 时才需要销毁 Unity 对象
+                if (!(uiFormInstance is GComponent) && uiFormInstance is UnityEngine.Object unityObject)
+                {
+                    Destroy(unityObject);
+                    UnityEngine.Resources.UnloadAsset(unityObject);
+                }
             }
         }
 
