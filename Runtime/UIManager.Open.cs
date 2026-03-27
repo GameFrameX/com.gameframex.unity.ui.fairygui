@@ -98,7 +98,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             string assetPath = PathHelper.Combine(uiFormAssetPath, uiFormAssetName);
 
             var lastIndexOfStart = uiFormAssetPath.LastIndexOf("/", StringComparison.OrdinalIgnoreCase);
-            var packageName = uiFormAssetPath.Substring(lastIndexOfStart + 1);
+            // 如果路径中没有 /，则整个路径作为包名（适用于 Resources 目录下的简单路径）
+            var packageName = lastIndexOfStart >= 0 ? uiFormAssetPath.Substring(lastIndexOfStart + 1) : uiFormAssetPath;
             // 检查UI包是否已经加载过
             var hasUIPackage = FairyGuiPackage.Has(packageName);
 
