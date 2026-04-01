@@ -43,12 +43,14 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     [UnityEngine.Scripting.Preserve]
     internal sealed class FairyGUILoadAsyncResourceHelper : IAsyncResource
     {
+        [UnityEngine.Scripting.Preserve]
         private readonly Dictionary<string, UIPackageData> m_UIPackages = new Dictionary<string, UIPackageData>(32);
 
         /// <summary>
         /// 释放UI包
         /// </summary>
         /// <param name="uiPackageName"></param>
+        [UnityEngine.Scripting.Preserve]
         public void ReleasePackage(string uiPackageName)
         {
             if (m_UIPackages.TryGetValue(uiPackageName, out var uiPackageData))
@@ -67,6 +69,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <summary>
         /// 释放所有UI包
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public void ReleaseAllPackage()
         {
             foreach (var kv in m_UIPackages)
@@ -79,8 +82,10 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             m_UIPackages.Clear();
         }
 
+        [UnityEngine.Scripting.Preserve]
         private AssetComponent _assetComponent;
 
+        [UnityEngine.Scripting.Preserve]
         private AssetComponent AssetComponent
         {
             get
@@ -102,6 +107,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <param name="extension">扩展名</param>
         /// <param name="type">资源类型</param>
         /// <param name="action"></param>
+        [UnityEngine.Scripting.Preserve]
         public async void LoadResource(string assetName, string uiPackageName, string extension, PackageItemType type, Action<bool, string, object> action)
         {
             if (!m_UIPackages.TryGetValue(uiPackageName, out var uiPackageData))
@@ -225,6 +231,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             action.Invoke(false, assetName, null);
         }
 
+        [UnityEngine.Scripting.Preserve]
         public void ReleaseResource(object obj)
         {
         }
@@ -234,8 +241,10 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             /// <summary>
             /// 包名
             /// </summary>
+            [UnityEngine.Scripting.Preserve]
             public readonly string PackageName;
 
+            [UnityEngine.Scripting.Preserve]
             public void SetResourceAllAssetsHandle(AllAssetsHandle allAssetsHandle, string assetPath)
             {
                 ResourceAllAssetsHandle = allAssetsHandle;
@@ -245,13 +254,16 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             /// <summary>
             /// 资源包
             /// </summary>
+            [UnityEngine.Scripting.Preserve]
             public AllAssetsHandle ResourceAllAssetsHandle { get; private set; }
 
             /// <summary>
             /// 资源包资源路径
             /// </summary>
+            [UnityEngine.Scripting.Preserve]
             public string ResourceAssetPath { get; private set; }
 
+            [UnityEngine.Scripting.Preserve]
             public void SetDefiledAssetHandle(AssetHandle defiledAssetHandle, string defiledAssetPath)
             {
                 DefiledAssetHandle = defiledAssetHandle;
@@ -261,18 +273,22 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             /// <summary>
             /// 描述文件包
             /// </summary>
+            [UnityEngine.Scripting.Preserve]
             public AssetHandle DefiledAssetHandle { get; private set; }
 
             /// <summary>
             /// 描述文件包资源路径
             /// </summary>
+            [UnityEngine.Scripting.Preserve]
             public string DefiledAssetPath { get; private set; }
 
+            [UnityEngine.Scripting.Preserve]
             public UIPackageData(string packageName)
             {
                 PackageName = packageName;
             }
 
+            [UnityEngine.Scripting.Preserve]
             public void Dispose()
             {
                 ResourceAllAssetsHandle?.Dispose();

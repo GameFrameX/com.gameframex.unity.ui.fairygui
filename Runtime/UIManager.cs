@@ -1,4 +1,4 @@
-﻿// ==========================================================================================
+// ==========================================================================================
 //  GameFrameX 组织及其衍生项目的版权、商标、专利及其他相关权利
 //  GameFrameX organization and its derivative projects' copyrights, trademarks, patents, and related rights
 //  均受中华人民共和国及相关国际法律法规保护。
@@ -41,6 +41,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     [UnityEngine.Scripting.Preserve]
     internal sealed partial class UIManager : BaseUIManager
     {
+        [UnityEngine.Scripting.Preserve]
         private FairyGUIPackageComponent FairyGuiPackage { get; set; }
 
         /// <summary>
@@ -68,6 +69,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// 设置资源管理器。
         /// </summary>
         /// <param name="assetManager">资源管理器。</param>
+        [UnityEngine.Scripting.Preserve]
         public override void SetResourceManager(IAssetManager assetManager)
         {
             base.SetResourceManager(assetManager);

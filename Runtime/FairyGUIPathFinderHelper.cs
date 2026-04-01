@@ -1,4 +1,4 @@
-﻿// ==========================================================================================
+// ==========================================================================================
 //  GameFrameX 组织及其衍生项目的版权、商标、专利及其他相关权利
 //  GameFrameX organization and its derivative projects' copyrights, trademarks, patents, and related rights
 //  均受中华人民共和国及相关国际法律法规保护。
@@ -43,6 +43,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// </summary>
         /// <param name="self">GObject对象</param>
         /// <returns>UI路径</returns>
+        [UnityEngine.Scripting.Preserve]
         public static string GetUIPath(this GObject self)
         {
             return FairyGUIPathFinderHelper.GetUIPath(self);
@@ -60,6 +61,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// </summary>
         /// <param name="o">UI对象</param>
         /// <returns>UI所在路径</returns>
+        [UnityEngine.Scripting.Preserve]
         public static string GetUIPath(GObject o)
         {
             var ls = new List<string>();
@@ -68,6 +70,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             return string.Join("/", ls);
         }
 
+        [UnityEngine.Scripting.Preserve]
         private static void SearchParent(GObject o, List<string> st)
         {
             if (o.parent != null)
@@ -86,6 +89,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// </summary>
         /// <param name="path">UI路径</param>
         /// <returns>UI对象</returns>
+        [UnityEngine.Scripting.Preserve]
         public static GObject GetUIFromPath(string path)
         {
             //GRoot / UISynthesisScene / ContentBox / ListSelect / 1990197248 / icon
@@ -116,6 +120,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             return null;
         }
 
+        [UnityEngine.Scripting.Preserve]
         private static GObject SearchChild(GComponent o, Queue<string> q)
         {
             //防错
@@ -172,6 +177,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <param name="path">路径</param>
         /// <param name="gObject">对象</param>
         /// <returns></returns>
+        [UnityEngine.Scripting.Preserve]
         public static bool SearchPathInclude(string path, GObject gObject)
         {
             if ("all".ToLower() == path)

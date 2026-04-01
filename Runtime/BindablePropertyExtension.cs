@@ -42,6 +42,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <param name="bindableProperty"></param>
         /// <param name="gObject"></param>
         /// <returns></returns>
+        [UnityEngine.Scripting.Preserve]
         public static void ClearWithGObjectDestroyed<T>(this BindableProperty<T> bindableProperty, GObject gObject)
         {
             gObject.onRemovedFromStage.Add(bindableProperty.Clear);

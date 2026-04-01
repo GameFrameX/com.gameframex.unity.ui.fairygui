@@ -1,4 +1,4 @@
-﻿// ==========================================================================================
+// ==========================================================================================
 //  GameFrameX 组织及其衍生项目的版权、商标、专利及其他相关权利
 //  GameFrameX organization and its derivative projects' copyrights, trademarks, patents, and related rights
 //  均受中华人民共和国及相关国际法律法规保护。
@@ -36,44 +36,57 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 {
     internal sealed class OpenUIFormInfoData : IReference
     {
+        [UnityEngine.Scripting.Preserve]
         private int m_SerialId = 0;
+        [UnityEngine.Scripting.Preserve]
         private bool m_PauseCoveredUIForm = false;
+        [UnityEngine.Scripting.Preserve]
         private object m_UserData = null;
+        [UnityEngine.Scripting.Preserve]
         private string m_PackageName;
+        [UnityEngine.Scripting.Preserve]
         private string m_UIName;
+        [UnityEngine.Scripting.Preserve]
         private Type m_FormType;
 
+        [UnityEngine.Scripting.Preserve]
         public Type FormType
         {
             get { return m_FormType; }
         }
 
+        [UnityEngine.Scripting.Preserve]
         public string PackageName
         {
             get { return m_PackageName; }
         }
 
+        [UnityEngine.Scripting.Preserve]
         public string UIName
         {
             get { return m_UIName; }
         }
 
 
+        [UnityEngine.Scripting.Preserve]
         public int SerialId
         {
             get { return m_SerialId; }
         }
 
+        [UnityEngine.Scripting.Preserve]
         public bool PauseCoveredUIForm
         {
             get { return m_PauseCoveredUIForm; }
         }
 
+        [UnityEngine.Scripting.Preserve]
         public object UserData
         {
             get { return m_UserData; }
         }
 
+        [UnityEngine.Scripting.Preserve]
         public static OpenUIFormInfoData Create(int serialId, string packageName, string uiName, Type uiFormType, bool pauseCoveredUIForm, object userData)
         {
             OpenUIFormInfoData openUIFormInfo = ReferencePool.Acquire<OpenUIFormInfoData>();
@@ -86,6 +99,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             return openUIFormInfo;
         }
 
+        [UnityEngine.Scripting.Preserve]
         public void Clear()
         {
             m_SerialId = 0;

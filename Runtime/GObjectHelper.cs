@@ -1,4 +1,4 @@
-﻿// ==========================================================================================
+// ==========================================================================================
 //  GameFrameX 组织及其衍生项目的版权、商标、专利及其他相关权利
 //  GameFrameX organization and its derivative projects' copyrights, trademarks, patents, and related rights
 //  均受中华人民共和国及相关国际法律法规保护。
@@ -40,6 +40,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     [UnityEngine.Scripting.Preserve]
     public static class GObjectHelper
     {
+        [UnityEngine.Scripting.Preserve]
         private static readonly Dictionary<GObject, FUI> KeyValuePairs = new Dictionary<GObject, FUI>();
 
         /// <summary>
@@ -48,6 +49,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <param name="self"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns>UI对象</returns>
+        [UnityEngine.Scripting.Preserve]
         public static T Get<T>(this GObject self) where T : FUI
         {
             if (self != null && KeyValuePairs.TryGetValue(self, out var pair))
@@ -63,6 +65,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// </summary>
         /// <param name="self"></param>
         /// <param name="fui">UI对象</param>
+        [UnityEngine.Scripting.Preserve]
         public static void Add(this GObject self, FUI fui)
         {
             if (self != null && fui != null)
@@ -76,6 +79,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// </summary>
         /// <param name="self"></param>
         /// <returns>UI对象</returns>
+        [UnityEngine.Scripting.Preserve]
         public static FUI Remove(this GObject self)
         {
             if (self != null && KeyValuePairs.TryGetValue(self, out var value))

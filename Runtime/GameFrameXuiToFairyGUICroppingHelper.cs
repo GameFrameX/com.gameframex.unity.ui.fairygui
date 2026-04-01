@@ -31,14 +31,13 @@
 
 using System;
 using UnityEngine;
-using UnityEngine.Scripting;
 
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
-    [Preserve]
+    [UnityEngine.Scripting.Preserve]
     public class GameFrameXuiToFairyGUICroppingHelper : MonoBehaviour
     {
-        [Preserve]
+        [UnityEngine.Scripting.Preserve]
         private void Start()
         {
             _ = typeof(GObjectHelper);

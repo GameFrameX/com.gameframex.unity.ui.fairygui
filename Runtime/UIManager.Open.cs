@@ -1,4 +1,4 @@
-﻿// ==========================================================================================
+// ==========================================================================================
 //  GameFrameX 组织及其衍生项目的版权、商标、专利及其他相关权利
 //  GameFrameX organization and its derivative projects' copyrights, trademarks, patents, and related rights
 //  均受中华人民共和国及相关国际法律法规保护。
@@ -44,9 +44,12 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     /// </summary>
     internal sealed partial class UIManager
     {
+        [UnityEngine.Scripting.Preserve]
         private readonly List<UIFormLoadingObject> m_LoadingUIForms = new List<UIFormLoadingObject>(64);
+        [UnityEngine.Scripting.Preserve]
         private readonly List<UIFormLoadingObject> m_UIFormsRemoveList = new List<UIFormLoadingObject>(64);
 
+        [UnityEngine.Scripting.Preserve]
         protected override async Task<IUIForm> InnerOpenUIFormAsync(string uiFormAssetPath, Type uiFormType, bool pauseCoveredUIForm, object userData, bool isFullScreen = false)
         {
             var uiFormAssetName = uiFormType.Name;
@@ -90,6 +93,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             return result;
         }
 
+        [UnityEngine.Scripting.Preserve]
         private async Task<IUIForm> InnerLoadUIFormAsync(string uiFormAssetPath, Type uiFormType, bool pauseCoveredUIForm, object userData, bool isFullScreen = false)
         {
             var uiFormAssetName = uiFormType.Name;
@@ -156,6 +160,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             return LoadAssetFailureCallback(assetPath, uiFormAssetName, assetHandle.LastError, openUIFormInfo);
         }
 
+        [UnityEngine.Scripting.Preserve]
         private IUIForm InternalOpenUIForm(int serialId, string uiFormAssetPath, string uiFormAssetName, Type uiFormType, object uiFormInstance, bool pauseCoveredUIForm, bool isNewInstance, float duration, object userData, bool isFullScreen)
         {
             try
@@ -224,6 +229,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             }
         }
 
+        [UnityEngine.Scripting.Preserve]
         private IUIForm LoadAssetSuccessCallback(string uiFormAssetPath, string uiFormAssetName, object uiFormAsset, float duration, object userData)
         {
             var openUIFormInfo = (OpenUIFormInfo)userData;
@@ -258,6 +264,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             return uiForm;
         }
 
+        [UnityEngine.Scripting.Preserve]
         private IUIForm LoadAssetFailureCallback(string uiFormAssetPath, string uiFormAssetName, string errorMessage, object userData)
         {
             OpenUIFormInfo openUIFormInfo = (OpenUIFormInfo)userData;

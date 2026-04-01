@@ -1,4 +1,4 @@
-﻿// ==========================================================================================
+// ==========================================================================================
 //  GameFrameX 组织及其衍生项目的版权、商标、专利及其他相关权利
 //  GameFrameX organization and its derivative projects' copyrights, trademarks, patents, and related rights
 //  均受中华人民共和国及相关国际法律法规保护。
@@ -46,9 +46,12 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     [UnityEngine.Scripting.Preserve]
     public sealed class FairyGUIPackageComponent : GameFrameworkComponent
     {
+        [UnityEngine.Scripting.Preserve]
         private readonly Dictionary<string, UIPackageData> m_UILoadedPackages = new Dictionary<string, UIPackageData>(32);
 
+        [UnityEngine.Scripting.Preserve]
         private readonly Dictionary<string, TaskCompletionSource<UIPackage>> m_UIPackageLoading = new Dictionary<string, TaskCompletionSource<UIPackage>>(32);
+        [UnityEngine.Scripting.Preserve]
         FairyGUILoadAsyncResourceHelper resourceHelper;
 
         /// <summary>
@@ -60,32 +63,38 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             /// <summary>
             /// 描述文件路径。
             /// </summary>
+            [UnityEngine.Scripting.Preserve]
             public string DescFilePath { get; }
 
             /// <summary>
             /// 是否加载资源。
             /// </summary>
+            [UnityEngine.Scripting.Preserve]
             public bool IsLoadAsset { get; }
 
             /// <summary>
             /// UI包实例。
             /// </summary>
+            [UnityEngine.Scripting.Preserve]
             public UIPackage Package { get; private set; }
 
             /// <summary>
             /// 获取UI包的名称。
             /// </summary>
+            [UnityEngine.Scripting.Preserve]
             public string Name { get; private set; }
 
             /// <summary>
             /// 设置UI包实例。
             /// </summary>
             /// <param name="package">UI包实例。</param>
+            [UnityEngine.Scripting.Preserve]
             public void SetPackage(UIPackage package)
             {
                 Package = package;
             }
 
+            [UnityEngine.Scripting.Preserve]
             public UIPackageData(string descFilePath, string name, bool isLoadAsset)
             {
                 DescFilePath = descFilePath;
@@ -100,6 +109,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <param name="descFilePath">描述文件路径。</param>
         /// <param name="isLoadAsset">是否加载资源，默认为true。</param>
         /// <returns>返回一个表示UI包的UniTask。</returns>
+        [UnityEngine.Scripting.Preserve]
         public Task<UIPackage> AddPackageAsync(string descFilePath, bool isLoadAsset = true)
         {
             if (m_UIPackageLoading.TryGetValue(descFilePath, out var tcsLoading))
@@ -138,6 +148,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// </summary>
         /// <param name="descFilePath">描述文件路径。</param>
         /// <param name="isLoadAsset">是否加载资源，默认为true。</param>
+        [UnityEngine.Scripting.Preserve]
         public void AddPackageSync(string descFilePath, bool isLoadAsset = true)
         {
             if (!m_UILoadedPackages.TryGetValue(descFilePath, out var packageData))
@@ -157,6 +168,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// 移除指定名称的UI包。
         /// </summary>
         /// <param name="packageName">UI包的名称。</param>
+        [UnityEngine.Scripting.Preserve]
         public void RemovePackage(string packageName)
         {
             string key = null;
@@ -183,6 +195,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <summary>
         /// 移除所有UI包。
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public void RemoveAllPackages()
         {
             var packages = UIPackage.GetPackages();
@@ -201,6 +214,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// </summary>
         /// <param name="uiPackageName">UI包的名称。</param>
         /// <returns>如果存在返回true，否则返回false。</returns>
+        [UnityEngine.Scripting.Preserve]
         public bool Has(string uiPackageName)
         {
             return Get(uiPackageName) != null;
@@ -211,6 +225,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// </summary>
         /// <param name="uiPackageName">UI包的名称。</param>
         /// <returns>返回UI包实例，如果不存在则返回null。</returns>
+        [UnityEngine.Scripting.Preserve]
         public UIPackage Get(string uiPackageName)
         {
             foreach (var packageData in m_UILoadedPackages)
@@ -225,6 +240,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
 
+        [UnityEngine.Scripting.Preserve]
         protected override void Awake()
         {
             IsAutoRegister = false;

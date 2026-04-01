@@ -1,4 +1,4 @@
-﻿// ==========================================================================================
+// ==========================================================================================
 //  GameFrameX 组织及其衍生项目的版权、商标、专利及其他相关权利
 //  GameFrameX organization and its derivative projects' copyrights, trademarks, patents, and related rights
 //  均受中华人民共和国及相关国际法律法规保护。
@@ -41,11 +41,13 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <summary>
         /// UI 对象
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public GObject GObject { get; private set; }
 
         /// <summary>
         /// UI 显示状态改变事件
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public Action<bool> OnVisibleChanged { get; set; }
 
         /// <summary>
@@ -53,6 +55,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// </summary>
         /// <param name="handler">界面显示处理接口</param>
         /// <param name="complete">完成回调</param>
+        [UnityEngine.Scripting.Preserve]
         public override void Show(IUIFormShowHandler handler, Action complete)
         {
             if (handler != null)
@@ -70,6 +73,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// </summary>
         /// <param name="handler">界面隐藏处理接口</param>
         /// <param name="complete">完成回调</param>
+        [UnityEngine.Scripting.Preserve]
         public override void Hide(IUIFormHideHandler handler, Action complete)
         {
             if (handler != null)
@@ -86,6 +90,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// 设置UI的显示状态，不发出事件
         /// </summary>
         /// <param name="value"></param>
+        [UnityEngine.Scripting.Preserve]
         protected override void InternalSetVisible(bool value)
         {
             if (GObject.visible == value)
@@ -101,6 +106,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <summary>
         /// 获取或设置界面是否可见。
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         public override bool Visible
         {
             get
@@ -127,11 +133,13 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <summary>
         /// 设置当前UI对象为全屏
         /// </summary>
+        [UnityEngine.Scripting.Preserve]
         protected override void MakeFullScreen()
         {
             GObject?.asCom?.MakeFullScreen();
         }
 
+        [UnityEngine.Scripting.Preserve]
         public FUI(GObject gObject, bool isRoot = false)
         {
             GObject = gObject;
@@ -142,6 +150,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// 初始化界面
         /// </summary>
         /// <param name="gObject"></param>
+        [UnityEngine.Scripting.Preserve]
         public void SetGObject(GObject gObject)
         {
             GObject = gObject;
