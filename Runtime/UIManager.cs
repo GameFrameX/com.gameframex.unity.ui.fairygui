@@ -36,17 +36,30 @@ using GameFrameX.UI.Runtime;
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
     /// <summary>
-    /// 界面管理器。
+    /// FairyGUI 界面管理器，提供界面打开、关闭和生命周期管理功能。
     /// </summary>
+    /// <remarks>
+    /// FairyGUI UI manager that provides UI form opening, closing, and lifecycle management functionality.
+    /// </remarks>
     [UnityEngine.Scripting.Preserve]
     internal sealed partial class UIManager : BaseUIManager
     {
+        /// <summary>
+        /// 获取 FairyGUI 包管理组件。
+        /// </summary>
+        /// <remarks>
+        /// Gets the FairyGUI package component.
+        /// </remarks>
+        /// <value>FairyGUI 包管理组件实例 / The FairyGUI package component instance</value>
         [UnityEngine.Scripting.Preserve]
         private FairyGUIPackageComponent FairyGuiPackage { get; set; }
 
         /// <summary>
-        /// 初始化界面管理器的新实例。
+        /// 初始化 <see cref="UIManager"/> 类的新实例。
         /// </summary>
+        /// <remarks>
+        /// Initializes a new instance of the <see cref="UIManager"/> class.
+        /// </remarks>
         [UnityEngine.Scripting.Preserve]
         public UIManager()
         {
@@ -68,7 +81,10 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <summary>
         /// 设置资源管理器。
         /// </summary>
-        /// <param name="assetManager">资源管理器。</param>
+        /// <remarks>
+        /// Sets the resource manager.
+        /// </remarks>
+        /// <param name="assetManager">资源管理器实例 / The resource manager instance</param>
         [UnityEngine.Scripting.Preserve]
         public override void SetResourceManager(IAssetManager assetManager)
         {

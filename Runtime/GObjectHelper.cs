@@ -35,8 +35,11 @@ using System.Collections.Generic;
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
     /// <summary>
-    /// GObject 帮助类
+    /// GObject 辅助类，提供 FUI 对象的缓存和管理功能。
     /// </summary>
+    /// <remarks>
+    /// GObject helper that provides FUI object caching and management functionality.
+    /// </remarks>
     [UnityEngine.Scripting.Preserve]
     public static class GObjectHelper
     {
@@ -44,11 +47,14 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         private static readonly Dictionary<GObject, FUI> KeyValuePairs = new Dictionary<GObject, FUI>();
 
         /// <summary>
-        /// 从组件池中获取UI对象
+        /// 从组件池中获取关联的 FUI 对象。
         /// </summary>
-        /// <param name="self"></param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns>UI对象</returns>
+        /// <remarks>
+        /// Gets the associated FUI object from the component pool.
+        /// </remarks>
+        /// <typeparam name="T">FUI 派生类型 / The derived type of FUI</typeparam>
+        /// <param name="self">GObject 对象实例 / The GObject instance</param>
+        /// <returns>关联的 FUI 对象；如果不存在则返回默认值 / The associated FUI object; default value if not found</returns>
         [UnityEngine.Scripting.Preserve]
         public static T Get<T>(this GObject self) where T : FUI
         {
@@ -61,10 +67,13 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
         /// <summary>
-        /// 添加UI对象到组件池
+        /// 将 FUI 对象添加到组件池。
         /// </summary>
-        /// <param name="self"></param>
-        /// <param name="fui">UI对象</param>
+        /// <remarks>
+        /// Adds an FUI object to the component pool.
+        /// </remarks>
+        /// <param name="self">GObject 对象实例 / The GObject instance</param>
+        /// <param name="fui">要添加的 FUI 对象 / The FUI object to add</param>
         [UnityEngine.Scripting.Preserve]
         public static void Add(this GObject self, FUI fui)
         {
@@ -75,10 +84,13 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
         /// <summary>
-        /// 从组件池中删除UI对象。返回删除的UI对象
+        /// 从组件池中删除 FUI 对象。
         /// </summary>
-        /// <param name="self"></param>
-        /// <returns>UI对象</returns>
+        /// <remarks>
+        /// Removes an FUI object from the component pool.
+        /// </remarks>
+        /// <param name="self">GObject 对象实例 / The GObject instance</param>
+        /// <returns>被删除的 FUI 对象；如果不存在则返回默认值 / The removed FUI object; default value if not found</returns>
         [UnityEngine.Scripting.Preserve]
         public static FUI Remove(this GObject self)
         {

@@ -40,8 +40,11 @@ using YooAsset;
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
     /// <summary>
-    /// 界面管理器。
+    /// 界面管理器 - 打开功能部分类。
     /// </summary>
+    /// <remarks>
+    /// UI Manager - Open functionality partial class.
+    /// </remarks>
     internal sealed partial class UIManager
     {
         [UnityEngine.Scripting.Preserve]
@@ -49,6 +52,18 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         [UnityEngine.Scripting.Preserve]
         private readonly List<UIFormLoadingObject> m_UIFormsRemoveList = new List<UIFormLoadingObject>(64);
 
+        /// <summary>
+        /// 异步打开界面的内部实现。
+        /// </summary>
+        /// <remarks>
+        /// Internal implementation for opening a UI form asynchronously.
+        /// </remarks>
+        /// <param name="uiFormAssetPath">界面资源路径 / The UI form asset path</param>
+        /// <param name="uiFormType">界面类型 / The UI form type</param>
+        /// <param name="pauseCoveredUIForm">是否暂停被覆盖的界面 / Whether to pause covered UI forms</param>
+        /// <param name="userData">用户自定义数据 / User-defined data</param>
+        /// <param name="isFullScreen">是否全屏显示 / Whether to display in full screen</param>
+        /// <returns>表示界面实例的异步任务 / A task representing the UI form instance</returns>
         [UnityEngine.Scripting.Preserve]
         protected override async Task<IUIForm> InnerOpenUIFormAsync(string uiFormAssetPath, Type uiFormType, bool pauseCoveredUIForm, object userData, bool isFullScreen = false)
         {
@@ -93,6 +108,18 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             return result;
         }
 
+        /// <summary>
+        /// 异步加载界面的内部实现。
+        /// </summary>
+        /// <remarks>
+        /// Internal implementation for loading a UI form asynchronously.
+        /// </remarks>
+        /// <param name="uiFormAssetPath">界面资源路径 / The UI form asset path</param>
+        /// <param name="uiFormType">界面类型 / The UI form type</param>
+        /// <param name="pauseCoveredUIForm">是否暂停被覆盖的界面 / Whether to pause covered UI forms</param>
+        /// <param name="userData">用户自定义数据 / User-defined data</param>
+        /// <param name="isFullScreen">是否全屏显示 / Whether to display in full screen</param>
+        /// <returns>表示界面实例的异步任务 / A task representing the UI form instance</returns>
         [UnityEngine.Scripting.Preserve]
         private async Task<IUIForm> InnerLoadUIFormAsync(string uiFormAssetPath, Type uiFormType, bool pauseCoveredUIForm, object userData, bool isFullScreen = false)
         {
@@ -160,6 +187,23 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             return LoadAssetFailureCallback(assetPath, uiFormAssetName, assetHandle.LastError, openUIFormInfo);
         }
 
+        /// <summary>
+        /// 内部打开界面的实现。
+        /// </summary>
+        /// <remarks>
+        /// Internal implementation for opening a UI form.
+        /// </remarks>
+        /// <param name="serialId">界面序列号 / The UI form serial ID</param>
+        /// <param name="uiFormAssetPath">界面资源路径 / The UI form asset path</param>
+        /// <param name="uiFormAssetName">界面资源名称 / The UI form asset name</param>
+        /// <param name="uiFormType">界面类型 / The UI form type</param>
+        /// <param name="uiFormInstance">界面实例对象 / The UI form instance object</param>
+        /// <param name="pauseCoveredUIForm">是否暂停被覆盖的界面 / Whether to pause covered UI forms</param>
+        /// <param name="isNewInstance">是否为新实例 / Whether this is a new instance</param>
+        /// <param name="duration">加载持续时间 / The loading duration</param>
+        /// <param name="userData">用户自定义数据 / User-defined data</param>
+        /// <param name="isFullScreen">是否全屏显示 / Whether to display in full screen</param>
+        /// <returns>打开的界面实例 / The opened UI form instance</returns>
         [UnityEngine.Scripting.Preserve]
         private IUIForm InternalOpenUIForm(int serialId, string uiFormAssetPath, string uiFormAssetName, Type uiFormType, object uiFormInstance, bool pauseCoveredUIForm, bool isNewInstance, float duration, object userData, bool isFullScreen)
         {
@@ -229,6 +273,19 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             }
         }
 
+        /// <summary>
+        /// 资源加载成功回调。
+        /// </summary>
+        /// <remarks>
+        /// Callback for successful asset loading.
+        /// </remarks>
+        /// <param name="uiFormAssetPath">界面资源路径 / The UI form asset path</param>
+        /// <param name="uiFormAssetName">界面资源名称 / The UI form asset name</param>
+        /// <param name="uiFormAsset">界面资源对象 / The UI form asset object</param>
+        /// <param name="duration">加载持续时间 / The loading duration</param>
+        /// <param name="userData">用户自定义数据 / User-defined data</param>
+        /// <returns>打开的界面实例 / The opened UI form instance</returns>
+        /// <exception cref="GameFrameworkException">当界面信息无效时抛出 / Thrown when UI form info is invalid</exception>
         [UnityEngine.Scripting.Preserve]
         private IUIForm LoadAssetSuccessCallback(string uiFormAssetPath, string uiFormAssetName, object uiFormAsset, float duration, object userData)
         {
@@ -264,6 +321,18 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             return uiForm;
         }
 
+        /// <summary>
+        /// 资源加载失败回调。
+        /// </summary>
+        /// <remarks>
+        /// Callback for failed asset loading.
+        /// </remarks>
+        /// <param name="uiFormAssetPath">界面资源路径 / The UI form asset path</param>
+        /// <param name="uiFormAssetName">界面资源名称 / The UI form asset name</param>
+        /// <param name="errorMessage">错误消息 / The error message</param>
+        /// <param name="userData">用户自定义数据 / User-defined data</param>
+        /// <returns>已存在的界面实例（如果有）/ The existing UI form instance if any</returns>
+        /// <exception cref="GameFrameworkException">当界面信息无效且无失败处理器时抛出 / Thrown when UI form info is invalid and no failure handler exists</exception>
         [UnityEngine.Scripting.Preserve]
         private IUIForm LoadAssetFailureCallback(string uiFormAssetPath, string uiFormAssetName, string errorMessage, object userData)
         {

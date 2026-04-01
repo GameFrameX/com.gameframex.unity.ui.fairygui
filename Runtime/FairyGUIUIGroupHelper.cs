@@ -36,21 +36,31 @@ using UnityEngine;
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
     /// <summary>
-    /// FairyGUI界面组辅助器。
+    /// FairyGUI 界面组辅助器，提供界面组的创建和深度管理功能。
     /// </summary>
+    /// <remarks>
+    /// FairyGUI UI group helper that provides UI group creation and depth management functionality.
+    /// </remarks>
     [UnityEngine.Scripting.Preserve]
     public sealed class FairyGUIUIGroupHelper : UIGroupHelperBase
     {
         /// <summary>
         /// 获取界面组深度。
         /// </summary>
+        /// <remarks>
+        /// Gets the depth of the UI group.
+        /// </remarks>
+        /// <value>界面组深度 / The depth of the UI group</value>
         [UnityEngine.Scripting.Preserve]
         public override int Depth { get; protected set; }
 
         /// <summary>
         /// 设置界面组深度。
         /// </summary>
-        /// <param name="depth">界面组深度。</param>
+        /// <remarks>
+        /// Sets the depth of the UI group.
+        /// </remarks>
+        /// <param name="depth">界面组深度 / The depth of the UI group</param>
         [UnityEngine.Scripting.Preserve]
         public override void SetDepth(int depth)
         {
@@ -61,11 +71,15 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <summary>
         /// 创建界面组。
         /// </summary>
-        /// <param name="root">根节点。</param>
-        /// <param name="groupName">界面组名称。</param>
-        /// <param name="uiGroupHelperTypeName">界面组辅助器类型名。</param>
-        /// <param name="customUIGroupHelper">自定义的界面组辅助器.</param>
-        /// <param name="depth">界面组深度。</param>
+        /// <remarks>
+        /// Creates a UI group.
+        /// </remarks>
+        /// <param name="root">根节点 / The root transform</param>
+        /// <param name="groupName">界面组名称 / The name of the UI group</param>
+        /// <param name="uiGroupHelperTypeName">界面组辅助器类型名 / The type name of the UI group helper</param>
+        /// <param name="customUIGroupHelper">自定义的界面组辅助器 / Custom UI group helper</param>
+        /// <param name="depth">界面组深度 / The depth of the UI group</param>
+        /// <returns>创建的界面组辅助器实例 / The created UI group helper instance</returns>
         [UnityEngine.Scripting.Preserve]
         public override IUIGroupHelper Handler(Transform root, string groupName, string uiGroupHelperTypeName, IUIGroupHelper customUIGroupHelper, int depth = 0)
         {

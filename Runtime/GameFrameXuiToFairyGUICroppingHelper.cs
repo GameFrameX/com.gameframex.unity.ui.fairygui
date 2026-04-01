@@ -34,9 +34,21 @@ using UnityEngine;
 
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
+    /// <summary>
+    /// GameFrameX UI 到 FairyGUI 裁剪辅助器，用于确保类型在代码裁剪时被保留。
+    /// </summary>
+    /// <remarks>
+    /// GameFrameX UI to FairyGUI cropping helper used to ensure types are preserved during code stripping.
+    /// </remarks>
     [UnityEngine.Scripting.Preserve]
     public class GameFrameXuiToFairyGUICroppingHelper : MonoBehaviour
     {
+        /// <summary>
+        /// 启动时引用所有关键类型以防止代码裁剪。
+        /// </summary>
+        /// <remarks>
+        /// References all critical types on start to prevent code stripping.
+        /// </remarks>
         [UnityEngine.Scripting.Preserve]
         private void Start()
         {

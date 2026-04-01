@@ -40,8 +40,11 @@ using UnityEngine;
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
     /// <summary>
-    /// 默认界面辅助器。
+    /// FairyGUI 界面辅助器，提供界面实例化、创建和释放功能。
     /// </summary>
+    /// <remarks>
+    /// FairyGUI form helper that provides form instantiation, creation, and release functionality.
+    /// </remarks>
     [UnityEngine.Scripting.Preserve]
     public class FairyGUIFormHelper : UIFormHelperBase
     {
@@ -53,8 +56,11 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <summary>
         /// 实例化界面。
         /// </summary>
-        /// <param name="uiFormAsset">要实例化的界面资源。</param>
-        /// <returns>实例化后的界面。</returns>
+        /// <remarks>
+        /// Instantiates a UI form.
+        /// </remarks>
+        /// <param name="uiFormAsset">要实例化的界面资源数据 / The UI form asset data to instantiate</param>
+        /// <returns>实例化后的界面对象 / The instantiated UI form object</returns>
         [UnityEngine.Scripting.Preserve]
         public override object InstantiateUIForm(object uiFormAsset)
         {
@@ -67,10 +73,13 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <summary>
         /// 创建界面。
         /// </summary>
-        /// <param name="uiFormInstance">界面实例。</param>
-        /// <param name="uiFormType">界面逻辑类型</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>界面。</returns>
+        /// <remarks>
+        /// Creates a UI form instance.
+        /// </remarks>
+        /// <param name="uiFormInstance">界面实例对象 / The UI form instance object</param>
+        /// <param name="uiFormType">界面逻辑类型 / The UI form logic type</param>
+        /// <param name="userData">用户自定义数据 / User-defined data</param>
+        /// <returns>创建的界面实例 / The created UI form instance</returns>
         [UnityEngine.Scripting.Preserve]
         public override IUIForm CreateUIForm(object uiFormInstance, Type uiFormType, object userData)
         {
@@ -156,11 +165,14 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <summary>
         /// 释放界面。
         /// </summary>
-        /// <param name="uiFormAsset">要释放的界面资源。</param>
-        /// <param name="uiFormInstance">要释放的界面实例。</param>
-        /// <param name="assetHandle">资源句柄。</param>
-        /// <param name="uiFormAssetPath">界面资源路径。</param>
-        /// <param name="uiFormAssetName">界面资源名称。</param>
+        /// <remarks>
+        /// Releases a UI form.
+        /// </remarks>
+        /// <param name="uiFormAsset">要释放的界面资源 / The UI form asset to release</param>
+        /// <param name="uiFormInstance">要释放的界面实例 / The UI form instance to release</param>
+        /// <param name="assetHandle">资源句柄 / The asset handle</param>
+        /// <param name="uiFormAssetPath">界面资源路径 / The UI form asset path</param>
+        /// <param name="uiFormAssetName">界面资源名称 / The UI form asset name</param>
         [UnityEngine.Scripting.Preserve]
         public override void ReleaseUIForm(object uiFormAsset, object uiFormInstance, object assetHandle, string uiFormAssetPath, string uiFormAssetName)
         {
@@ -186,6 +198,12 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             }
         }
 
+        /// <summary>
+        /// 组件唤醒时初始化资源组件和 UI 组件引用。
+        /// </summary>
+        /// <remarks>
+        /// Initializes asset component and UI component references when the component awakens.
+        /// </remarks>
         [UnityEngine.Scripting.Preserve]
         private void Awake()
         {

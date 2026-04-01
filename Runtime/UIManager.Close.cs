@@ -36,15 +36,21 @@ using UnityEngine;
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
     /// <summary>
-    /// 界面管理器。
+    /// 界面管理器 - 关闭功能部分类。
     /// </summary>
+    /// <remarks>
+    /// UI Manager - Close functionality partial class.
+    /// </remarks>
     internal sealed partial class UIManager
     {
         /// <summary>
         /// 回收界面实例对象。
         /// </summary>
-        /// <param name="uiForm"></param>
-        /// <param name="isDispose">是否销毁释放</param>
+        /// <remarks>
+        /// Recycles the UI form instance object.
+        /// </remarks>
+        /// <param name="uiForm">要回收的界面实例 / The UI form instance to recycle</param>
+        /// <param name="isDispose">是否销毁释放 / Whether to destroy and release</param>
         [UnityEngine.Scripting.Preserve]
         protected override void RecycleUIForm(IUIForm uiForm, bool isDispose = false)
         {

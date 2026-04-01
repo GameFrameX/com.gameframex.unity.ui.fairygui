@@ -39,8 +39,11 @@ using UnityEngine;
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
     /// <summary>
-    /// 管理所有UI 包
+    /// FairyGUI 包管理组件，负责管理所有 UI 包的加载、缓存和卸载。
     /// </summary>
+    /// <remarks>
+    /// FairyGUI package management component responsible for managing the loading, caching, and unloading of all UI packages.
+    /// </remarks>
     [DisallowMultipleComponent]
     [AddComponentMenu("GameFrameX/FairyGUIPackage")]
     [UnityEngine.Scripting.Preserve]
@@ -55,45 +58,76 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         FairyGUILoadAsyncResourceHelper resourceHelper;
 
         /// <summary>
-        /// 表示UI包的数据结构。
+        /// 表示 UI 包的数据结构。
         /// </summary>
+        /// <remarks>
+        /// Data structure representing a UI package.
+        /// </remarks>
         [Serializable]
         public sealed class UIPackageData
         {
             /// <summary>
-            /// 描述文件路径。
+            /// 获取描述文件路径。
             /// </summary>
+            /// <remarks>
+            /// Gets the description file path.
+            /// </remarks>
+            /// <value>描述文件路径 / The description file path</value>
             [UnityEngine.Scripting.Preserve]
             public string DescFilePath { get; }
 
             /// <summary>
-            /// 是否加载资源。
+            /// 获取是否加载资源。
             /// </summary>
+            /// <remarks>
+            /// Gets whether to load assets.
+            /// </remarks>
+            /// <value>如果加载资源则为 <c>true</c>；否则为 <c>false</c> / <c>true</c> if loading assets; otherwise <c>false</c></value>
             [UnityEngine.Scripting.Preserve]
             public bool IsLoadAsset { get; }
 
             /// <summary>
-            /// UI包实例。
+            /// 获取 UI 包实例。
             /// </summary>
+            /// <remarks>
+            /// Gets the UI package instance.
+            /// </remarks>
+            /// <value>UI 包实例 / The UI package instance</value>
             [UnityEngine.Scripting.Preserve]
             public UIPackage Package { get; private set; }
 
             /// <summary>
-            /// 获取UI包的名称。
+            /// 获取 UI 包的名称。
             /// </summary>
+            /// <remarks>
+            /// Gets the name of the UI package.
+            /// </remarks>
+            /// <value>UI 包名称 / The UI package name</value>
             [UnityEngine.Scripting.Preserve]
             public string Name { get; private set; }
 
             /// <summary>
-            /// 设置UI包实例。
+            /// 设置 UI 包实例。
             /// </summary>
-            /// <param name="package">UI包实例。</param>
+            /// <remarks>
+            /// Sets the UI package instance.
+            /// </remarks>
+            /// <param name="package">UI 包实例 / The UI package instance</param>
             [UnityEngine.Scripting.Preserve]
             public void SetPackage(UIPackage package)
             {
                 Package = package;
             }
 
+            /// <summary>
+            /// 初始化 <see cref="UIPackageData"/> 类的新实例。
+            /// </summary>
+            /// <remarks>
+            /// Initializes a new instance of the <see cref="UIPackageData"/> class.
+            /// </remarks>
+            /// <param name="descFilePath">描述文件路径 / The description file path</param>
+            /// <param name="name">UI 包名称 / The UI package name</param>
+            /// <param name="isLoadAsset">是否加载资源 / Whether to load assets</param>
             [UnityEngine.Scripting.Preserve]
             public UIPackageData(string descFilePath, string name, bool isLoadAsset)
             {
@@ -104,11 +138,14 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
         /// <summary>
-        /// 异步添加UI包。
+        /// 异步添加 UI 包。
         /// </summary>
-        /// <param name="descFilePath">描述文件路径。</param>
-        /// <param name="isLoadAsset">是否加载资源，默认为true。</param>
-        /// <returns>返回一个表示UI包的UniTask。</returns>
+        /// <remarks>
+        /// Asynchronously adds a UI package.
+        /// </remarks>
+        /// <param name="descFilePath">描述文件路径 / The description file path</param>
+        /// <param name="isLoadAsset">是否加载资源，默认为 <c>true</c> / Whether to load assets, defaults to <c>true</c></param>
+        /// <returns>表示 UI 包的异步任务 / A task representing the UI package</returns>
         [UnityEngine.Scripting.Preserve]
         public Task<UIPackage> AddPackageAsync(string descFilePath, bool isLoadAsset = true)
         {
@@ -144,10 +181,13 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
         /// <summary>
-        /// 同步添加UI包。
+        /// 同步添加 UI 包。
         /// </summary>
-        /// <param name="descFilePath">描述文件路径。</param>
-        /// <param name="isLoadAsset">是否加载资源，默认为true。</param>
+        /// <remarks>
+        /// Synchronously adds a UI package.
+        /// </remarks>
+        /// <param name="descFilePath">描述文件路径 / The description file path</param>
+        /// <param name="isLoadAsset">是否加载资源，默认为 <c>true</c> / Whether to load assets, defaults to <c>true</c></param>
         [UnityEngine.Scripting.Preserve]
         public void AddPackageSync(string descFilePath, bool isLoadAsset = true)
         {
@@ -165,9 +205,12 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
         /// <summary>
-        /// 移除指定名称的UI包。
+        /// 移除指定名称的 UI 包。
         /// </summary>
-        /// <param name="packageName">UI包的名称。</param>
+        /// <remarks>
+        /// Removes the UI package with the specified name.
+        /// </remarks>
+        /// <param name="packageName">UI 包的名称 / The name of the UI package</param>
         [UnityEngine.Scripting.Preserve]
         public void RemovePackage(string packageName)
         {
@@ -193,8 +236,11 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
         /// <summary>
-        /// 移除所有UI包。
+        /// 移除所有 UI 包。
         /// </summary>
+        /// <remarks>
+        /// Removes all UI packages.
+        /// </remarks>
         [UnityEngine.Scripting.Preserve]
         public void RemoveAllPackages()
         {
@@ -210,10 +256,13 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
         /// <summary>
-        /// 检查是否存在指定名称的UI包。
+        /// 检查是否存在指定名称的 UI 包。
         /// </summary>
-        /// <param name="uiPackageName">UI包的名称。</param>
-        /// <returns>如果存在返回true，否则返回false。</returns>
+        /// <remarks>
+        /// Checks whether a UI package with the specified name exists.
+        /// </remarks>
+        /// <param name="uiPackageName">UI 包的名称 / The name of the UI package</param>
+        /// <returns>如果存在则返回 <c>true</c>；否则返回 <c>false</c> / <c>true</c> if exists; otherwise <c>false</c></returns>
         [UnityEngine.Scripting.Preserve]
         public bool Has(string uiPackageName)
         {
@@ -221,10 +270,13 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
         /// <summary>
-        /// 获取指定名称的UI包。
+        /// 获取指定名称的 UI 包。
         /// </summary>
-        /// <param name="uiPackageName">UI包的名称。</param>
-        /// <returns>返回UI包实例，如果不存在则返回null。</returns>
+        /// <remarks>
+        /// Gets the UI package with the specified name.
+        /// </remarks>
+        /// <param name="uiPackageName">UI 包的名称 / The name of the UI package</param>
+        /// <returns>UI 包实例；如果不存在则返回 <c>null</c> / The UI package instance; <c>null</c> if not found</returns>
         [UnityEngine.Scripting.Preserve]
         public UIPackage Get(string uiPackageName)
         {
@@ -240,6 +292,12 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
 
+        /// <summary>
+        /// 组件唤醒时初始化异步资源加载辅助器。
+        /// </summary>
+        /// <remarks>
+        /// Initializes the async resource loading helper when the component awakens.
+        /// </remarks>
         [UnityEngine.Scripting.Preserve]
         protected override void Awake()
         {

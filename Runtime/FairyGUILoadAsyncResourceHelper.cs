@@ -40,6 +40,12 @@ using YooAsset;
 
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
+    /// <summary>
+    /// FairyGUI 异步资源加载辅助器，实现 IAsyncResource 接口以支持异步资源加载。
+    /// </summary>
+    /// <remarks>
+    /// FairyGUI async resource loading helper that implements IAsyncResource interface to support asynchronous resource loading.
+    /// </remarks>
     [UnityEngine.Scripting.Preserve]
     internal sealed class FairyGUILoadAsyncResourceHelper : IAsyncResource
     {
@@ -47,9 +53,12 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         private readonly Dictionary<string, UIPackageData> m_UIPackages = new Dictionary<string, UIPackageData>(32);
 
         /// <summary>
-        /// 释放UI包
+        /// 释放指定名称的 UI 包。
         /// </summary>
-        /// <param name="uiPackageName"></param>
+        /// <remarks>
+        /// Releases the UI package with the specified name.
+        /// </remarks>
+        /// <param name="uiPackageName">要释放的 UI 包名称 / The name of the UI package to release</param>
         [UnityEngine.Scripting.Preserve]
         public void ReleasePackage(string uiPackageName)
         {
@@ -67,8 +76,11 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
         /// <summary>
-        /// 释放所有UI包
+        /// 释放所有已加载的 UI 包。
         /// </summary>
+        /// <remarks>
+        /// Releases all loaded UI packages.
+        /// </remarks>
         [UnityEngine.Scripting.Preserve]
         public void ReleaseAllPackage()
         {
@@ -100,13 +112,16 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
         /// <summary>
-        /// 加载资源
+        /// 异步加载资源。
         /// </summary>
-        /// <param name="assetName">资源名称</param>
-        /// <param name="uiPackageName">UI包名称</param>
-        /// <param name="extension">扩展名</param>
-        /// <param name="type">资源类型</param>
-        /// <param name="action"></param>
+        /// <remarks>
+        /// Asynchronously loads a resource.
+        /// </remarks>
+        /// <param name="assetName">资源名称 / The asset name</param>
+        /// <param name="uiPackageName">UI 包名称 / The UI package name</param>
+        /// <param name="extension">文件扩展名 / The file extension</param>
+        /// <param name="type">资源包项目类型 / The package item type</param>
+        /// <param name="action">加载完成回调，参数为是否成功、资源名称、资源对象 / The load completion callback with success flag, asset name, and asset object</param>
         [UnityEngine.Scripting.Preserve]
         public async void LoadResource(string assetName, string uiPackageName, string extension, PackageItemType type, Action<bool, string, object> action)
         {
@@ -231,19 +246,44 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             action.Invoke(false, assetName, null);
         }
 
+        /// <summary>
+        /// 释放资源（当前实现为空）。
+        /// </summary>
+        /// <remarks>
+        /// Releases a resource (current implementation is empty).
+        /// </remarks>
+        /// <param name="obj">要释放的资源对象 / The resource object to release</param>
         [UnityEngine.Scripting.Preserve]
         public void ReleaseResource(object obj)
         {
         }
 
+        /// <summary>
+        /// UI 包数据类，管理单个 UI 包的资源句柄信息。
+        /// </summary>
+        /// <remarks>
+        /// UI package data class that manages resource handle information for a single UI package.
+        /// </remarks>
         sealed class UIPackageData : IDisposable
         {
             /// <summary>
-            /// 包名
+            /// 获取 UI 包名称。
             /// </summary>
+            /// <remarks>
+            /// Gets the UI package name.
+            /// </remarks>
+            /// <value>UI 包名称 / The UI package name</value>
             [UnityEngine.Scripting.Preserve]
             public readonly string PackageName;
 
+            /// <summary>
+            /// 设置资源包句柄及其路径。
+            /// </summary>
+            /// <remarks>
+            /// Sets the resource all assets handle and its path.
+            /// </remarks>
+            /// <param name="allAssetsHandle">资源包句柄 / The all assets handle</param>
+            /// <param name="assetPath">资源路径 / The asset path</param>
             [UnityEngine.Scripting.Preserve]
             public void SetResourceAllAssetsHandle(AllAssetsHandle allAssetsHandle, string assetPath)
             {
@@ -252,17 +292,33 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             }
 
             /// <summary>
-            /// 资源包
+            /// 获取资源包句柄。
             /// </summary>
+            /// <remarks>
+            /// Gets the resource all assets handle.
+            /// </remarks>
+            /// <value>资源包句柄 / The all assets handle</value>
             [UnityEngine.Scripting.Preserve]
             public AllAssetsHandle ResourceAllAssetsHandle { get; private set; }
 
             /// <summary>
-            /// 资源包资源路径
+            /// 获取资源包资源路径。
             /// </summary>
+            /// <remarks>
+            /// Gets the resource asset path.
+            /// </remarks>
+            /// <value>资源路径 / The resource asset path</value>
             [UnityEngine.Scripting.Preserve]
             public string ResourceAssetPath { get; private set; }
 
+            /// <summary>
+            /// 设置描述文件句柄及其路径。
+            /// </summary>
+            /// <remarks>
+            /// Sets the definition asset handle and its path.
+            /// </remarks>
+            /// <param name="defiledAssetHandle">描述文件句柄 / The definition asset handle</param>
+            /// <param name="defiledAssetPath">描述文件路径 / The definition asset path</param>
             [UnityEngine.Scripting.Preserve]
             public void SetDefiledAssetHandle(AssetHandle defiledAssetHandle, string defiledAssetPath)
             {
@@ -271,23 +327,44 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             }
 
             /// <summary>
-            /// 描述文件包
+            /// 获取描述文件句柄。
             /// </summary>
+            /// <remarks>
+            /// Gets the definition asset handle.
+            /// </remarks>
+            /// <value>描述文件句柄 / The definition asset handle</value>
             [UnityEngine.Scripting.Preserve]
             public AssetHandle DefiledAssetHandle { get; private set; }
 
             /// <summary>
-            /// 描述文件包资源路径
+            /// 获取描述文件资源路径。
             /// </summary>
+            /// <remarks>
+            /// Gets the definition asset path.
+            /// </remarks>
+            /// <value>描述文件路径 / The definition asset path</value>
             [UnityEngine.Scripting.Preserve]
             public string DefiledAssetPath { get; private set; }
 
+            /// <summary>
+            /// 初始化 <see cref="UIPackageData"/> 类的新实例。
+            /// </summary>
+            /// <remarks>
+            /// Initializes a new instance of the <see cref="UIPackageData"/> class.
+            /// </remarks>
+            /// <param name="packageName">UI 包名称 / The UI package name</param>
             [UnityEngine.Scripting.Preserve]
             public UIPackageData(string packageName)
             {
                 PackageName = packageName;
             }
 
+            /// <summary>
+            /// 释放资源。
+            /// </summary>
+            /// <remarks>
+            /// Releases resources.
+            /// </remarks>
             [UnityEngine.Scripting.Preserve]
             public void Dispose()
             {

@@ -34,14 +34,23 @@ using GameFrameX.Runtime;
 
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
+    /// <summary>
+    /// 可绑定属性扩展方法类。
+    /// </summary>
+    /// <remarks>
+    /// Provides extension methods for bindable properties.
+    /// </remarks>
     public static class BindablePropertyExtension
     {
         /// <summary>
-        /// FGUI情况下使用此方法,链式调用,当FairyGUI.GObject销毁时自动注销事件
+        /// 在 FairyGUI 环境下使用此方法，当 GObject 销毁时自动注销绑定属性的事件。
         /// </summary>
-        /// <param name="bindableProperty"></param>
-        /// <param name="gObject"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Use this method in FairyGUI context to automatically unregister bindable property events when the GObject is destroyed.
+        /// </remarks>
+        /// <typeparam name="T">绑定属性值的类型 / The type of the bindable property value</typeparam>
+        /// <param name="bindableProperty">要清除事件的绑定属性实例 / The bindable property instance to clear events from</param>
+        /// <param name="gObject">关联的 FairyGUI GObject 对象 / The associated FairyGUI GObject instance</param>
         [UnityEngine.Scripting.Preserve]
         public static void ClearWithGObjectDestroyed<T>(this BindableProperty<T> bindableProperty, GObject gObject)
         {

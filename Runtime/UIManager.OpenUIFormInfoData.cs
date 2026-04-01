@@ -34,6 +34,12 @@ using GameFrameX.Runtime;
 
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
+    /// <summary>
+    /// 打开界面信息数据类，用于存储界面打开时的相关数据。
+    /// </summary>
+    /// <remarks>
+    /// Open UI form info data class used to store relevant data when opening a UI form.
+    /// </remarks>
     internal sealed class OpenUIFormInfoData : IReference
     {
         [UnityEngine.Scripting.Preserve]
@@ -49,18 +55,39 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         [UnityEngine.Scripting.Preserve]
         private Type m_FormType;
 
+        /// <summary>
+        /// 获取界面类型。
+        /// </summary>
+        /// <remarks>
+        /// Gets the UI form type.
+        /// </remarks>
+        /// <value>界面类型 / The UI form type</value>
         [UnityEngine.Scripting.Preserve]
         public Type FormType
         {
             get { return m_FormType; }
         }
 
+        /// <summary>
+        /// 获取包名称。
+        /// </summary>
+        /// <remarks>
+        /// Gets the package name.
+        /// </remarks>
+        /// <value>包名称 / The package name</value>
         [UnityEngine.Scripting.Preserve]
         public string PackageName
         {
             get { return m_PackageName; }
         }
 
+        /// <summary>
+        /// 获取界面名称。
+        /// </summary>
+        /// <remarks>
+        /// Gets the UI name.
+        /// </remarks>
+        /// <value>界面名称 / The UI name</value>
         [UnityEngine.Scripting.Preserve]
         public string UIName
         {
@@ -68,24 +95,58 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
 
+        /// <summary>
+        /// 获取界面序列号。
+        /// </summary>
+        /// <remarks>
+        /// Gets the UI form serial ID.
+        /// </remarks>
+        /// <value>界面序列号 / The UI form serial ID</value>
         [UnityEngine.Scripting.Preserve]
         public int SerialId
         {
             get { return m_SerialId; }
         }
 
+        /// <summary>
+        /// 获取是否暂停被覆盖的界面。
+        /// </summary>
+        /// <remarks>
+        /// Gets whether to pause covered UI forms.
+        /// </remarks>
+        /// <value>如果暂停被覆盖的界面则为 <c>true</c>；否则为 <c>false</c> / <c>true</c> if pausing covered UI forms; otherwise <c>false</c></value>
         [UnityEngine.Scripting.Preserve]
         public bool PauseCoveredUIForm
         {
             get { return m_PauseCoveredUIForm; }
         }
 
+        /// <summary>
+        /// 获取用户自定义数据。
+        /// </summary>
+        /// <remarks>
+        /// Gets the user-defined data.
+        /// </remarks>
+        /// <value>用户自定义数据 / The user-defined data</value>
         [UnityEngine.Scripting.Preserve]
         public object UserData
         {
             get { return m_UserData; }
         }
 
+        /// <summary>
+        /// 创建打开界面信息数据实例。
+        /// </summary>
+        /// <remarks>
+        /// Creates an instance of open UI form info data.
+        /// </remarks>
+        /// <param name="serialId">界面序列号 / The UI form serial ID</param>
+        /// <param name="packageName">包名称 / The package name</param>
+        /// <param name="uiName">界面名称 / The UI name</param>
+        /// <param name="uiFormType">界面类型 / The UI form type</param>
+        /// <param name="pauseCoveredUIForm">是否暂停被覆盖的界面 / Whether to pause covered UI forms</param>
+        /// <param name="userData">用户自定义数据 / User-defined data</param>
+        /// <returns>创建的打开界面信息数据实例 / The created open UI form info data instance</returns>
         [UnityEngine.Scripting.Preserve]
         public static OpenUIFormInfoData Create(int serialId, string packageName, string uiName, Type uiFormType, bool pauseCoveredUIForm, object userData)
         {
@@ -99,6 +160,12 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             return openUIFormInfo;
         }
 
+        /// <summary>
+        /// 清理数据，重置所有字段为默认值。
+        /// </summary>
+        /// <remarks>
+        /// Clears the data and resets all fields to default values.
+        /// </remarks>
         [UnityEngine.Scripting.Preserve]
         public void Clear()
         {

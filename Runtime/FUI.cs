@@ -35,26 +35,43 @@ using GameFrameX.UI.Runtime;
 
 namespace GameFrameX.UI.FairyGUI.Runtime
 {
+    /// <summary>
+    /// FairyGUI 界面基类，提供 FairyGUI 特定的界面功能实现。
+    /// </summary>
+    /// <remarks>
+    /// Base class for FairyGUI forms, providing FairyGUI-specific form functionality implementation.
+    /// </remarks>
     [UnityEngine.Scripting.Preserve]
     public class FUI : UIForm
     {
         /// <summary>
-        /// UI 对象
+        /// 获取关联的 FairyGUI GObject 对象。
         /// </summary>
+        /// <remarks>
+        /// Gets the associated FairyGUI GObject instance.
+        /// </remarks>
+        /// <value>FairyGUI GObject 对象 / The FairyGUI GObject instance</value>
         [UnityEngine.Scripting.Preserve]
         public GObject GObject { get; private set; }
 
         /// <summary>
-        /// UI 显示状态改变事件
+        /// 获取或设置界面可见性改变事件的回调。
         /// </summary>
+        /// <remarks>
+        /// Gets or sets the callback for visibility changed event.
+        /// </remarks>
+        /// <value>可见性改变回调，参数为当前可见状态 / Visibility changed callback with current visibility state as parameter</value>
         [UnityEngine.Scripting.Preserve]
         public Action<bool> OnVisibleChanged { get; set; }
 
         /// <summary>
-        /// 界面显示。
+        /// 显示界面。
         /// </summary>
-        /// <param name="handler">界面显示处理接口</param>
-        /// <param name="complete">完成回调</param>
+        /// <remarks>
+        /// Shows the UI form.
+        /// </remarks>
+        /// <param name="handler">界面显示处理器接口 / The UI form show handler interface</param>
+        /// <param name="complete">显示完成后的回调函数 / Callback function invoked after showing is complete</param>
         [UnityEngine.Scripting.Preserve]
         public override void Show(IUIFormShowHandler handler, Action complete)
         {
@@ -69,10 +86,13 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
         /// <summary>
-        /// 界面隐藏。
+        /// 隐藏界面。
         /// </summary>
-        /// <param name="handler">界面隐藏处理接口</param>
-        /// <param name="complete">完成回调</param>
+        /// <remarks>
+        /// Hides the UI form.
+        /// </remarks>
+        /// <param name="handler">界面隐藏处理器接口 / The UI form hide handler interface</param>
+        /// <param name="complete">隐藏完成后的回调函数 / Callback function invoked after hiding is complete</param>
         [UnityEngine.Scripting.Preserve]
         public override void Hide(IUIFormHideHandler handler, Action complete)
         {
@@ -87,9 +107,12 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
         /// <summary>
-        /// 设置UI的显示状态，不发出事件
+        /// 内部设置界面的显示状态，不发出事件。
         /// </summary>
-        /// <param name="value"></param>
+        /// <remarks>
+        /// Internally sets the visibility state of the UI form without triggering events.
+        /// </remarks>
+        /// <param name="value">要设置的可见性状态 / The visibility state to set</param>
         [UnityEngine.Scripting.Preserve]
         protected override void InternalSetVisible(bool value)
         {
@@ -106,6 +129,10 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// <summary>
         /// 获取或设置界面是否可见。
         /// </summary>
+        /// <remarks>
+        /// Gets or sets whether the UI form is visible.
+        /// </remarks>
+        /// <value>如果界面可见则为 <c>true</c>；否则为 <c>false</c> / <c>true</c> if the form is visible; otherwise <c>false</c></value>
         [UnityEngine.Scripting.Preserve]
         public override bool Visible
         {
@@ -131,14 +158,25 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
 
         /// <summary>
-        /// 设置当前UI对象为全屏
+        /// 将当前 UI 对象设置为全屏显示。
         /// </summary>
+        /// <remarks>
+        /// Sets the current UI object to display in full screen mode.
+        /// </remarks>
         [UnityEngine.Scripting.Preserve]
         protected override void MakeFullScreen()
         {
             GObject?.asCom?.MakeFullScreen();
         }
 
+        /// <summary>
+        /// 初始化 <see cref="FUI"/> 类的新实例。
+        /// </summary>
+        /// <remarks>
+        /// Initializes a new instance of the <see cref="FUI"/> class.
+        /// </remarks>
+        /// <param name="gObject">关联的 FairyGUI GObject 对象 / The associated FairyGUI GObject instance</param>
+        /// <param name="isRoot">是否为根界面 / Whether this is a root form</param>
         [UnityEngine.Scripting.Preserve]
         public FUI(GObject gObject, bool isRoot = false)
         {
@@ -147,9 +185,12 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         }
 
         /// <summary>
-        /// 初始化界面
+        /// 设置关联的 GObject 对象。
         /// </summary>
-        /// <param name="gObject"></param>
+        /// <remarks>
+        /// Sets the associated GObject instance.
+        /// </remarks>
+        /// <param name="gObject">要设置的 FairyGUI GObject 对象 / The FairyGUI GObject instance to set</param>
         [UnityEngine.Scripting.Preserve]
         public void SetGObject(GObject gObject)
         {
