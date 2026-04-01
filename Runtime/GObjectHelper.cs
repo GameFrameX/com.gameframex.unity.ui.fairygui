@@ -42,7 +42,19 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     public static class GObjectHelper
     {
         [UnityEngine.Scripting.Preserve]
-        private static readonly Dictionary<GObject, FUI> KeyValuePairs = new Dictionary<GObject, FUI>();
+        private static readonly Dictionary<GObject, FUI> s_GObjectToFuiMap = new Dictionary<GObject, FUI>();
+
+        /// <summary>
+        /// 清理所有缓存的 FUI 对象。
+        /// </summary>
+        /// <remarks>
+        /// Clears all cached FUI objects.
+        /// </remarks>
+        [UnityEngine.Scripting.Preserve]
+        public static void ClearAll()
+        {
+            s_GObjectToFuiMap.Clear();
+        }
 
         /// <summary>
         /// 从组件池中获取关联的 FUI 对象。
@@ -56,7 +68,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         [UnityEngine.Scripting.Preserve]
         public static T Get<T>(this GObject self) where T : FUI
         {
-            if (self != null && KeyValuePairs.TryGetValue(self, out var pair))
+            if (self != null && s_GObjectToFuiMap.TryGetValue(self, out var pair))
             {
                 return pair as T;
             }
@@ -77,7 +89,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         {
             if (self != null && fui != null)
             {
-                KeyValuePairs[self] = fui;
+                s_GObjectToFuiMap[self] = fui;
             }
         }
 
@@ -92,9 +104,9 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         [UnityEngine.Scripting.Preserve]
         public static FUI Remove(this GObject self)
         {
-            if (self != null && KeyValuePairs.TryGetValue(self, out var value))
+            if (self != null && s_GObjectToFuiMap.TryGetValue(self, out var value))
             {
-                KeyValuePairs.Remove(self);
+                s_GObjectToFuiMap.Remove(self);
                 return value;
             }
 
