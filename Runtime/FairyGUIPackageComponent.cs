@@ -53,7 +53,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         [UnityEngine.Scripting.Preserve]
         private readonly Dictionary<string, TaskCompletionSource<UIPackage>> m_UIPackageLoading = new Dictionary<string, TaskCompletionSource<UIPackage>>(32);
         [UnityEngine.Scripting.Preserve]
-        FairyGUILoadAsyncResourceHelper resourceHelper;
+        private FairyGUILoadAsyncResourceHelper m_ResourceHelper;
 
         /// <summary>
         /// 表示 UI 包的数据结构。
@@ -228,7 +228,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             {
                 uiPackageData.Package.UnloadAssets();
                 UIPackage.RemovePackage(packageName);
-                resourceHelper.ReleasePackage(packageName);
+                m_ResourceHelper.ReleasePackage(packageName);
                 m_UILoadedPackages.Remove(key);
             }
         }
@@ -248,7 +248,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 package.UnloadAssets();
             }
 
-            resourceHelper.ReleaseAllPackage();
+            m_ResourceHelper.ReleaseAllPackage();
             UIPackage.RemoveAllPackages();
             m_UILoadedPackages.Clear();
         }
@@ -301,8 +301,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         {
             IsAutoRegister = false;
             base.Awake();
-            resourceHelper = new FairyGUILoadAsyncResourceHelper();
-            UIPackage.SetAsyncLoadResource(resourceHelper);
+            m_ResourceHelper = new FairyGUILoadAsyncResourceHelper();
+            UIPackage.SetAsyncLoadResource(m_ResourceHelper);
         }
     }
 }
