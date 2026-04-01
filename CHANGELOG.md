@@ -1,3 +1,13 @@
+## [3.2.4](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.2.3...3.2.4) (2026-04-01)
+
+
+### Bug Fixes
+
+* **UI:** 修复资源加载异常处理和属性名拼写错误 ([d69216a](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/d69216a2c9e3a6d1432c8eb96dec1be68a7dfe69))
+* **UI:** 改进UI路径查找的错误信息并优化字符串比较 ([f7f1043](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/f7f104355b818c569fa403b4b03ae48a23426f53))
+* 为Unity IL2CPP代码裁剪添加Preserve属性 ([9eabb90](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/9eabb909dcfd29b6921096e5c3d5e607890f35ec))
+* 当禁用自动释放时跳过FairyGUI表单释放 ([4b87188](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/4b8718850672f58f0374a7bd0f3440e6d302c80c))
+
 ## [3.2.3](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.2.2...3.2.3) (2026-03-27)
 
 
