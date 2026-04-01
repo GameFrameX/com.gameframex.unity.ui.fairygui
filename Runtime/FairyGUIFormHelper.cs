@@ -174,6 +174,11 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         [UnityEngine.Scripting.Preserve]
         public override void ReleaseUIForm(object uiFormAsset, object uiFormInstance, object assetHandle, string uiFormAssetPath, string uiFormAssetName)
         {
+            if (!m_UIComponent.EnableAutoReleaseUIForm)
+            {
+                return;
+            }
+
             if (uiFormInstance is GComponent component)
             {
                 component.RemoveFromParent();
