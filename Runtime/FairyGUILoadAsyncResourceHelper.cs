@@ -62,7 +62,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         {
             if (m_UIPackages.TryGetValue(uiPackageName, out var uiPackageData))
             {
-                AssetComponent.UnloadAsset(uiPackageData.DefiledAssetPath);
+                AssetComponent.UnloadAsset(uiPackageData.DescAssetPath);
                 if (uiPackageData.ResourceAssetPath != null)
                 {
                     AssetComponent.UnloadAsset(uiPackageData.ResourceAssetPath);
@@ -84,7 +84,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         {
             foreach (var kv in m_UIPackages)
             {
-                AssetComponent.UnloadAsset(kv.Value.DefiledAssetPath);
+                AssetComponent.UnloadAsset(kv.Value.DescAssetPath);
                 AssetComponent.UnloadAsset(kv.Value.ResourceAssetPath);
                 kv.Value.Dispose();
             }
@@ -123,32 +123,33 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         [UnityEngine.Scripting.Preserve]
         public async void LoadResource(string assetName, string uiPackageName, string extension, PackageItemType type, Action<bool, string, object> action)
         {
-            if (!m_UIPackages.TryGetValue(uiPackageName, out var uiPackageData))
+            try
             {
-                uiPackageData = new UIPackageData(uiPackageName);
-                m_UIPackages.Add(uiPackageName, uiPackageData);
-            }
+                if (!m_UIPackages.TryGetValue(uiPackageName, out var uiPackageData))
+                {
+                    uiPackageData = new UIPackageData(uiPackageName);
+                    m_UIPackages.Add(uiPackageName, uiPackageData);
+                }
 
-
-            if (type == PackageItemType.Misc)
+                if (type == PackageItemType.Misc)
             {
                 // 描述文件
                 AssetHandle assetHandle;
-                if (uiPackageData.DefiledAssetHandle == null)
+                if (uiPackageData.DescAssetHandle == null)
                 {
                     assetHandle = await AssetComponent.LoadAssetAsync<UnityEngine.Object>(assetName);
-                    uiPackageData.SetDefiledAssetHandle(assetHandle, assetName);
+                    uiPackageData.SetDescAssetHandle(assetHandle, assetName);
                 }
                 else
                 {
-                    assetHandle = uiPackageData.DefiledAssetHandle;
+                    assetHandle = uiPackageData.DescAssetHandle;
                 }
 
                 action.Invoke(assetHandle != null && assetHandle.AssetObject != null, assetName, assetHandle?.GetAssetObject<TextAsset>());
                 return;
             }
 
-            if (type == PackageItemType.Image || type == PackageItemType.Atlas) //如果FGUI导出时没有选择分离通明通道，会因为加载不到!a结尾的Asset而报错，但是不影响运行
+            if (type == PackageItemType.Image || type == PackageItemType.Atlas) //如果FGUI导出时没有选择分离透明通道，会因为加载不到!a结尾的Asset而报错，但是不影响运行
             {
                 if (assetName.IndexOf("!a", StringComparison.OrdinalIgnoreCase) > -1)
                 {
@@ -185,7 +186,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                         }
 
                         case PackageItemType.Atlas:
-                        case PackageItemType.Image: //如果FGUI导出时没有选择分离通明通道，会因为加载不到!a结尾的Asset而报错，但是不影响运行
+                        case PackageItemType.Image: //如果FGUI导出时没有选择分离透明通道，会因为加载不到!a结尾的Asset而报错，但是不影响运行
                         {
                             if (assetName.IndexOf("!a", StringComparison.OrdinalIgnoreCase) > -1)
                             {
@@ -240,8 +241,14 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 }
             }
 
-            Log.Error("加载资源失败 Unknown file type: " + assetName + " extension: " + extension);
-            action.Invoke(false, assetName, null);
+                Log.Error("加载资源失败 Unknown file type: " + assetName + " extension: " + extension);
+                action.Invoke(false, assetName, null);
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"LoadResource failed for '{assetName}': {ex}");
+                action?.Invoke(false, assetName, null);
+            }
         }
 
         /// <summary>
@@ -315,13 +322,13 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             /// <remarks>
             /// Sets the definition asset handle and its path.
             /// </remarks>
-            /// <param name="defiledAssetHandle">描述文件句柄 / The definition asset handle</param>
-            /// <param name="defiledAssetPath">描述文件路径 / The definition asset path</param>
+            /// <param name="descAssetHandle">描述文件句柄 / The definition asset handle</param>
+            /// <param name="descAssetPath">描述文件路径 / The definition asset path</param>
             [UnityEngine.Scripting.Preserve]
-            public void SetDefiledAssetHandle(AssetHandle defiledAssetHandle, string defiledAssetPath)
+            public void SetDescAssetHandle(AssetHandle descAssetHandle, string descAssetPath)
             {
-                DefiledAssetHandle = defiledAssetHandle;
-                DefiledAssetPath = defiledAssetPath;
+                DescAssetHandle = descAssetHandle;
+                DescAssetPath = descAssetPath;
             }
 
             /// <summary>
@@ -332,7 +339,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             /// </remarks>
             /// <value>描述文件句柄 / The definition asset handle</value>
             [UnityEngine.Scripting.Preserve]
-            public AssetHandle DefiledAssetHandle { get; private set; }
+            public AssetHandle DescAssetHandle { get; private set; }
 
             /// <summary>
             /// 获取描述文件资源路径。
@@ -342,7 +349,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             /// </remarks>
             /// <value>描述文件路径 / The definition asset path</value>
             [UnityEngine.Scripting.Preserve]
-            public string DefiledAssetPath { get; private set; }
+            public string DescAssetPath { get; private set; }
 
             /// <summary>
             /// 初始化 <see cref="UIPackageData"/> 类的新实例。
@@ -367,7 +374,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             public void Dispose()
             {
                 ResourceAllAssetsHandle?.Dispose();
-                DefiledAssetHandle?.Dispose();
+                DescAssetHandle?.Dispose();
             }
         }
     }
