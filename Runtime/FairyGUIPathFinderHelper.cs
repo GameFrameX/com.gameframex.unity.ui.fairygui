@@ -175,7 +175,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
                     if (index < 0 || index >= o.numChildren)
                     {
-                        throw new Exception("eror path");
+                        throw new Exception("Invalid UI path: index out of range");
                     }
 
                     child = o.GetChildAt(index);
@@ -188,7 +188,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
             if (child == null)
             {
-                throw new Exception("error path");
+                throw new Exception("Invalid UI path: child not found");
             }
 
             if (q.Count <= 0)
@@ -202,7 +202,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 return SearchChild(child as GComponent, q);
             }
 
-            throw new Exception("error path");
+            throw new Exception("Invalid UI path: not a GComponent");
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         [UnityEngine.Scripting.Preserve]
         public static bool SearchPathInclude(string path, GObject gObject)
         {
-            if ("all".ToLower() == path)
+            if (string.Equals(path, "all", StringComparison.OrdinalIgnoreCase))
             {
                 return false;
             }
@@ -267,9 +267,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                         continue;
                     }
 
-                    {
-                        return false;
-                    }
+                    return false;
                 }
 
                 return false;
