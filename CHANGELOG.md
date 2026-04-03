@@ -1,3 +1,10 @@
+## [3.2.5](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.2.4...3.2.5) (2026-04-03)
+
+
+### Bug Fixes
+
+* **FairyGUI:** 修复资源句柄未释放导致的内存泄漏 ([601b8da](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/601b8da9f28266cfbbe65cccc88ca529544a0ae3))
+
 ## [3.2.4](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.2.3...3.2.4) (2026-04-01)
 
 
