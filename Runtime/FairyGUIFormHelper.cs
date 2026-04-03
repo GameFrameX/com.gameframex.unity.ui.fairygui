@@ -188,6 +188,11 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
             if (uiFormAssetPath.IndexOf(Utility.Asset.Path.BundlesDirectoryName, StringComparison.OrdinalIgnoreCase) >= 0)
             {
+                if (assetHandle is YooAsset.AssetHandle handle)
+                {
+                    handle.Release();
+                }
+
                 m_AssetComponent.UnloadAsset(uiFormAssetPath);
             }
             else
