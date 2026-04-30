@@ -266,7 +266,6 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 {
                     OpenUIFormFailureEventArgs openUIFormFailureEventArgs = OpenUIFormFailureEventArgs.Create(serialId, uiFormAssetName, pauseCoveredUIForm, exception.ToString(), userData);
                     m_OpenUIFormFailureEventHandler(this, openUIFormFailureEventArgs);
-                    return GetUIForm(openUIFormFailureEventArgs.SerialId);
                 }
 
                 throw;
