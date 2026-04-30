@@ -88,8 +88,9 @@ namespace GameFrameX.UI.FairyGUI.Runtime
 
             if (uiFormInstanceObject != null)
             {
-                // 如果对象池存在
-                return InternalOpenUIForm(-1, uiFormAssetPath, uiFormAssetName, uiFormType, uiFormInstanceObject.Target, pauseCoveredUIForm, false, 0f, userData, isFullScreen);
+                // 池复用也分配新的请求序列号，确保每次打开请求可观测。
+                int serialId = ++m_Serial;
+                return InternalOpenUIForm(serialId, uiFormAssetPath, uiFormAssetName, uiFormType, uiFormInstanceObject.Target, pauseCoveredUIForm, false, 0f, userData, isFullScreen);
             }
 
             var uiForm = InnerLoadUIFormAsync(uiFormAssetPath, uiFormType, pauseCoveredUIForm, userData, isFullScreen);
