@@ -47,8 +47,6 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     {
         [UnityEngine.Scripting.Preserve]
         private readonly List<UIFormLoadingObject> m_LoadingUIForms = new List<UIFormLoadingObject>(64);
-        [UnityEngine.Scripting.Preserve]
-        private readonly List<UIFormLoadingObject> m_UIFormsRemoveList = new List<UIFormLoadingObject>(64);
 
         /// <summary>
         /// 异步打开界面的内部实现。
@@ -97,25 +95,17 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             var uiForm = InnerLoadUIFormAsync(uiFormAssetPath, uiFormType, pauseCoveredUIForm, userData, isFullScreen);
             UIFormLoadingObject uiFormLoadingObject = UIFormLoadingObject.Create(uiFormAssetPath, uiFormAssetName, uiFormType, uiForm);
             m_LoadingUIForms.Add(uiFormLoadingObject);
-            var result = await uiForm;
-
-            foreach (var value in m_LoadingUIForms)
+            try
             {
-                if (value.UIFormAssetPath == uiFormAssetPath && value.UIFormAssetName == uiFormAssetName && value.UIFormType == uiFormType)
+                return await uiForm;
+            }
+            finally
+            {
+                if (m_LoadingUIForms.Remove(uiFormLoadingObject))
                 {
-                    m_UIFormsRemoveList.Add(value);
+                    ReferencePool.Release(uiFormLoadingObject);
                 }
             }
-
-            foreach (var value in m_UIFormsRemoveList)
-            {
-                m_LoadingUIForms.Remove(value);
-                ReferencePool.Release(value);
-            }
-
-            m_UIFormsRemoveList.Clear();
-
-            return result;
         }
 
         /// <summary>
