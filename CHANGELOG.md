@@ -1,3 +1,18 @@
+# [3.3.0](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.2.5...3.3.0) (2026-04-30)
+
+
+### Bug Fixes
+
+* **UI:** 修复取消加载时UI资源未正确释放 ([61974e0](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/61974e042a4a456bec6376c545c3e27fa3c56f4c))
+* **UI:** 池复用打开分配新请求序列号 ([d0e0167](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/d0e0167a6c2df6ac2c083e6ff67db5b3405cb9f0))
+* **UI:** 确保 UI 窗体信息在所有路径下正确释放 ([da9a1ff](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/da9a1ff1ff7120895092f874abc3cfc94f14b9bd))
+* **UI:** 移除加载异常时错误的提前返回 ([313bfbc](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/313bfbc8905bd2ee2a11a269b4326e4c1c390814))
+
+
+### Features
+
+* **UI:** 添加单例模式打开界面支持 ([363cdfa](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/363cdfaac0766624fa5a3b2ae06ea924060722ba))
+
 ## [3.2.5](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.2.4...3.2.5) (2026-04-03)
 
 
