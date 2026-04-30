@@ -66,20 +66,32 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         protected override async Task<IUIForm> InnerOpenUIFormAsync(string uiFormAssetPath, Type uiFormType, bool pauseCoveredUIForm, object userData, bool isFullScreen = false)
         {
             var uiFormAssetName = uiFormType.Name;
+
+            if (UseSingletonOpenMode(uiFormType))
+            {
+                // Singleton behavior: if already opened, return the existing instance.
+                var openedUIForm = GetUIForm(uiFormAssetName);
+                if (openedUIForm != null)
+                {
+                    RefocusUIForm(openedUIForm, userData);
+                    return openedUIForm;
+                }
+
+                foreach (var value in m_LoadingUIForms)
+                {
+                    if (value.UIFormAssetPath == uiFormAssetPath && value.UIFormAssetName == uiFormAssetName && value.UIFormType == uiFormType)
+                    {
+                        return await value.Task;
+                    }
+                }
+            }
+
             var uiFormInstanceObject = m_InstancePool.Spawn(uiFormAssetName);
 
             if (uiFormInstanceObject != null)
             {
                 // 如果对象池存在
                 return InternalOpenUIForm(-1, uiFormAssetPath, uiFormAssetName, uiFormType, uiFormInstanceObject.Target, pauseCoveredUIForm, false, 0f, userData, isFullScreen);
-            }
-
-            foreach (var value in m_LoadingUIForms)
-            {
-                if (value.UIFormAssetPath == uiFormAssetPath && value.UIFormAssetName == uiFormAssetName && value.UIFormType == uiFormType)
-                {
-                    return await value.Task;
-                }
             }
 
             var uiForm = InnerLoadUIFormAsync(uiFormAssetPath, uiFormType, pauseCoveredUIForm, userData, isFullScreen);
