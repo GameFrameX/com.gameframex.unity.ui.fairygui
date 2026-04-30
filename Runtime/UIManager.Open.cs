@@ -306,6 +306,10 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                 m_UIFormsToReleaseOnLoad.Remove(openUIFormInfo.SerialId);
                 var form = GetUIForm(openUIFormInfo.SerialId);
                 m_UIFormHelper.ReleaseUIForm(uiFormAsset, null, openUIFormInfo.AssetHandle, uiFormAssetPath, openUIFormInfo.AssetName);
+                // This branch discards the loaded result immediately.
+                // Create a temporary instance so helper can release concrete UI resources.
+                var tempUIFormInstance = m_UIFormHelper.InstantiateUIForm(uiFormAsset);
+                m_UIFormHelper.ReleaseUIForm(uiFormAsset, tempUIFormInstance, openUIFormInfo.AssetHandle, uiFormAssetPath, openUIFormInfo.AssetName);
                 ReferencePool.Release(openUIFormInfo);
                 ReferencePool.Release(openUIFormInfoData);
                 return form;
