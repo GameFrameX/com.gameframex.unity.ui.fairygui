@@ -1,3 +1,10 @@
+## [3.3.1](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.3.0...3.3.1) (2026-05-28)
+
+
+### Bug Fixes
+
+* **ci:** 统一 .github 工作流配置 ([30a3c6a](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/30a3c6aa0e62f7a611705ed154e7d964892a9280))
+
 # [3.3.0](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.2.5...3.3.0) (2026-04-30)
 
 
