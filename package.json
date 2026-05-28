@@ -2,7 +2,7 @@
   "name": "com.gameframex.unity.ui.fairygui",
   "displayName": "Game Frame X UI FairyGUI",
   "category": "GameFrameX",
-  "description": "独立游戏前后端一体化解决方案,独立游戏开发者的圆梦大使。\n文档地址: https://gameframex.doc.alianblank.com \n Game Frame X UI FairyGUI组件 - Unity UI功能包，提供FairyGUI组件的封装，使FairyGUI组件的使用更加简单高效。",
+  "description": "GameFrameX UI FairyGUI — FairyGUI adapter for the GameFrameX UI system. Provides FairyGUI-native form instantiation (UIPackage.CreateObject), GComponent-based UI groups with GRoot integration, proper FairyGUI disposal, and async resource loading for FairyGUI packages. Docs: https://gameframex.doc.alianblank.com\n\nGameFrameX UI FairyGUI — GameFrameX UI 系统的 FairyGUI 适配器。提供 FairyGUI 原生窗体实例化（UIPackage.CreateObject）、基于 GComponent 的 UI 分组与 GRoot 集成、FairyGUI 资源的正确释放，以及 FairyGUI 包的异步资源加载。文档：https://gameframex.doc.alianblank.com",
   "version": "3.3.0",
   "unity": "2019.4",
   "keywords": [
