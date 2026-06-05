@@ -1,3 +1,10 @@
+## [3.3.2](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.3.1...3.3.2) (2026-06-05)
+
+
+### Bug Fixes
+
+* **ui:** 卸载资源前检查路径是否存在 ([3995d23](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/3995d23a9391e5b8d070ec1fc975e6ae69264d87))
+
 ## [3.3.1](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.3.0...3.3.1) (2026-05-28)
 
 
