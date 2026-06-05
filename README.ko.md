@@ -5,18 +5,18 @@
 # GameFrameX UI FairyGUI
 
 [![Version](https://img.shields.io/github/v/release/GameFrameX/com.gameframex.unity.ui.fairygui?label=version&color=green)](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/releases)
-[![License](https://img.shields.io/badge/license-MIT+Apache%202.0-orange.svg)](LICENSE.md)
+[![License](https://img.shields.io/badge/license-see%20LICENSE.md-orange.svg)](LICENSE.md)
 [![Documentation](https://img.shields.io/badge/docs-gameframex-brightgreen.svg)](https://gameframex.doc.alianblank.com)
 
 **인디 게임 개발자를 위한 올인원 솔루션 · 인디 개발자의 꿈을 실현**
 
+<br />
+
 [📖 문서](https://gameframex.doc.alianblank.com) • [🚀 빠른 시작](#빠른-시작) • [💬 QQ 그룹: 612311526](https://jq.qq.com/?_wv=1027&k=5HXWqCg)
 
----
+<br />
 
 🌐 **언어**: [English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | **한국어**
-
----
 
 </div>
 
@@ -185,7 +185,7 @@ myProperty.ClearWithGObjectDestroyed(gObject);
 - [GameFrameX 문서](https://gameframex.doc.alianblank.com)
 - [FairyGUI 문서](https://www.fairygui.com/docs)
 - [변경 로그](CHANGELOG.md)
-- [라이선스](LICENSE.md) (MIT + Apache 2.0)
+- [라이선스](LICENSE.md)
 
 ## 커뮤니티 및 지원
 
@@ -199,4 +199,4 @@ myProperty.ClearWithGObjectDestroyed(gObject);
 
 ## 라이선스
 
-본 프로젝트는 [MIT 라이선스](https://opensource.org/licenses/MIT) 및 [Apache 2.0 라이선스](http://www.apache.org/licenses/LICENSE-2.0) 듀얼 라이선스입니다. 자세한 내용은 [LICENSE.md](LICENSE.md)를 참조하세요.
+자세한 내용은 [LICENSE.md](LICENSE.md) 파일을 참조하세요.

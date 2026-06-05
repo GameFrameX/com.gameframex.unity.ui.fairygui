@@ -5,18 +5,18 @@
 # GameFrameX UI FairyGUI
 
 [![Version](https://img.shields.io/github/v/release/GameFrameX/com.gameframex.unity.ui.fairygui?label=version&color=green)](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/releases)
-[![License](https://img.shields.io/badge/license-MIT+Apache%202.0-orange.svg)](LICENSE.md)
+[![License](https://img.shields.io/badge/license-see%20LICENSE.md-orange.svg)](LICENSE.md)
 [![Documentation](https://img.shields.io/badge/docs-gameframex-brightgreen.svg)](https://gameframex.doc.alianblank.com)
 
 **インディゲーム開発者向けオールインワンソリューション · インディ開発者の夢を支援**
 
+<br />
+
 [📖 ドキュメント](https://gameframex.doc.alianblank.com) • [🚀 クイックスタート](#クイックスタート) • [💬 QQグループ: 612311526](https://jq.qq.com/?_wv=1027&k=5HXWqCg)
 
----
+<br />
 
 🌐 **言語**: [English](README.md) | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | **日本語** | [한국어](README.ko.md)
-
----
 
 </div>
 
@@ -186,7 +186,7 @@ Unity 最低バージョン：**2019.4**
 - [GameFrameX ドキュメント](https://gameframex.doc.alianblank.com)
 - [FairyGUI ドキュメント](https://www.fairygui.com/docs)
 - [変更履歴](CHANGELOG.md)
-- [ライセンス](LICENSE.md)（MIT + Apache 2.0）
+- [ライセンス](LICENSE.md)
 
 ## コミュニティとサポート
 
@@ -200,4 +200,4 @@ Unity 最低バージョン：**2019.4**
 
 ## ライセンス
 
-本プロジェクトは [MIT ライセンス](https://opensource.org/licenses/MIT) と [Apache 2.0 ライセンス](http://www.apache.org/licenses/LICENSE-2.0) のデュアルライセンスです。詳細は [LICENSE.md](LICENSE.md) をご覧ください。
+詳しくは [LICENSE.md](LICENSE.md) をご参照ください。

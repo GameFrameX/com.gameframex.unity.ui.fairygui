@@ -5,18 +5,18 @@
 # GameFrameX UI FairyGUI
 
 [![Version](https://img.shields.io/github/v/release/GameFrameX/com.gameframex.unity.ui.fairygui?label=version&color=green)](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/releases)
-[![License](https://img.shields.io/badge/license-MIT+Apache%202.0-orange.svg)](LICENSE.md)
+[![License](https://img.shields.io/badge/license-see%20LICENSE.md-orange.svg)](LICENSE.md)
 [![Documentation](https://img.shields.io/badge/docs-gameframex-brightgreen.svg)](https://gameframex.doc.alianblank.com)
 
 **独立游戏前后端一体化解决方案 · 独立游戏开发者的圆梦大使**
 
+<br />
+
 [📖 文档](https://gameframex.doc.alianblank.com) • [🚀 快速开始](#快速开始) • [💬 QQ群: 612311526](https://jq.qq.com/?_wv=1027&k=5HXWqCg)
 
----
+<br />
 
 🌐 **语言**: [English](README.md) | **简体中文** | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
-
----
 
 </div>
 
@@ -185,7 +185,7 @@ myProperty.ClearWithGObjectDestroyed(gObject);
 - [GameFrameX 文档](https://gameframex.doc.alianblank.com)
 - [FairyGUI 文档](https://www.fairygui.com/docs)
 - [更新日志](CHANGELOG.md)
-- [开源协议](LICENSE.md)（MIT + Apache 2.0）
+- [开源协议](LICENSE.md)
 
 ## 社区与支持
 
@@ -199,4 +199,4 @@ myProperty.ClearWithGObjectDestroyed(gObject);
 
 ## 开源协议
 
-本项目基于 [MIT 协议](https://opensource.org/licenses/MIT) 和 [Apache 2.0 协议](http://www.apache.org/licenses/LICENSE-2.0) 双重许可。详见 [LICENSE.md](LICENSE.md)。
+详见 [LICENSE.md](LICENSE.md) 文件。

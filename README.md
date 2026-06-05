@@ -5,18 +5,18 @@
 # GameFrameX UI FairyGUI
 
 [![Version](https://img.shields.io/github/v/release/GameFrameX/com.gameframex.unity.ui.fairygui?label=version&color=green)](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/releases)
-[![License](https://img.shields.io/badge/license-MIT+Apache%202.0-orange.svg)](LICENSE.md)
+[![License](https://img.shields.io/badge/license-see%20LICENSE.md-orange.svg)](LICENSE.md)
 [![Documentation](https://img.shields.io/badge/docs-gameframex-brightgreen.svg)](https://gameframex.doc.alianblank.com)
 
 **All-in-One Solution for Indie Game Development · Empowering Indie Developers' Dreams**
 
+<br />
+
 [📖 Documentation](https://gameframex.doc.alianblank.com) • [🚀 Quick Start](#quick-start) • [💬 QQ Group: 612311526](https://jq.qq.com/?_wv=1027&k=5HXWqCg)
 
----
+<br />
 
 🌐 **Language**: **English** | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
-
----
 
 </div>
 
@@ -185,7 +185,7 @@ Minimum Unity version: **2019.4**
 - [GameFrameX Documentation](https://gameframex.doc.alianblank.com)
 - [FairyGUI Documentation](https://www.fairygui.com/docs)
 - [CHANGELOG](CHANGELOG.md)
-- [LICENSE](LICENSE.md) (MIT + Apache 2.0)
+- [LICENSE](LICENSE.md)
 
 ## Community & Support
 
@@ -199,4 +199,4 @@ See [CHANGELOG.md](CHANGELOG.md) for release history.
 
 ## License
 
-This project is dual-licensed under the [MIT License](https://opensource.org/licenses/MIT) and [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0). See [LICENSE.md](LICENSE.md) for details.
+See [LICENSE.md](LICENSE.md) for license information.
