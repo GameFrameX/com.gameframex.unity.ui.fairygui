@@ -193,7 +193,10 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                     handle.Release();
                 }
 
-                m_AssetComponent.UnloadAsset(uiFormAssetPath);
+                if (m_AssetComponent.HasAssetPath(uiFormAssetPath))
+                {
+                    m_AssetComponent.UnloadAsset(uiFormAssetPath);
+                }
             }
             else
             {
