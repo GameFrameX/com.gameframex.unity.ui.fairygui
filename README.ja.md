@@ -69,77 +69,34 @@ GameFrameX UI FairyGUI は、[FairyGUI](https://www.fairygui.com/) フレーム�
 
 ### インストール
 
-以下のいずれかの方法を選択してください：
-
-**方法 1: manifest.json**
-
-プロジェクトの `Packages/manifest.json` の `dependencies` に追加：
+Unity プロジェクトの `Packages/manifest.json` を編集し、`scopedRegistries` セクションを追加してください：
 
 ```json
 {
-  "com.gameframex.unity.ui.fairygui": "https://github.com/AlianBlank/com.gameframex.unity.ui.fairygui.git"
+  "scopedRegistries": [
+    {
+      "name": "GameFrameX",
+      "url": "https://gameframex.upm.alianblank.uk",
+      "scopes": [
+        "com.gameframex"
+      ]
+    }
+  ]
 }
 ```
 
-**方法 2: Unity Package Manager（Git URL）**
+`scopes` は、どのパッケージをこのレジストリから解決するかを制御します。`com.gameframex` で始まるパッケージのみがこのレジストリから取得されます。
 
-Unity Package Manager を開き、Git URL から追加：
+Then add the package to `dependencies`:
 
-```
-https://github.com/gameframex/com.gameframex.unity.ui.fairygui.git
-```
-
-**方法 3: 手動インストール**
-
-リポジトリをダウンロードして Unity プロジェクトの `Packages/` ディレクトリに配置します。Unity が自動的に認識します。
-
-### 依存関係
-
-| パッケージ | バージョン | 説明 |
-|-----------|-----------|------|
-| `com.gameframex.unity` | ≥ 1.1.1 | コアフレームワークランタイム |
-| `com.gameframex.unity.ui` | ≥ 1.0.0 | 基本 UI 抽象レイヤー |
-| `com.gameframex.unity.asset` | ≥ 1.0.6 | アセットローディングシステム |
-| `com.gameframex.unity.event` | ≥ 1.0.0 | イベントシステム |
-| FairyGUI Runtime | — | FairyGUI ライブラリ |
-| YooAsset | — | アセット管理 |
-| UniTask | — | 非同期/await サポート |
-
-### 基本的な使い方
-
-1. **`FairyGUIPackageComponent` をシーンに追加**（`GameFrameX → FairyGUIPackage` メニューから）
-
-2. **`FUI` を継承して UI パネルを作成**：
-
-```csharp
-using GameFrameX.UI.FairyGUI.Runtime;
-
-[OptionUIGroup("Default")]
-public class MyPanel : FUI
+```json
 {
-    protected override void OnInit()
-    {
-        // UI 要素の初期化
-    }
-
-    protected override void OnOpen(object userData)
-    {
-        // オープン時の処理
-    }
-
-    protected override void OnClose()
-    {
-        // クローズ時の処理
-    }
+  "dependencies": {
+    "com.gameframex.unity.ui.fairygui": "3.3.2"
+  }
 }
 ```
 
-3. **フレームワークの UI コンポーネントからパネルを開く**：
-
-```csharp
-// UI パネルを非同期でオープン
-await GameEntry.GetComponent<UIComponent>().OpenUIFormAsync("MyPackage", "MyPanel");
-```
 
 ## 使用例
 

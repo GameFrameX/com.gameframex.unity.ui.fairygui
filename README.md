@@ -68,77 +68,34 @@ GameFrameX UI FairyGUI is a Unity UI adapter that wraps the [FairyGUI](https://w
 
 ### Installation
 
-Choose one of the following methods:
-
-**Method 1: manifest.json**
-
-Add the following to your project's `Packages/manifest.json` under `dependencies`:
+Edit your Unity project's `Packages/manifest.json` and add the `scopedRegistries` section:
 
 ```json
 {
-  "com.gameframex.unity.ui.fairygui": "https://github.com/AlianBlank/com.gameframex.unity.ui.fairygui.git"
+  "scopedRegistries": [
+    {
+      "name": "GameFrameX",
+      "url": "https://gameframex.upm.alianblank.uk",
+      "scopes": [
+        "com.gameframex"
+      ]
+    }
+  ]
 }
 ```
 
-**Method 2: Unity Package Manager (Git URL)**
+`scopes` controls which packages are resolved through this registry. Only packages whose names start with `com.gameframex` will be fetched from it.
 
-Open Unity Package Manager → Add package from git URL:
+Then add the package to `dependencies`:
 
-```
-https://github.com/gameframex/com.gameframex.unity.ui.fairygui.git
-```
-
-**Method 3: Manual**
-
-Download the repository and place it in your Unity project's `Packages/` directory. Unity will auto-detect it.
-
-### Dependencies
-
-| Package | Version | Description |
-|---------|---------|-------------|
-| `com.gameframex.unity` | ≥ 1.1.1 | Core framework runtime |
-| `com.gameframex.unity.ui` | ≥ 1.0.0 | Base UI abstraction layer |
-| `com.gameframex.unity.asset` | ≥ 1.0.6 | Asset loading system |
-| `com.gameframex.unity.event` | ≥ 1.0.0 | Event system |
-| FairyGUI Runtime | — | FairyGUI library |
-| YooAsset | — | Asset management |
-| UniTask | — | Async/await support |
-
-### Basic Usage
-
-1. **Add `FairyGUIPackageComponent`** to your scene (via `GameFrameX → FairyGUIPackage` menu)
-
-2. **Create a UI panel** by inheriting from `FUI`:
-
-```csharp
-using GameFrameX.UI.FairyGUI.Runtime;
-
-[OptionUIGroup("Default")]
-public class MyPanel : FUI
+```json
 {
-    protected override void OnInit()
-    {
-        // Initialize UI elements
-    }
-
-    protected override void OnOpen(object userData)
-    {
-        // Handle open logic
-    }
-
-    protected override void OnClose()
-    {
-        // Handle close logic
-    }
+  "dependencies": {
+    "com.gameframex.unity.ui.fairygui": "3.3.2"
+  }
 }
 ```
 
-3. **Open the panel** through the framework's UI component:
-
-```csharp
-// Open a UI panel asynchronously
-await GameEntry.GetComponent<UIComponent>().OpenUIFormAsync("MyPackage", "MyPanel");
-```
 
 ## Usage Examples
 

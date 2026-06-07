@@ -68,77 +68,34 @@ GameFrameX UI FairyGUI는 [FairyGUI](https://www.fairygui.com/) 프레임워크�
 
 ### 설치
 
-다음 방법 중 하나를 선택하세요:
-
-**방법 1: manifest.json**
-
-프로젝트의 `Packages/manifest.json`의 `dependencies`에 추가:
+Unity 프로젝트의 `Packages/manifest.json`을 편집하여 `scopedRegistries` 섹션을 추가하세요:
 
 ```json
 {
-  "com.gameframex.unity.ui.fairygui": "https://github.com/AlianBlank/com.gameframex.unity.ui.fairygui.git"
+  "scopedRegistries": [
+    {
+      "name": "GameFrameX",
+      "url": "https://gameframex.upm.alianblank.uk",
+      "scopes": [
+        "com.gameframex"
+      ]
+    }
+  ]
 }
 ```
 
-**방법 2: Unity Package Manager (Git URL)**
+`scopes`는 이 레지스트리를 통해 어떤 패키지를 해석할지 제어합니다. `com.gameframex`로 시작하는 패키지만 이 레지스트리에서 가져옵니다.
 
-Unity Package Manager를 열고 Git URL에서 추가:
+Then add the package to `dependencies`:
 
-```
-https://github.com/gameframex/com.gameframex.unity.ui.fairygui.git
-```
-
-**방법 3: 수동 설치**
-
-리포지토리를 다운로드하여 Unity 프로젝트의 `Packages/` 디렉토리에 배치합니다. Unity가 자동으로 인식합니다.
-
-### 의존성
-
-| 패키지 | 버전 | 설명 |
-|--------|------|------|
-| `com.gameframex.unity` | ≥ 1.1.1 | 코어 프레임워크 런타임 |
-| `com.gameframex.unity.ui` | ≥ 1.0.0 | 기본 UI 추상화 레이어 |
-| `com.gameframex.unity.asset` | ≥ 1.0.6 | 에셋 로딩 시스템 |
-| `com.gameframex.unity.event` | ≥ 1.0.0 | 이벤트 시스템 |
-| FairyGUI Runtime | — | FairyGUI 라이브러리 |
-| YooAsset | — | 에셋 관리 |
-| UniTask | — | 비동기/await 지원 |
-
-### 기본 사용법
-
-1. **`FairyGUIPackageComponent`를 씬에 추가** (`GameFrameX → FairyGUIPackage` 메뉴에서)
-
-2. **`FUI`를 상속하여 UI 패널 생성**:
-
-```csharp
-using GameFrameX.UI.FairyGUI.Runtime;
-
-[OptionUIGroup("Default")]
-public class MyPanel : FUI
+```json
 {
-    protected override void OnInit()
-    {
-        // UI 요소 초기화
-    }
-
-    protected override void OnOpen(object userData)
-    {
-        // 열기 로직 처리
-    }
-
-    protected override void OnClose()
-    {
-        // 닫기 로직 처리
-    }
+  "dependencies": {
+    "com.gameframex.unity.ui.fairygui": "3.3.2"
+  }
 }
 ```
 
-3. **프레임워크 UI 컴포넌트로 패널 열기**:
-
-```csharp
-// UI 패널 비동기 열기
-await GameEntry.GetComponent<UIComponent>().OpenUIFormAsync("MyPackage", "MyPanel");
-```
 
 ## 사용 예시
 

@@ -66,79 +66,36 @@ GameFrameX UI FairyGUI 是一个 Unity UI 适配器，将 [FairyGUI](https://www
 
 ## 快速开始
 
-### 安装方式
+### 安装
 
-选择以下任一方式安装：
-
-**方式一：manifest.json**
-
-在项目的 `Packages/manifest.json` 的 `dependencies` 节点下添加：
+编辑 Unity 项目的 `Packages/manifest.json`，添加 `scopedRegistries` 部分：
 
 ```json
 {
-  "com.gameframex.unity.ui.fairygui": "https://github.com/AlianBlank/com.gameframex.unity.ui.fairygui.git"
+  "scopedRegistries": [
+    {
+      "name": "GameFrameX",
+      "url": "https://gameframex.upm.alianblank.uk",
+      "scopes": [
+        "com.gameframex"
+      ]
+    }
+  ]
 }
 ```
 
-**方式二：Unity Package Manager（Git URL）**
+`scopes` 控制哪些包通过此注册表解析。只有以 `com.gameframex` 开头的包才会从这个注册表获取。
 
-打开 Unity Package Manager → 通过 Git URL 添加：
+Then add the package to `dependencies`:
 
-```
-https://github.com/gameframex/com.gameframex.unity.ui.fairygui.git
-```
-
-**方式三：手动安装**
-
-下载仓库并放置到 Unity 项目的 `Packages/` 目录下，Unity 会自动识别。
-
-### 依赖项
-
-| 包名 | 版本 | 说明 |
-|------|------|------|
-| `com.gameframex.unity` | ≥ 1.1.1 | 核心框架运行时 |
-| `com.gameframex.unity.ui` | ≥ 1.0.0 | 基础 UI 抽象层 |
-| `com.gameframex.unity.asset` | ≥ 1.0.6 | 资源加载系统 |
-| `com.gameframex.unity.event` | ≥ 1.0.0 | 事件系统 |
-| FairyGUI Runtime | — | FairyGUI 库 |
-| YooAsset | — | 资源管理 |
-| UniTask | — | 异步等待支持 |
-
-### 基本使用
-
-1. **添加 `FairyGUIPackageComponent`** 到场景中（通过 `GameFrameX → FairyGUIPackage` 菜单）
-
-2. **继承 `FUI` 创建 UI 面板**：
-
-```csharp
-using GameFrameX.UI.FairyGUI.Runtime;
-
-[OptionUIGroup("Default")]
-public class MyPanel : FUI
+```json
 {
-    protected override void OnInit()
-    {
-        // 初始化 UI 元素
-    }
-
-    protected override void OnOpen(object userData)
-    {
-        // 处理打开逻辑
-    }
-
-    protected override void OnClose()
-    {
-        // 处理关闭逻辑
-    }
+  "dependencies": {
+    "com.gameframex.unity.ui.fairygui": "3.3.2"
+  }
 }
 ```
 
-3. **通过框架 UI 组件打开面板**：
-
-```csharp
-// 异步打开 UI 面板
-await GameEntry.GetComponent<UIComponent>().OpenUIFormAsync("MyPackage", "MyPanel");
-```
 
 ## 使用示例
 
