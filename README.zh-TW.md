@@ -20,6 +20,7 @@
 [English](README.md) | [简体中文](README.zh-CN.md) | **繁體中文** | [日本語](README.ja.md) | [한국어](README.ko.md)
 
 </div>
+
 ## 項目簡介
 
 GameFrameX UI FairyGUI 是一個 Unity UI 適配器，將 [FairyGUI](https://www.fairygui.com/) 框架封裝到 GameFrameX 模組化遊戲框架中。它提供了完整的 UI 生命週期管理（開啟/關閉/回收/動畫），並透過 YooAsset 實現非同步資源載入。

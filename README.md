@@ -20,6 +20,7 @@ All-in-One Solution for Indie Game Development · Empowering Indie Developers' D
 **English** | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 
 </div>
+
 ## Project Overview
 
 GameFrameX UI FairyGUI is a Unity UI adapter that wraps the [FairyGUI](https://www.fairygui.com/) framework into the GameFrameX modular game framework. It provides complete UI lifecycle management (open/close/recycle/animate) with async asset loading via YooAsset.
