@@ -156,6 +156,15 @@ Unity 最低バージョン：**2019.4**
 
 [CHANGELOG.md](CHANGELOG.md) をご覧ください。
 
+
+## 依存関係
+
+| パッケージ | 説明 |
+|----------|------|
+| `com.gameframex.unity` | 1.1.1 |
+| `com.gameframex.unity.asset` | 1.0.6 |
+| `com.gameframex.unity.event` | 1.0.0 |
+| `com.gameframex.unity.ui` | 1.0.0 |
 ## ライセンス
 
 詳しくは [LICENSE.md](LICENSE.md) をご参照ください。

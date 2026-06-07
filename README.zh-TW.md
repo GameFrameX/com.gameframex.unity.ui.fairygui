@@ -155,6 +155,15 @@ myProperty.ClearWithGObjectDestroyed(gObject);
 
 詳見 [CHANGELOG.md](CHANGELOG.md)。
 
+
+## 依賴
+
+| 套件 | 說明 |
+|------|------|
+| `com.gameframex.unity` | 1.1.1 |
+| `com.gameframex.unity.asset` | 1.0.6 |
+| `com.gameframex.unity.event` | 1.0.0 |
+| `com.gameframex.unity.ui` | 1.0.0 |
 ## 開源協議
 
 詳見 [LICENSE.md](LICENSE.md) 檔案。

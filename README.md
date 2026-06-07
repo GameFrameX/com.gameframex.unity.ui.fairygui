@@ -155,6 +155,15 @@ Minimum Unity version: **2019.4**
 
 See [CHANGELOG.md](CHANGELOG.md) for release history.
 
+
+## Dependencies
+
+| Package | Description |
+|---------|-------------|
+| `com.gameframex.unity` | 1.1.1 |
+| `com.gameframex.unity.asset` | 1.0.6 |
+| `com.gameframex.unity.event` | 1.0.0 |
+| `com.gameframex.unity.ui` | 1.0.0 |
 ## License
 
 See [LICENSE.md](LICENSE.md) for license information.
