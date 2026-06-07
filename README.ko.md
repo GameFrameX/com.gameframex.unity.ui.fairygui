@@ -130,11 +130,11 @@ myProperty.ClearWithGObjectDestroyed(gObject);
 
 | 플랫폼 | 지원 |
 |--------|------|
-| Android | ✅ |
-| iOS | ✅ |
-| Windows | ✅ |
-| macOS | ✅ |
-| WebGL | ✅ |
+| Android | 예 |
+| iOS | 예 |
+| Windows | 예 |
+| macOS | 예 |
+| WebGL | 예 |
 
 최소 Unity 버전: **2019.4**
 

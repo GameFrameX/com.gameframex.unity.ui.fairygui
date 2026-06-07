@@ -130,11 +130,11 @@ myProperty.ClearWithGObjectDestroyed(gObject);
 
 | 平台 | 支援 |
 |------|------|
-| Android | ✅ |
-| iOS | ✅ |
-| Windows | ✅ |
-| macOS | ✅ |
-| WebGL | ✅ |
+| Android | 是 |
+| iOS | 是 |
+| Windows | 是 |
+| macOS | 是 |
+| WebGL | 是 |
 
 最低 Unity 版本：**2019.4**
 

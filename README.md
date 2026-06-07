@@ -130,11 +130,11 @@ myProperty.ClearWithGObjectDestroyed(gObject);
 
 | Platform | Supported |
 |----------|-----------|
-| Android | ✅ |
-| iOS | ✅ |
-| Windows | ✅ |
-| macOS | ✅ |
-| WebGL | ✅ |
+| Android | Yes |
+| iOS | Yes |
+| Windows | Yes |
+| macOS | Yes |
+| WebGL | Yes |
 
 Minimum Unity version: **2019.4**
 
