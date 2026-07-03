@@ -28,6 +28,7 @@
 //  ==========================================================================================
 
 using FairyGUI;
+using GameFrameX.Runtime;
 using GameFrameX.UI.Runtime;
 using UnityEngine;
 
@@ -82,7 +83,8 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         public override IUIGroupHelper Handler(Transform root, string groupName, string uiGroupHelperTypeName, IUIGroupHelper customUIGroupHelper, int depth = 0)
         {
             SetDepth(depth);
-            GComponent component = new GComponent();
+            ApplyDesignResolution(root.GetComponentInParent<UIComponent>()?.DesignResolution);
+            var component = new GComponent();
             GRoot.inst.AddChild(component);
             var comName = groupName;
             component.displayObject.name = comName;
@@ -93,6 +95,51 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             component.AddRelation(GRoot.inst, RelationType.Height);
             component.MakeFullScreen();
             return GameFrameX.Runtime.Helper.CreateHelper(component.displayObject.gameObject, uiGroupHelperTypeName, (UIGroupHelperBase)customUIGroupHelper, 0);
+        }
+
+        private static void ApplyDesignResolution(UIDesignResolutionComponent designResolution)
+        {
+            if (designResolution == null)
+            {
+                return;
+            }
+
+            var scaler = Stage.inst.gameObject.GetOrAddComponent<UIContentScaler>();
+            switch (designResolution.ScaleMode)
+            {
+                case UIDesignResolutionComponent.UIScaleMode.ConstantPixelSize:
+                    scaler.scaleMode = UIContentScaler.ScaleMode.ConstantPixelSize;
+                    scaler.constantScaleFactor = designResolution.ConstantScaleFactor;
+                    break;
+                case UIDesignResolutionComponent.UIScaleMode.ConstantPhysicalSize:
+                    scaler.scaleMode = UIContentScaler.ScaleMode.ConstantPhysicalSize;
+                    scaler.fallbackScreenDPI = Mathf.RoundToInt(designResolution.FallbackScreenDPI);
+                    scaler.defaultSpriteDPI = Mathf.RoundToInt(designResolution.DefaultSpriteDPI);
+                    break;
+                default:
+                    scaler.scaleMode = UIContentScaler.ScaleMode.ScaleWithScreenSize;
+                    scaler.designResolutionX = designResolution.DesignWidth;
+                    scaler.designResolutionY = designResolution.DesignHeight;
+                    scaler.screenMatchMode = GetScreenMatchMode(designResolution.ScreenMatchMode);
+                    scaler.ignoreOrientation = designResolution.IgnoreOrientation;
+                    break;
+            }
+
+            scaler.ApplyChange();
+            GRoot.inst.ApplyContentScaleFactor();
+        }
+
+        private static UIContentScaler.ScreenMatchMode GetScreenMatchMode(UIDesignResolutionComponent.UIScreenMatchMode screenMatchMode)
+        {
+            switch (screenMatchMode)
+            {
+                case UIDesignResolutionComponent.UIScreenMatchMode.MatchWidth:
+                    return UIContentScaler.ScreenMatchMode.MatchWidth;
+                case UIDesignResolutionComponent.UIScreenMatchMode.MatchHeight:
+                    return UIContentScaler.ScreenMatchMode.MatchHeight;
+                default:
+                    return UIContentScaler.ScreenMatchMode.MatchWidthOrHeight;
+            }
         }
     }
 }
