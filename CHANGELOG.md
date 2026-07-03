@@ -1,3 +1,10 @@
+# [3.4.0](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.3.3...3.4.0) (2026-07-03)
+
+
+### Features
+
+* **ui:** 应用设计分辨率到 FairyGUI 缩放器 ([1fca273](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/1fca273aa22c2c8bc70223d9d2e899998bb5de6c))
+
 ## [3.3.3](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.3.2...3.3.3) (2026-06-07)
 
 
