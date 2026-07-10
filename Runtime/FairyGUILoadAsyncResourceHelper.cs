@@ -181,7 +181,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
                     {
                         case PackageItemType.Spine:
                         {
-                            action.Invoke(true, assetName, assetObject as TextAsset);
+                            action.Invoke(assetObject != null, assetName, assetObject);
                             break;
                         }
 
