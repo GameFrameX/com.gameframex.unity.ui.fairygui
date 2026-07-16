@@ -159,10 +159,55 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             uiGroupComponent.AddChild(component);
             if (uiForm.IsCenter)
             {
-                component.Center();
+                CenterComponent(component);
             }
 
             return uiForm;
+        }
+
+        /// <summary>
+        /// 将组件居中到其父容器（或 GRoot），并对超出容器的尺寸做边界钳制。
+        /// </summary>
+        /// <remarks>
+        /// Centers the component within its parent (or GRoot) and clamps the position so the
+        /// component stays visible when it is larger than the container.
+        /// 原生 Center() 在组件尺寸大于容器时会计算出负坐标，导致组件左上角溢出屏幕外不可见；
+        /// 此处将坐标钳制到不小于 0，并使用 float 精度避免 (int) 截断造成的半像素偏移。
+        /// 第三参 true 让 FairyGUI 按 pivotAsAnchor 锚点语义把"期望左上角"换算成实际 position。
+        /// </remarks>
+        /// <param name="component">要居中的组件 / The component to center</param>
+        private static void CenterComponent(GComponent component)
+        {
+            GComponent container;
+            if (component.parent != null)
+            {
+                container = component.parent;
+            }
+            else
+            {
+                container = component.root;
+            }
+
+            if (container == null)
+            {
+                return;
+            }
+
+            float x = (container.width - component.width) * 0.5f;
+            float y = (container.height - component.height) * 0.5f;
+
+            // 边界钳制：组件超出容器时，保证左上角不越界（不小于 0），避免内容溢出屏幕外
+            if (x < 0f)
+            {
+                x = 0f;
+            }
+
+            if (y < 0f)
+            {
+                y = 0f;
+            }
+
+            component.SetXY(x, y, true);
         }
 
         /// <summary>
