@@ -157,6 +157,11 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             }
 
             uiGroupComponent.AddChild(component);
+            if (uiForm.IsCenter)
+            {
+                component.Center();
+            }
+
             return uiForm;
         }
 
