@@ -1,3 +1,10 @@
+## [3.4.2](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.4.1...3.4.2) (2026-07-16)
+
+
+### Bug Fixes
+
+* **ui:** 界面居中增加边界钳制与锚点语义保留 ([b6d2e9a](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/b6d2e9afe749f828f3b0b92fbf8c3cc5b0028168))
+
 ## [3.4.1](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.4.0...3.4.1) (2026-07-16)
 
 
