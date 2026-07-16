@@ -1,3 +1,11 @@
+## [3.4.1](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.4.0...3.4.1) (2026-07-16)
+
+
+### Bug Fixes
+
+* require compatible UI package version ([14ec945](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/14ec9459efd53a22069e04175c466622ae6f7622))
+* **spine:** preserve Spine asset type during async load ([3ecdf49](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/3ecdf490da564506ed8dce1e674c5a1041d8172e))
+
 # [3.4.0](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.3.3...3.4.0) (2026-07-03)
 
 
