@@ -1,3 +1,10 @@
+## [3.4.3](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.4.2...3.4.3) (2026-07-30)
+
+
+### Bug Fixes
+
+* **dependencies:** 更新依赖版本以提高兼容性和稳定性 ([3a70664](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/3a7066402d0d84df1b8b3a276fb24000058fe5a1))
+
 ## [3.4.2](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.4.1...3.4.2) (2026-07-16)
 
 
