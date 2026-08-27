@@ -1,3 +1,10 @@
+## [3.4.4](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.4.3...3.4.4) (2026-08-27)
+
+
+### Bug Fixes
+
+* **ui:** 多实例界面不再复用实例池中同一实例 ([76dde75](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/76dde7553b49167e589edbe6fa2562b8aabbb8df))
+
 ## [3.4.3](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.4.2...3.4.3) (2026-07-30)
 
 
