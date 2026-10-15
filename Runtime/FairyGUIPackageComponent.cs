@@ -45,6 +45,7 @@ namespace GameFrameX.UI.FairyGUI.Runtime
     [DisallowMultipleComponent]
     [AddComponentMenu("GameFrameX/FairyGUIPackage")]
     [UnityEngine.Scripting.Preserve]
+    [GameFrameXAutoComponent(1300)]
     public sealed class FairyGUIPackageComponent : GameFrameworkComponent
     {
         [UnityEngine.Scripting.Preserve]

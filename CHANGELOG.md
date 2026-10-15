@@ -1,3 +1,10 @@
+## [Unreleased]
+
+### Features
+
+* **ui:** UI Helper 实现经后端注册表自注册（`UIHelperBackendRegistration`），作为 `UIOptions` 工厂闭包的默认后端；用户在 Options 中设置的 `Func` 工厂闭包（Custom 引用）优先
+* **ui:** `FUI.Name` 重写基类属性：设置时同时同步所在 GameObject 名称、`GObject.name` 与显示对象名称，保证 Unity 节点树（`Transform.Find`）与 FairyGUI 节点树（`GetChild`）查找一致
+
 ## [3.4.4](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.4.3...3.4.4) (2026-08-27)
 
 

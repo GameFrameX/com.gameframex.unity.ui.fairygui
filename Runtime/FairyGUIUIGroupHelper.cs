@@ -75,14 +75,12 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         /// </remarks>
         /// <param name="root">根节点 / The root transform</param>
         /// <param name="groupName">界面组名称 / The name of the UI group</param>
-        /// <param name="uiGroupHelperTypeName">界面组辅助器类型名 / The type name of the UI group helper</param>
         /// <param name="customUIGroupHelper">自定义的界面组辅助器 / Custom UI group helper</param>
         /// <param name="depth">界面组深度 / The depth of the UI group</param>
         /// <returns>创建的界面组辅助器实例 / The created UI group helper instance</returns>
         [UnityEngine.Scripting.Preserve]
-        public override IUIGroupHelper Handler(Transform root, string groupName, string uiGroupHelperTypeName, IUIGroupHelper customUIGroupHelper, int depth = 0)
+        public override IUIGroupHelper Handler(Transform root, string groupName, IUIGroupHelper customUIGroupHelper, int depth = 0)
         {
-            SetDepth(depth);
             ApplyDesignResolution(root.GetComponentInParent<UIComponent>()?.DesignResolution);
             var component = new GComponent();
             GRoot.inst.AddChild(component);
@@ -94,7 +92,13 @@ namespace GameFrameX.UI.FairyGUI.Runtime
             component.AddRelation(GRoot.inst, RelationType.Width);
             component.AddRelation(GRoot.inst, RelationType.Height);
             component.MakeFullScreen();
-            return GameFrameX.Runtime.Helper.CreateHelper(component.displayObject.gameObject, uiGroupHelperTypeName, (UIGroupHelperBase)customUIGroupHelper, 0);
+            var target = component.displayObject.gameObject;
+            // 界面组辅助器必须挂在组容器的显示对象上：FairyGUIFormHelper 经由 DisplayObjectInfo 反查组容器后 AddChild。
+            // customUIGroupHelper 是原型实例（即本方法的调用接收者），不能直接返回——它不在任何显示对象上；
+            // 其类型（含用户经 UIOptions 配置的自定义子类）通过 GetType() 落到组容器，每组独立一个实例。
+            var helper = (UIGroupHelperBase)target.AddComponent(GetType());
+            helper.SetDepth(depth);
+            return helper;
         }
 
         private static void ApplyDesignResolution(UIDesignResolutionComponent designResolution)

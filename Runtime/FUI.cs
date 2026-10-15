@@ -53,6 +53,41 @@ namespace GameFrameX.UI.FairyGUI.Runtime
         public GObject GObject { get; private set; }
 
         /// <summary>
+        /// 获取或设置界面名称。设置时会同时同步所在 <see cref="UnityEngine.GameObject"/> 的名称、关联 <see cref="GObject"/> 的名称及其显示对象名称，
+        /// 保证 Unity 节点树（<c>Transform.Find</c>）与 FairyGUI 节点树（<c>GetChild</c>）的查找结果一致。
+        /// </summary>
+        /// <remarks>
+        /// Gets or sets the UI form name. Setting this synchronizes the hosting <see cref="UnityEngine.GameObject"/> name, the associated
+        /// <see cref="GObject"/> name and its display object name, keeping lookups consistent between
+        /// the Unity hierarchy (<c>Transform.Find</c>) and the FairyGUI child tree (<c>GetChild</c>).
+        /// </remarks>
+        /// <value>界面名称 / The UI form name</value>
+        [UnityEngine.Scripting.Preserve]
+        public override string Name
+        {
+            get { return base.Name; }
+            set
+            {
+                // GObject.name 仅在其 displayObject 存在时才联动 GameObject 名称，这里需单独兜底同步。
+                base.Name = value;
+
+                if (GObject == null)
+                {
+                    return;
+                }
+
+                // 同步 FairyGUI 侧名称，其内部会联动显示对象所在 GameObject 的名称。
+                GObject.name = value;
+
+                // DisplayObject.name 是独立字段，Container.GetChild 按它查找，需一并同步。
+                if (GObject.displayObject != null)
+                {
+                    GObject.displayObject.name = value;
+                }
+            }
+        }
+
+        /// <summary>
         /// 获取或设置界面可见性改变事件的回调。
         /// </summary>
         /// <remarks>
