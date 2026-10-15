@@ -1,3 +1,10 @@
+## [3.5.1](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.5.0...3.5.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* **dependencies:** 对齐依赖至实际发布版本 ([714f326](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/714f32642dac16c000d4fc35e183bd4876905325))
+
 # [3.5.0](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.4.4...3.5.0) (2026-10-15)
 
 
