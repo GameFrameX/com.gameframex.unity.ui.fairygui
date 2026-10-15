@@ -1,3 +1,16 @@
+# [3.5.0](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.4.4...3.5.0) (2026-10-15)
+
+
+### Bug Fixes
+
+* **deps:** 同步依赖版本至最新 ([9a6cc20](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/9a6cc20c1dab1a52e3ff948ebee7f759d8a80483))
+* **package:** 修正品牌命名 ([9cf4e53](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/9cf4e53f9440c7dcebdec9299352ba4fca56dcff))
+
+
+### Features
+
+* **ui:** FairyGUI 后端自注册与 FUI.Name 双端同步 ([780454d](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/780454dec17fcbacdce0f4c1baff5387a537efe4))
+
 ## [Unreleased]
 
 ### Features

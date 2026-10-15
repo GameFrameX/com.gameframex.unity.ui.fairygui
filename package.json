@@ -3,7 +3,7 @@
   "displayName": "Game Frame X UI FairyGUI",
   "category": "GameFrameX",
   "description": "GameFrameX UI FairyGUI — FairyGUI adapter for the GameFrameX UI package. Bridges UIForm lifecycle to FairyGUI (FUI overrides Name to keep Unity and FairyGUI node trees in sync for Transform.Find / GetChild lookups), loads UIPackages through YooAsset or Resources with concurrent-load deduplication, provides GRoot-based UI groups with depth sorting and form helpers with show / hide animations, and self-registers as the default UI helper backend through the backend registry (custom Func factories in UIOptions take priority). Docs: https://gameframex.doc.alianblank.com\n\nGameFrameX UI FairyGUI — GameFrameX UI 包的 FairyGUI 适配层。将 UIForm 生命周期桥接到 FairyGUI（FUI 重写 Name，保证 Unity 与 FairyGUI 双端节点树命名一致，Transform.Find / GetChild 查找互通），经 YooAsset 或 Resources 加载 UIPackage（并发加载去重），提供基于 GRoot 的界面组深度排序与带显示/隐藏动画的界面 Helper，并经后端注册表自注册为默认 UI Helper 后端（UIOptions 中的自定义 Func 工厂优先）。文档：https://gameframex.doc.alianblank.com",
-  "version": "3.4.4",
+  "version": "3.5.0",
   "unity": "2019.4",
   "keywords": [
     "GameFrameX",
