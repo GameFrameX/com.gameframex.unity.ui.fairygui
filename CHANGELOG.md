@@ -1,3 +1,10 @@
+## [3.5.2](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.5.1...3.5.2) (2026-10-15)
+
+
+### Bug Fixes
+
+* **dependencies:** asset 依赖升至 5.0.0 ([33fc7a4](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/commit/33fc7a49d5ec6d92b2b2dd56d85a475899956fd5))
+
 ## [3.5.1](https://github.com/gameframex/com.gameframex.unity.ui.fairygui/compare/3.5.0...3.5.1) (2026-10-15)
 
 
